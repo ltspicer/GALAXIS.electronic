@@ -1,5 +1,7 @@
 # GALAXIS.electronic
+
 Ravensburger game from 1980
+
 I coded the Ravensburger game "GALAXIS electronic" from 1980 for fun and as a Python exercise.
 
 Installation:
@@ -37,7 +39,8 @@ This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 The console also serves as a chat.
 
-The starter.sh is the starter for Linux users. Adjust path! 
+The starter.sh is the starter for Linux users. Adjust path!
+
 Other suggestions and bug reports are welcome.
 
 Have fun
@@ -46,3 +49,56 @@ Daniel
 PS:
 The exe is for Windows users without install Python.
 Start with: starter.bat
+
+Original Text deutsch:
+
+Habe aus Spass und zur Python-Übung das Ravensburger Spiel "GALAXIS electronic" von 1980 gecodet.
+
+Installation:
+
+Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Nach der Installation einen Reboot machen!
+In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden (sudo apt install pip3).
+
+Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
+Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
+In manchen Fällen muss man das Spiel beim Erststart bis zu 2 mal neu starten, damit die gerade installierten Libraries übernommen werden.
+
+
+Spiel Anleitung:
+
+Offline (1 Spieler):
+Es sind 4 Raumschiffe in der Galaxis verloren gegangen.
+Diese gilt es zu finden.
+Mit rechter Maustaste auf einen Punkt im Koordinatensystem klicken.
+Es wird nach Raumschiffen gesucht. Und zwar horizontal, vertikal und diagonal.
+Die Anzahl erkannter Raumschiffe wird dann auf diesem Punkt angezeigt.
+Raumschiffe hinter einem Raumschiff werden natürlich nicht erkannt.
+Mit der linken Maustaste können Punkte, in welchen kein Raumschiff sein kann, schwarz markiert werden.
+Erneuter Klick darauf entfernt die Markierung wieder.
+ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Raumschiffe mehr zufinden. Diese Punkte können schwarz markiert werden.
+Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
+
+Online (2 Spieler):
+Um das Netzwerk Spiel zu starten, einfach Deinen Nickname hinter galaxis.py eingeben. ZBsp ./galaxis.py daniel
+Nun musst Du Deine 4 Raumschiffe verstecken, welche Dein Gegner zufinden hat.
+Du hast jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
+Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft.
+Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden. Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
+In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
+Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
+Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
+Die Konsole dient auch als Chat.
+
+Das starter.sh Script ist der Starter für Linux User. Pfad anpassen!
+
+Weitere Anregungen und Bugreports sind willkommen.
+
+
+Viel Spass
+
+Daniel
+
+
+PS:
+Die exe ist für Windows User ohne Python Installation.
+Start mit: starter.bat
