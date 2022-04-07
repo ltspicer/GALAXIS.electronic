@@ -50,6 +50,8 @@ PS:
 The exe is for Windows users without install Python.
 Start with: starter.bat
 
+
+
 Original Text deutsch:
 
 Habe aus Spass und zur Python-Übung das Ravensburger Spiel "GALAXIS electronic" von 1980 gecodet.
