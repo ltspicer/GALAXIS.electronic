@@ -29,7 +29,7 @@ For example, with a 0 there are definitely no more spaceships to be found in all
 The game is over when all 4 spaceships have been found.
 
 Online (2 players):
-To start the network game, simply enter your nickname after galaxy.py. Eg ./galaxy.py daniel
+To start the network game, simply enter your nickname after galaxy.py. Eg ./galaxy.py daniel (at least 3 letters)
 Now you have to hide your 4 spaceships, which your opponent has to find.
 You have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed in the console, in which a chat is also running.
@@ -81,7 +81,7 @@ ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Ra
 Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
 
 Online (2 Spieler):
-Um das Netzwerk Spiel zu starten, einfach Deinen Nickname hinter galaxis.py eingeben. ZBsp ./galaxis.py daniel
+Um das Netzwerk Spiel zu starten, einfach Deinen Nickname hinter galaxis.py eingeben. ZBsp ./galaxis.py daniel (mind. 3 Buchstaben)
 Nun musst Du Deine 4 Raumschiffe verstecken, welche Dein Gegner zufinden hat.
 Du hast jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
 Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft.
