@@ -576,7 +576,7 @@ class GalaxisGame(ConnectionListener):
         connection.Close()
 
     def Network_connected(self, data):
-        print("You are now connected to the server")
+        print("Du bist nun mit dem Server verbunden")
     
     def Network_disconnected(self, data):
         print('Server disconnected')
@@ -595,15 +595,20 @@ class GalaxisGame(ConnectionListener):
             print("Dein gewählter Nickname ist bereits vergeben!")
             self.mein_name = self.mein_name + str(self.userid)
             print("Dein neuer Nickname ist", self.mein_name)
-        print("Spieler:", self.num, "Gameid:", self.gameid, "Userid:", self.userid, "gegner_bereit:", gegner_bereit)
+
         if gegner_bereit == True and self.spielerbereit == True:
             self.spielaktiv = True
             self.running = True
         if self.num == 0:
             self.turn = True
-            print("***Startgame - Spieler", self.num, "beginnt.")
+        else:
+            self.turn = False
+        if gegner_bereit == True:
+            print("Gameid:", self.gameid, ", Userid:", self.userid, ", Gegner bereit:", gegner_bereit)
+            print("Spieler 0 beginnt. Du bist Spieler", self.num)
 
         connection.Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid})
+
 
     def Network_startgame(self, data):
         anzahl_spieler=data["players"]
@@ -798,7 +803,7 @@ class GalaxisGame(ConnectionListener):
         except:
             print("Error Connecting to Server")
             exit()
-        print("Galaxis client started")
+        print("Galaxis Client gestartet")
         #connection.Send({"action": "nickname", "nickname": self.mein_name, "num": 0})
 
     def Galaxis(self):
