@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V2.1    #
+#  GALAXIS electronic V2.2    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -563,10 +563,10 @@ class GalaxisGame(ConnectionListener):
         exit()
 
     def Network_players(self, data):
-        print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
-        print("ESC zum verlassen")
-        #print("*** Anwesende Spieler: " + str(data['players']))
-        print("Verfügbare Spieler: " + ", ".join([p for p in data['players'] if p != self.mein_name and p != "-"]))
+        string = [p for p in data['players'] if p != self.mein_name and p != "-"]
+        if self.old_string != string:
+            print("Verfügbare Spieler: " + ", ".join(string if len(string) > 0 else ["keine"]))
+            self.old_string = string
     
     def Network_message(self, data):
         print(data['who'] + ": " + data['message'])
@@ -585,11 +585,16 @@ class GalaxisGame(ConnectionListener):
 
     def Network_num_gameid(self, data):
         #print("type data:", type(data))
+        users = data["users"]
         self.num=data["player"]
         self.gameid=data["gameid"]
         self.userid=data["userid"]
         self.gegner=data["nickgegner"]
         gegner_bereit = data["bereit"]
+        if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
+            print("Dein gewählter Nickname ist bereits vergeben!")
+            self.mein_name = self.mein_name + str(self.userid)
+            print("Dein neuer Nickname ist", self.mein_name)
         print("Spieler:", self.num, "Gameid:", self.gameid, "Userid:", self.userid, "gegner_bereit:", gegner_bereit)
         if gegner_bereit == True and self.spielerbereit == True:
             self.spielaktiv = True
@@ -762,8 +767,9 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 2.1                  #### Hier die Client-Version!!!!
+        self.version = 2.2                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
+        self.old_string = ""
 
         #3
         #initialize pygame clock
@@ -936,8 +942,7 @@ class GalaxisGame(ConnectionListener):
     def InputLoop(self):
         # horrid threaded input loop
         # continually reads from stdin and sends whatever is typed to the server
-        print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
-        print("ESC zum verlassen")
+
         while 1:
             # Wenn user eingabe, dann self.chat = False
             #connection.Send({"action": "gegnerauswahl", "gegner": stdin.readline().rstrip("\n"), "spieler": self.mein_name})
@@ -1030,6 +1035,8 @@ class GalaxisGame(ConnectionListener):
     def Chat(self):
         self.chat = True
         self.input = ""
+#        print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
+#        print("ESC zum verlassen")
         t = start_new_thread(self.InputLoop, ())
 #        while self.chat == True:
 #            self.Pump()
@@ -1056,6 +1063,9 @@ galax.Pump()
 mein_name = str(galax.mein_name_retour())
 
 # Raumschiffe verstecken
+
+print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
+print("ESC zum verlassen")
 
 info = mein_name + ", verstecke Deine Raumschiffe (rechte Maustaste)"
 userinfo(info)
