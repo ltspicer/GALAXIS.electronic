@@ -43,10 +43,8 @@ except ImportError as e:
 import sys, pygame, time, random, math, json, threading, socket
 from pygame.locals import *
 pygame.init()
-import random
 from pygame import mixer
 from sys import stdin
-
 from time import sleep
 from sys import stdin, exit
 
