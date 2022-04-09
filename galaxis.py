@@ -804,6 +804,10 @@ class GalaxisGame(ConnectionListener):
         print("Galaxis Client gestartet")
         #connection.Send({"action": "nickname", "nickname": self.mein_name, "num": 0})
 
+
+##### Die Game Klasse by self
+
+
     def Galaxis(self):
 
         self.Send({"action": "spieler_bereit", "num": self.num, "gameid": self.gameid, "userid": self.userid, "bereit": self.spielerbereit})
@@ -941,6 +945,7 @@ class GalaxisGame(ConnectionListener):
 
         return True
 
+##### Der Terminal/Chat Thread
 
     def InputLoop(self):
         # horrid threaded input loop
@@ -950,16 +955,13 @@ class GalaxisGame(ConnectionListener):
             # Wenn user eingabe, dann self.chat = False
             #connection.Send({"action": "gegnerauswahl", "gegner": stdin.readline().rstrip("\n"), "spieler": self.mein_name})
             input = stdin.readline().rstrip("\n")
-#            if input == "exit":
-#                pygame.quit()
-#                sys.exit()
-#                self.chat = False
-#                return
             connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
             self.input = input
             self.Pump()
             connection.Pump()
             sleep(0.1)
+
+##### Update Interval
 
     def update(self):
         #sleep to make the game 60 fps
@@ -971,7 +973,8 @@ class GalaxisGame(ConnectionListener):
             #quit if the quit button was pressed
             if event.type == pygame.QUIT:
                 exit()
-     
+  
+   
     def Loop(self):
         connection.Pump()
         self.Pump()
