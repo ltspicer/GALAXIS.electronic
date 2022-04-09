@@ -500,6 +500,8 @@ def userinfo(info):
     pygame.display.flip()
 
 
+##### Das Spiel
+
 
 class GalaxisGame(ConnectionListener):
 
