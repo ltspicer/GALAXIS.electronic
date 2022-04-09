@@ -2,6 +2,12 @@
 
 Ravensburger game from 1980
 
+---------------------
+
+
+English translator version:
+
+
 I coded the Ravensburger game "GALAXIS electronic" from 1980 for fun and as a Python exercise.
 
 Installation:
@@ -51,6 +57,7 @@ The exe is for Windows users without install Python.
 Start with: starter.bat
 
 
+----------------------------------------
 
 Original Text deutsch:
 
