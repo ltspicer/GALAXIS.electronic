@@ -54,7 +54,7 @@ Daniel
 
 PS:
 The exe is for Windows users without install Python.
-Start with: starter.bat
+Start with double-click on starter.bat
 
 
 ----------------------------------------
@@ -110,4 +110,4 @@ Daniel
 
 PS:
 Die exe ist für Windows User ohne Python Installation.
-Start mit: starter.bat
+Starten mit Doppelklick auf starter.bat
