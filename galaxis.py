@@ -10,16 +10,14 @@
 #    galaxis.game-host.org    #
 ###############################
 
-#### !! Aufruf mit einem Parameter = Netzwerk Spiel !! Bsp ./galaxis.py netz
+#### !! Aufruf mit Nickname = Netzwerk Spiel !! Bsp ./galaxis.py daniel
 
 from __future__ import print_function
 
 # network client
-client = None
+
 HOST_ADDR = "galaxis.game-host.org"   # Hier IP des Servers
-HOST_PORT = 10002                      # Hier Port des Servers
-clients_names = []
-clients = []
+HOST_PORT = 10002                     # Hier Port des Servers
 
 try:
     import pygame
@@ -47,8 +45,6 @@ from pygame import mixer
 from sys import stdin
 from time import sleep
 from sys import stdin, exit
-
-
 
 
 # Offline oder Netzwerk Spiel
@@ -541,6 +537,8 @@ class GalaxisGame(ConnectionListener):
         # Hier self.turn auf false setzen und an Gegner senden
         self.ping_remote(0, 0, 8, self.num, self.gameid)
 
+##### Version abfragen
+
     def Network_version(self, data):
         version = data["version"]
         version = int(float(version) * 10)/10
@@ -552,6 +550,8 @@ class GalaxisGame(ConnectionListener):
             pygame.quit()
             sleep(60)
             sys.exit()
+
+##### Diverses für PodSixNet
 
     def Network_close(self, data):
         info = "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten."
@@ -580,7 +580,6 @@ class GalaxisGame(ConnectionListener):
         print('Server disconnected')
         exit()
 
-
     def Network_num_gameid(self, data):
         #print("type data:", type(data))
         users = data["users"]
@@ -602,11 +601,10 @@ class GalaxisGame(ConnectionListener):
         else:
             self.turn = False
         if gegner_bereit == True:
-            print("Gameid:", self.gameid, ", Userid:", self.userid, ", Gegner bereit:", gegner_bereit)
+            print("Gameid:", self.gameid, ", Userid:", self.userid)
             print("Spieler 0 beginnt. Du bist Spieler", self.num)
 
         connection.Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid})
-
 
     def Network_startgame(self, data):
         anzahl_spieler=data["players"]
@@ -623,6 +621,8 @@ class GalaxisGame(ConnectionListener):
                 self.turn = False
                 self.ping_remote(0, 0, 8, self.num, self.gameid)   # Sag dem Gegner, dass er am Zug ist.
             print("mein_name:", self.mein_name, "gegner:", self.gegner)
+
+##### Spielbezogene Funktionen
 
     def wer_ist_am_zug(self):
         if self.turn==True:
@@ -984,6 +984,8 @@ class GalaxisGame(ConnectionListener):
                     exit()
             pygame.display.flip()
 
+##### Raumschiffe verstecken
+
     def Verstecken(self):
         anzahl_versteckt = 0
         i = 0
@@ -1035,16 +1037,17 @@ class GalaxisGame(ConnectionListener):
 
         return True
 
+
+##### Chat Thread starten
+
     def Chat(self):
         self.chat = True
         self.input = ""
-#        print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
-#        print("ESC zum verlassen")
+
         t = start_new_thread(self.InputLoop, ())
-#        while self.chat == True:
-#            self.Pump()
-#            connection.Pump()
-#            sleep(0.01)
+
+
+##### Grundsätzliche Aufrufe
 
 galax=GalaxisGame(nickname) #__init__ is called right here
 
