@@ -22,7 +22,8 @@ In some cases you have to restart the game up to 2 times when you start it for t
 
 Game Instructions:
 
-Offline (1 player):
+Offline (1 player) starts if NO nickname is entered:
+
 There have been 4 starships lost in the galaxy.
 It is important to find them.
 Right-click on a point in the coordinate system.
@@ -34,16 +35,15 @@ Clicking on it again removes the marking.
 For example, with a 0 there are definitely no more spaceships to be found in all 8 directions from this point. These points can be marked in black.
 The game is over when all 4 spaceships have been found.
 
-Online (2 players):
-To start the network game, simply enter your nickname after galaxy.py. Eg ./galaxy.py daniel (at least 3 letters)
+Online (2 players) starts when a nickname is entered (at least 3 characters):
+
 Now you have to hide your 4 spaceships, which your opponent has to find.
 You have 60 seconds to think and aim. Otherwise the opponent gets a turn.
-Available opponents in the network are displayed in the console, in which a chat is also running.
-Enter 'gegner={nickname}' to connect to an opponent. Now the "found" sound is played to alert both players.
-In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." appears.
+Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
+Enter 'gegner={nickname}' to connect to an opponent (eg gegner=daniel ). Now the "found" sound is played to alert both players.
+In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
-The console also serves as a chat.
 
 The starter.sh is the starter for Linux users. Adjust path!
 
@@ -75,7 +75,9 @@ In manchen Fällen muss man das Spiel beim Erststart bis zu 2 mal neu starten, d
 
 Spiel Anleitung:
 
-Offline (1 Spieler):
+
+Offline (1 Spieler) startet, wenn KEIN Nickname eingegeben wird:
+
 Es sind 4 Raumschiffe in der Galaxis verloren gegangen.
 Diese gilt es zu finden.
 Mit rechter Maustaste auf einen Punkt im Koordinatensystem klicken.
@@ -87,16 +89,16 @@ Erneuter Klick darauf entfernt die Markierung wieder.
 ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Raumschiffe mehr zufinden. Diese Punkte können schwarz markiert werden.
 Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
 
-Online (2 Spieler):
-Um das Netzwerk Spiel zu starten, einfach Deinen Nickname hinter galaxis.py eingeben. ZBsp ./galaxis.py daniel (mind. 3 Buchstaben)
+Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
+
 Nun musst Du Deine 4 Raumschiffe verstecken, welche Dein Gegner zufinden hat.
 Du hast jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
-Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft.
-Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden. Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
+Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
+Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner=daniel  ). Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
-Die Konsole dient auch als Chat.
+
 
 Das starter.sh Script ist der Starter für Linux User. Pfad anpassen!
 
