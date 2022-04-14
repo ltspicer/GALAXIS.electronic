@@ -10,9 +10,12 @@ Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 In manchen Fällen muss man das Spiel beim Erststart bis zu 2 mal neu starten, damit die gerade installierten Libraries übernommen werden.
 
 
+
 Spiel Anleitung:
 
-Offline (1 Spieler):
+
+Offline (1 Spieler) startet, wenn KEIN Nickname eingegeben wird:
+
 Es sind 4 Raumschiffe in der Galaxis verloren gegangen.
 Diese gilt es zu finden.
 Mit rechter Maustaste auf einen Punkt im Koordinatensystem klicken.
@@ -24,16 +27,16 @@ Erneuter Klick darauf entfernt die Markierung wieder.
 ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Raumschiffe mehr zufinden. Diese Punkte können schwarz markiert werden.
 Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
 
-Online (2 Spieler):
-Um das Netzwerk Spiel zu starten, einfach Deinen Nickname hinter galaxis.py eingeben. ZBsp ./galaxis.py daniel (mind. 3 Buchstaben)
+Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
+
 Nun musst Du Deine 4 Raumschiffe verstecken, welche Dein Gegner zufinden hat.
 Du hast jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
-Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft.
-Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden. Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
+Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
+Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner=daniel  ). Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
-Die Konsole dient auch als Chat.
+
 
 
 Weitere Anregungen und Bugreports sind willkommen.
@@ -42,3 +45,6 @@ Weitere Anregungen und Bugreports sind willkommen.
 Viel Spass
 
 Daniel
+
+
+PS: Die exe ist für Windows User ohne Python Installation. Starten mit Doppelklick auf starter.bat

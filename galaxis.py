@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V2.2    #
+#  GALAXIS electronic V2.3    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -42,19 +42,44 @@ import sys, pygame, time, random, math, json, threading, socket
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
-from sys import stdin
 from time import sleep
 from sys import stdin, exit
-
+from tkinter import *
 
 # Offline oder Netzwerk Spiel
-try:
-    n = sys.argv[1]
-except IndexError:
-    spielmodus = 1
-else:
-    spielmodus = 2
-    nickname = n
+
+def user_eingabe():
+    global spielmodus
+    global nickname
+    eingabe = (e2.get()).replace(" ", "") 
+    #print("Eingabe:", eingabe)
+    if len(eingabe) == 0:
+        spielmodus = 1
+        master.destroy()
+        return
+    if len(eingabe) > 2:
+        spielmodus = 2
+        nickname = eingabe
+        master.destroy()
+        return
+    else:
+        print("Gib Deinen Nicknamen ein (mind. 3 Zeichen)!")
+
+spielmodus = 0
+
+master = Tk()
+master.title("GALAXIS Spielmodus")
+Label(master, justify=LEFT, text="Keine Eingabe = Offline - 1 Spieler").grid(sticky = W, row=0, column=0)
+Label(master, justify=LEFT, text="Nickname (mind. 3 Zeichen) = Online - 2 Spieler").grid(sticky = W, row=1, column=0)
+Label(master, justify=LEFT, text="Nickname").grid(sticky = W, row=2, column=0)
+
+e2 = Entry(master)
+
+e2.grid(row=2, column=0)
+
+Button(master, text='OK', command=user_eingabe).grid(row=3, column=0, pady=4)
+
+mainloop( )
 
 #### Definitionen ####
 
@@ -772,21 +797,13 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 2.2                  #### Hier die Client-Version!!!!
+        self.version = 2.3                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
 
-        #3
+
         #initialize pygame clock
         self.clock=pygame.time.Clock()
-
-        if len(self.mein_name) < 3:
-            print("Gib Deinen Nicknamen ein: ")
-            while 1:
-                self.mein_name = stdin.readline().rstrip("\n")
-                if len(self.mein_name) > 2:
-                    break
-                print("Du musst Deinen Namen eingeben")
 
 
         #self.initSound()
