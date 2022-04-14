@@ -1,5 +1,5 @@
-@echo off
+#@echo off
 
-echo Gib Deinen Nickname ein (mit ENTER bestaetigen):
-set /p num1=
-galaxis.exe %num1%
+#echo Gib Deinen Nickname ein (mit ENTER bestaetigen):
+#set /p num1=
+galaxis.exe
