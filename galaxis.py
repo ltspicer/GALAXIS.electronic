@@ -1096,7 +1096,8 @@ mein_name = str(galax.mein_name_retour())
 # Raumschiffe verstecken
 
 print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
-print("ESC zum verlassen")
+print("ESC im Spielfenster zum verlassen.")
+print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
 
 info = mein_name + ", verstecke Deine Raumschiffe (rechte Maustaste)"
 userinfo(info)
