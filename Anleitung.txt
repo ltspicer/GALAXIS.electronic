@@ -48,3 +48,4 @@ Daniel
 
 
 PS: Die exe ist für Windows User ohne Python Installation. Starten mit Doppelklick auf starter.bat
+Habe festgestellt, dass unter Windows der Starter nicht notwendig ist. Einfach nur galaxis.exe anklicken!
