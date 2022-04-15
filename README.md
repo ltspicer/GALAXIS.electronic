@@ -54,7 +54,8 @@ Daniel
 
 PS:
 The exe is for Windows users without install Python.
-Start with double-click on starter.bat
+Start with double-click on starter.bat.
+
 I found that Windows doesn't need the starter. Just click galaxy.exe!
 
 Home of this game: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
@@ -114,7 +115,8 @@ Daniel
 
 PS:
 Die exe ist für Windows User ohne Python Installation.
-Starten mit Doppelklick auf starter.bat
+Starten mit Doppelklick auf starter.bat.
+
 Habe festgestellt, dass unter Windows der Starter nicht notwendig ist. Einfach nur galaxis.exe anklicken!
 
 Dieses Spiel ist hier zuhause: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
