@@ -41,7 +41,7 @@ Now you have to hide your 4 spaceships, which your opponent has to find.
 You have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
 Enter 'gegner={nickname}' to connect to an opponent (eg gegner=daniel ). Now the "found" sound is played to alert both players.
-In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
+In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." appears.
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
