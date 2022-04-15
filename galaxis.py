@@ -10,7 +10,6 @@
 #    galaxis.game-host.org    #
 ###############################
 
-#### !! Aufruf mit Nickname = Netzwerk Spiel !! Bsp ./galaxis.py daniel
 
 from __future__ import print_function
 
@@ -38,6 +37,7 @@ except ImportError as e:
     sys.exit()
 
 # Importieren der Bibliotheken
+
 import sys, pygame, time, random, math, json, threading, socket
 from pygame.locals import *
 pygame.init()
@@ -80,6 +80,7 @@ e2.grid(row=2, column=0)
 Button(master, text='OK', command=user_eingabe).grid(row=3, column=0, pady=4)
 
 mainloop( )
+
 
 #### Definitionen ####
 
@@ -518,8 +519,11 @@ def sound_gewonnen():
     mixer.music.play()        
 
 def userinfo(info):
+    farbe = BLAU
     string = str(info)
-    imag = font.render(string, True, BLAU)
+    if string.startswith("Noch 6 Sekunden"):
+        farbe = ROT
+    imag = font.render(string, True, farbe)
     pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.40)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
     fenster.blit(imag, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.44)*5.4+0.00*MULTIPLIKATOR]))
     pygame.display.flip()
@@ -640,14 +644,14 @@ class GalaxisGame(ConnectionListener):
         num=data["num"]
         gegnerbereit = False
 
-        print("anzahl_spieler empfangen:", anzahl_spieler, "num:", num, "bereit:", bereit, "gegnerbereit:", gegnerbereit, "self.spielerbereit:", self.spielerbereit)
+        print("Anzahl Spieler empfangen:", anzahl_spieler, "Spieler:", num, "Bereit?", bereit, "Gegner bereit?", gegnerbereit, "Spieler bereit?", self.spielerbereit)
         if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit == True:
             self.spielaktiv = True
             self.running = True
             if self.num != 0:
                 self.turn = False
                 self.ping_remote(0, 0, 8, self.num, self.gameid)   # Sag dem Gegner, dass er am Zug ist.
-            print("mein_name:", self.mein_name, "gegner:", self.gegner)
+            print("Mein Name:", self.mein_name, "Gegner:", self.gegner)
 
 ##### Spielbezogene Funktionen
 
@@ -681,7 +685,7 @@ class GalaxisGame(ConnectionListener):
         wert = data["wert"]
         gefunden = data["gefunden"]
         gameid = data["gameid"]
-        #print("'antwort' von Server erhalten. x=", xpos, " y=", ypos, " verraten=", verraten, " von Spieler (num)", num, " gameid=", gameid, " gefunden=", gefunden, " wert=", wert)
+
         if num != self.num and wert == 8:  #### Gegner sagt, dass Du am Zug bist
             self.turn = True
             return
@@ -691,7 +695,6 @@ class GalaxisGame(ConnectionListener):
 
         if num != self.num and wert == 6:  #### Anfrage von Gegner
             gesehn = netping(self, xpos, ypos, gefunden)
-            #print("Anfrage von Gegner > netping xpos=", xpos, "ypos=", ypos, "gefunden=", gefunden)
             
             self.angepeilt[ypos][xpos] = 1
             if galaxis[ypos][xpos] == 6:
