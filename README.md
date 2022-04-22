@@ -17,7 +17,7 @@ Python3.x should already be pre-installed in Linux systems. However, ev pip3 has
 
 Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries should be installed automatically on first start.
-In some cases you have to restart the game up to 2 times when you start it for the first time so that the libraries that have just been installed are taken over.
+In some cases you have to restart the game up to 3 times when you start it for the first time so that the libraries that have just been installed are taken over.
 
 
 Game Instructions:
@@ -74,7 +74,7 @@ In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss 
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
-In manchen Fällen muss man das Spiel beim Erststart bis zu 2 mal neu starten, damit die gerade installierten Libraries übernommen werden.
+In manchen Fällen muss man das Spiel beim Erststart bis zu 3 mal neu starten, damit die gerade installierten Libraries übernommen werden.
 
 
 Spiel Anleitung:
