@@ -628,7 +628,7 @@ class GalaxisGame(ConnectionListener):
         if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
             print(bcolors.RED + "Dein gewählter Nickname ist bereits vergeben!" + bcolors.NC)
             self.mein_name = self.mein_name + str(self.userid)
-            print("Dein neuer Nickname ist", self.mein_name)
+            print(bcolors.RED + "Dein neuer Nickname ist", self.mein_name + bcolors.NC)
 
         if gegner_bereit == True and self.spielerbereit == True:
             self.spielaktiv = True
