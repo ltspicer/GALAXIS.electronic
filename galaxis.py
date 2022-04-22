@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V2.3    #
+#  GALAXIS electronic V2.4    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -399,6 +399,12 @@ import PodSixNet
 from PodSixNet.Connection import connection, ConnectionListener
 from _thread import *
 
+class bcolors:
+    BLUE='\033[0;34m'
+    RED='\033[0;31m'
+    NC='\033[0m'
+
+
 # Anfrage auswerten
 
 def netping(self, spalte, reihe, gefunden):   # Anfrage auswerten > return 5 = Raumschiff gefunden
@@ -594,11 +600,11 @@ class GalaxisGame(ConnectionListener):
     def Network_players(self, data):
         string = [p for p in data['players'] if p != self.mein_name and p != "-"]
         if self.old_string != string:
-            print("Verfügbare Spieler: " + ", ".join(string if len(string) > 0 else ["keine"]))
+            print("Verfügbare Spieler: " + bcolors.BLUE + ", ".join(string if len(string) > 0 else ["keine"])  + bcolors.NC)
             self.old_string = string
     
     def Network_message(self, data):
-        print(data['who'] + ": " + data['message'])
+        print(bcolors.BLUE + data['who'] + ": " + data['message']  + bcolors.NC)
 
     def Network_error(self, data):
         print('error:', data['error'][1])
@@ -620,7 +626,7 @@ class GalaxisGame(ConnectionListener):
         self.gegner=data["nickgegner"]
         gegner_bereit = data["bereit"]
         if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
-            print("Dein gewählter Nickname ist bereits vergeben!")
+            print(bcolors.RED + "Dein gewählter Nickname ist bereits vergeben!" + bcolors.NC)
             self.mein_name = self.mein_name + str(self.userid)
             print("Dein neuer Nickname ist", self.mein_name)
 
@@ -800,7 +806,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 2.3                  #### Hier die Client-Version!!!!
+        self.version = 2.4                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
 
@@ -1095,7 +1101,7 @@ mein_name = str(galax.mein_name_retour())
 
 # Raumschiffe verstecken
 
-print("Wenn Du fertig versteckt hast, wähle mit 'gegner={nickname}' einen Gegner aus.")
+print("Wenn Du fertig versteckt hast, wähle mit " + bcolors.RED +"gegner={nickname}" + bcolors.NC + " einen Gegner aus.")
 print("ESC im Spielfenster zum verlassen.")
 print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
 
