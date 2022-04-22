@@ -36,15 +36,27 @@ except ImportError as e:
     print("PodSixNet ist installiert. Starte mich neu!")
     sys.exit()
 
+try:
+    import colorama
+except ImportError as e:
+    print("PodSixNet ist nicht installiert, wird installiert!")
+    import subprocess, sys
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
+    print("colorama ist installiert. Starte mich neu!")
+    sys.exit()
+
 # Importieren der Bibliotheken
 
-import sys, pygame, time, random, math, json, threading, socket
+import sys, pygame, time, random, math, json, threading, socket, colorama
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
 from time import sleep
 from sys import stdin, exit
 from tkinter import *
+
+from colorama import Fore
+from colorama import Style
 
 # Offline oder Netzwerk Spiel
 
@@ -399,11 +411,12 @@ import PodSixNet
 from PodSixNet.Connection import connection, ConnectionListener
 from _thread import *
 
-class bcolors:
-    BLUE='\033[0;34m'
-    RED='\033[0;31m'
-    NC='\033[0m'
+#class bcolors:
+#    BLUE='\033[0;34m'
+#    RED='\033[0;31m'
+#    NC='\033[0m'
 
+colorama.init()
 
 # Anfrage auswerten
 
@@ -600,11 +613,11 @@ class GalaxisGame(ConnectionListener):
     def Network_players(self, data):
         string = [p for p in data['players'] if p != self.mein_name and p != "-"]
         if self.old_string != string:
-            print("Verfügbare Spieler: " + bcolors.BLUE + ", ".join(string if len(string) > 0 else ["keine"])  + bcolors.NC)
+            print("Verfügbare Spieler: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["keine"])  + Style.RESET_ALL)
             self.old_string = string
     
     def Network_message(self, data):
-        print(bcolors.BLUE + data['who'] + ": " + data['message']  + bcolors.NC)
+        print(Fore.BLUE + Style.BRIGHT + data['who'] + ": " + data['message']  + Style.RESET_ALL)
 
     def Network_error(self, data):
         print('error:', data['error'][1])
@@ -626,9 +639,9 @@ class GalaxisGame(ConnectionListener):
         self.gegner=data["nickgegner"]
         gegner_bereit = data["bereit"]
         if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
-            print(bcolors.RED + "Dein gewählter Nickname ist bereits vergeben!" + bcolors.NC)
+            print(Fore.RED + "Dein gewählter Nickname ist bereits vergeben!" + Style.RESET_ALL)
             self.mein_name = self.mein_name + str(self.userid)
-            print(bcolors.RED + "Dein neuer Nickname ist", self.mein_name + bcolors.NC)
+            print(Fore.RED + "Dein neuer Nickname ist", self.mein_name + Style.RESET_ALL)
 
         if gegner_bereit == True and self.spielerbereit == True:
             self.spielaktiv = True
@@ -1101,7 +1114,7 @@ mein_name = str(galax.mein_name_retour())
 
 # Raumschiffe verstecken
 
-print("Wenn Du fertig versteckt hast, wähle mit " + bcolors.RED +"gegner={nickname}" + bcolors.NC + " einen Gegner aus.")
+print("Wenn Du fertig versteckt hast, wähle mit " + Fore.RED +"gegner={nickname}" + Style.RESET_ALL + " einen Gegner aus.")
 print("ESC im Spielfenster zum verlassen.")
 print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
 
@@ -1117,4 +1130,3 @@ if galax.Verstecken() == False:
 if galax.Galaxis() == False:
     pygame.quit()
     sys.exit()
-
