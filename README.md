@@ -45,7 +45,6 @@ In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
-The starter.sh is the starter for Linux users. Adjust path!
 
 Other suggestions and bug reports are welcome.
 
@@ -54,7 +53,7 @@ Daniel
 
 PS:
 The exe is for Windows users without install Python.
-Start with double-click on starter.bat.
+Start with double-click on galaxis.exe .
 
 I found that Windows doesn't need the starter. Just click galaxis.exe!
 
@@ -105,8 +104,6 @@ Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
 
-Das starter.sh Script ist der Starter für Linux User. Pfad anpassen!
-
 Weitere Anregungen und Bugreports sind willkommen.
 
 
@@ -117,7 +114,7 @@ Daniel
 
 PS:
 Die exe ist für Windows User ohne Python Installation.
-Starten mit Doppelklick auf starter.bat.
+Starten mit Doppelklick auf galaxis.exe .
 
 Habe festgestellt, dass unter Windows der Starter nicht notwendig ist. Einfach nur galaxis.exe anklicken!
 
