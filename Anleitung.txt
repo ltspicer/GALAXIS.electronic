@@ -17,7 +17,7 @@ Python3.x should already be pre-installed in Linux systems. However, ev pip3 has
 
 Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries should be installed automatically on first start.
-In some cases you have to restart the game up to 2 times when you start it for the first time so that the libraries that have just been installed are taken over.
+In some cases you have to restart the game up to 3 times when you start it for the first time so that the libraries that have just been installed are taken over.
 
 
 Game Instructions:
@@ -45,7 +45,6 @@ In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
-The starter.sh is the starter for Linux users. Adjust path!
 
 Other suggestions and bug reports are welcome.
 
@@ -74,7 +73,7 @@ In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss 
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
-In manchen Fällen muss man das Spiel beim Erststart bis zu 2 mal neu starten, damit die gerade installierten Libraries übernommen werden.
+In manchen Fällen muss man das Spiel beim Erststart bis zu 3 mal neu starten, damit die gerade installierten Libraries übernommen werden.
 
 
 Spiel Anleitung:
@@ -104,8 +103,6 @@ Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
 
-Das starter.sh Script ist der Starter für Linux User. Pfad anpassen!
-
 Weitere Anregungen und Bugreports sind willkommen.
 
 
@@ -116,7 +113,7 @@ Daniel
 
 PS:
 Die exe ist für Windows User ohne Python Installation.
-Starten mit Doppelklick auf starter.bat.
+Starten mit Doppelklick auf galaxis.exe .
 
 Habe festgestellt, dass unter Windows der Starter nicht notwendig ist. Einfach nur galaxis.exe anklicken!
 Linux User können die galaxis.py anklicken und "im Terminal ausführen" wählen. So ist die starter.sh auch hier überflüssig.
