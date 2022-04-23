@@ -37,7 +37,7 @@ The game is over when all 4 spaceships have been found.
 
 Online (2 players) starts when a nickname is entered (at least 3 characters):
 
-Now you have to hide your 4 spaceships, which your opponent has to find.
+Now you have to hide your 4 spaceships ('right mouse button', which your opponent has to find.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
 Enter 'gegner={nickname}' to connect to an opponent (eg gegner=daniel ). Now the "found" sound is played to alert both players.
