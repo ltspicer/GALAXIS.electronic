@@ -38,7 +38,7 @@ The game is over when all 4 spaceships have been found.
 Online (2 players) starts when a nickname is entered (at least 3 characters):
 
 Now you have to hide your 4 spaceships, which your opponent has to find.
-You have 60 seconds to think and aim. Otherwise the opponent gets a turn.
+After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
 Enter 'gegner={nickname}' to connect to an opponent (eg gegner=daniel ). Now the "found" sound is played to alert both players.
 In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." appears.
@@ -96,7 +96,7 @@ Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
 Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
 
 Nun musst Du Deine 4 Raumschiffe verstecken, welche Dein Gegner zufinden hat.
-Du hast jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
+Nach dem ersten Zug hast Du jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
 Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
 Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner=daniel  ). Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
