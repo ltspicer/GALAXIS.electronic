@@ -40,7 +40,7 @@ except ImportError as e:
 try:
     import colorama
 except ImportError as e:
-    print("PodSixNet ist nicht installiert, wird installiert!")
+    print("colorama ist nicht installiert, wird installiert!")
     import subprocess, sys
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
     install = 1
