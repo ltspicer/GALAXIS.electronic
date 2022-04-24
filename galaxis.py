@@ -17,6 +17,7 @@ from __future__ import print_function
 
 HOST_ADDR = "galaxis.game-host.org"   # Hier IP des Servers
 HOST_PORT = 10002                     # Hier Port des Servers
+install = 0
 
 try:
     import pygame
@@ -24,8 +25,8 @@ except ImportError as e:
     print("pygame ist nicht installiert, wird installiert!")
     import subprocess, sys
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
-    print("Pygame ist installiert. Starte mich neu!")
-    sys.exit()
+    install = 1
+    print("Pygame ist installiert.")
 
 try:
     import PodSixNet
@@ -33,8 +34,8 @@ except ImportError as e:
     print("PodSixNet ist nicht installiert, wird installiert!")
     import subprocess, sys
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
-    print("PodSixNet ist installiert. Starte mich neu!")
-    sys.exit()
+    install = 1
+    print("PodSixNet ist installiert.")
 
 try:
     import colorama
@@ -42,7 +43,12 @@ except ImportError as e:
     print("PodSixNet ist nicht installiert, wird installiert!")
     import subprocess, sys
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
-    print("colorama ist installiert. Starte mich neu!")
+    install = 1
+    print("colorama ist installiert.")
+
+if install == 1:
+    print("Starte mich neu!")
+    sleep(5)
     sys.exit()
 
 # Importieren der Bibliotheken
