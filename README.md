@@ -14,6 +14,7 @@ Installation:
 
 Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Reboot after installation!
 Python3.x should already be pre-installed in Linux systems. However, ev pip3 has to be installed afterwards (sudo apt install python3-pip).
+And tkinter ( sudo apt-get install -y python3-tk ).
 
 Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries should be installed automatically on first start.
@@ -71,6 +72,7 @@ Installation:
 
 Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Nach der Installation einen Reboot machen!
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden (sudo apt install python3-pip).
+Und tkinter ( sudo apt-get install -y python3-tk ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
