@@ -12,6 +12,7 @@
 
 
 from __future__ import print_function
+from time import sleep
 
 # network client
 
@@ -46,6 +47,13 @@ except ImportError as e:
     install = 1
     print("colorama ist installiert.")
 
+try:
+    from tkinter import *
+except ImportError as e:
+    print("tkinter ist nicht installiert, bitte manuell installieren mit:")
+    print("sudo apt-get install -y python3-tk")
+    install = 1
+
 if install == 1:
     print("Starte mich neu!")
     sleep(5)
@@ -57,9 +65,8 @@ import sys, pygame, time, random, math, json, threading, socket, colorama
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
-from time import sleep
+
 from sys import stdin, exit
-from tkinter import *
 
 from colorama import Fore
 from colorama import Style
