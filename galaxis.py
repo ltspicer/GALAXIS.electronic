@@ -13,6 +13,7 @@
 
 from __future__ import print_function
 from time import sleep
+import sys
 
 # network client
 
@@ -50,18 +51,21 @@ except ImportError as e:
 try:
     from tkinter import *
 except ImportError as e:
-    print("tkinter ist nicht installiert, bitte manuell installieren mit:")
-    print("sudo apt-get install -y python3-tk")
+    from colorama import Fore
+    from colorama import Style
+    print(Fore.RED + "tkinter ist nicht installiert, bitte manuell installieren mit:")
+    print(Fore.BLUE + "Debian/Ubuntu >  sudo apt-get install -y python3-tk")
+    print("OSX           >  brew install python-tk")
     install = 1
 
 if install == 1:
-    print("Starte mich neu!")
-    sleep(5)
+    print(Fore.RED + "Starte mich neu!")
+    sleep(8)
     sys.exit()
 
 # Importieren der Bibliotheken
 
-import sys, pygame, time, random, math, json, threading, socket, colorama
+import pygame, time, random, math, json, threading, socket, colorama
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
