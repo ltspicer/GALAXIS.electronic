@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V2.4    #
+#  GALAXIS electronic V2.5    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -552,7 +552,12 @@ def sound_gefunden():
 
 def sound_gewonnen():
     mixer.music.load("gewonnen.mp3")
-    mixer.music.play()        
+    mixer.music.play()
+
+def sound_message():
+    mixer.music.load("message.mp3")
+    mixer.music.play()
+    #time.sleep(0.75)
 
 def userinfo(info):
     farbe = BLAU
@@ -632,9 +637,13 @@ class GalaxisGame(ConnectionListener):
         if self.old_string != string:
             print("Verfügbare Spieler: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["keine"])  + Style.RESET_ALL)
             self.old_string = string
+            if self.running == False:
+                sound_message()
     
     def Network_message(self, data):
         print(Fore.BLUE + Style.BRIGHT + data['who'] + ": " + data['message']  + Style.RESET_ALL)
+        if self.running == False:
+            sound_message()
 
     def Network_error(self, data):
         print('error:', data['error'][1])
@@ -836,7 +845,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 2.4                  #### Hier die Client-Version!!!!
+        self.version = 2.5                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
 
@@ -859,8 +868,7 @@ class GalaxisGame(ConnectionListener):
         except:
             print("Error Connecting to Server")
             exit()
-        print("Galaxis Client gestartet")
-        #connection.Send({"action": "nickname", "nickname": self.mein_name, "num": 0})
+        print("Galaxis Client Version", self.version, "gestartet")
 
 
 ##### Die Game Klasse by self
