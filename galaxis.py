@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V2.5    #
+#  GALAXIS electronic V2.7    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -12,14 +12,20 @@
 
 
 from __future__ import print_function
-from time import sleep
-import sys
+import os, sys
 
-# network client
+
+betriebssystem = os.name
+#betriebssystem = "posix"   #### Auskommentieren, wenn OSX keine Probleme mit TKinter hat !!! ####
+
+
+# Netzwerk (Server)
 
 HOST_ADDR = "galaxis.game-host.org"   # Hier IP des Servers
 HOST_PORT = 10002                     # Hier Port des Servers
 install = 0
+
+# Import-Versuche
 
 try:
     import pygame
@@ -52,15 +58,14 @@ try:
     from tkinter import *
 except ImportError as e:
     from colorama import Fore
-    from colorama import Style
     print(Fore.RED + "tkinter ist nicht installiert, bitte manuell installieren mit:")
     print(Fore.BLUE + "Debian/Ubuntu >  sudo apt-get install -y python3-tk")
     print("OSX           >  brew install python-tk")
     install = 1
 
 if install == 1:
+    from colorama import Fore
     print(Fore.RED + "Starte mich neu!")
-    sleep(8)
     sys.exit()
 
 # Importieren der Bibliotheken
@@ -69,14 +74,16 @@ import pygame, time, random, math, json, threading, socket, colorama
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
-
+from time import sleep
 from sys import stdin, exit
-
+from tkinter import *
 from colorama import Fore
 from colorama import Style
+colorama.init()
 
-# Offline oder Netzwerk Spiel
+#### Definitionen ####
 
+# GALAXIS Spielmodus Fenster
 def user_eingabe():
     global spielmodus
     global nickname
@@ -94,24 +101,17 @@ def user_eingabe():
     else:
         print("Gib Deinen Nicknamen ein (mind. 3 Zeichen)!")
 
-spielmodus = 0
-
-master = Tk()
-master.title("GALAXIS Spielmodus")
-Label(master, justify=LEFT, text="Keine Eingabe = Offline - 1 Spieler").grid(sticky = W, row=0, column=0)
-Label(master, justify=LEFT, text="Nickname (mind. 3 Zeichen) = Online - 2 Spieler").grid(sticky = W, row=1, column=0)
-Label(master, justify=LEFT, text="Nickname").grid(sticky = W, row=2, column=0)
-
-e2 = Entry(master)
-
-e2.grid(row=2, column=0)
-
-Button(master, text='OK', command=user_eingabe).grid(row=3, column=0, pady=4)
-
-mainloop( )
-
-
-#### Definitionen ####
+# Fenster noch ein Spiel? j/n
+def user_antwort():
+    global antwort_jn
+    eingabe = (e2.get()).replace(" ", "") 
+    #print("Eingabe:", eingabe)
+    if eingabe != "j":
+        antwort_jn = "n"
+        master.destroy()
+    else:
+        antwort_jn = "j"
+        master.destroy()
 
 # Korrekturfaktor berechnen
 def kor(zahl):
@@ -136,13 +136,13 @@ def spielzuge(wert):
 
 # Spiel gewonnen
 def gewonnen():
-    imag = font.render("Spiel gewonnen. ESC zum Verlassen.", True, ROT)
-    fenster.blit(imag, ([kor(2.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+    imag = font.render("Spiel gewonnen :)", True, ROT)
+    fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
 
 # Spiel verloren
 def verloren(gegner_name):
-    imag = font.render("Spiel verloren. ESC zum Verlassen.", True, ROT)
-    fenster.blit(imag, ([kor(2.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+    imag = font.render("Spiel verloren :(", True, ROT)
+    fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
     print("Gegner hat gewonnen!!!")
     #time.sleep(6.7)
     info = "Dein Gegner " + gegner_name + " hat gewonnen."
@@ -294,6 +294,55 @@ def spielfeld_zeichnen():
         for y in range(0,7):
             element_zeichnen(x,y,GRAU)
 
+
+# Offline oder Netzwerk Spiel / Neu gestartet?
+
+nick = "-"
+try:
+    nick = sys.argv[1]
+except IndexError:
+    pass
+
+if nick == "-" or not nick.startswith("VorHanden!"):
+    if betriebssystem != "mac":
+        spielmodus = 0
+
+        master = Tk()
+        master.title("GALAXIS Spielmodus")
+        Label(master, justify=LEFT, text="Keine Eingabe = Offline - 1 Spieler").grid(sticky = W, row=0, column=0)
+        Label(master, justify=LEFT, text="Nickname (mind. 3 Zeichen) = Online - 2 Spieler").grid(sticky = W, row=1, column=0)
+        Label(master, justify=LEFT, text="Nickname").grid(sticky = W, row=2, column=0)
+
+        e2 = Entry(master)
+
+        e2.grid(row=2, column=0)
+
+        Button(master, text='OK', command=user_eingabe).grid(row=3, column=0, pady=4)
+
+        mainloop( )
+    else:
+        if len(nick) < 3:
+            print(Fore.RED + "GALAXIS Spielmodus Auswahl für OSX")
+            print(Fore.BLUE + Style.BRIGHT + "Für online Spiel, gib Deinen Nicknamen ein (mind 3 Buchstaben)")
+            print("Für offline Spiel, gib ENTER ein" + Style.RESET_ALL)
+            while 1:
+                nickname = stdin.readline().rstrip("\n")
+                if len(nickname) > 2:
+                    spielmodus = 2
+                    break
+                else:
+                    spielmodus = 1
+                    break
+        else:
+            nickname = nick
+            spielmodus = 2
+
+
+else:
+    nickname = nick.replace("VorHanden!", "")
+    spielmodus = 2
+
+
 # Sound initialisieren
 mixer.init()
 mixer.music.set_volume(0.7)
@@ -428,12 +477,6 @@ import PodSixNet
 from PodSixNet.Connection import connection, ConnectionListener
 from _thread import *
 
-#class bcolors:
-#    BLUE='\033[0;34m'
-#    RED='\033[0;31m'
-#    NC='\033[0m'
-
-colorama.init()
 
 # Anfrage auswerten
 
@@ -630,7 +673,9 @@ class GalaxisGame(ConnectionListener):
         userinfo(info)
         self.timer_stoppen()
         time.sleep(6)
-        exit()
+#        exit()
+        self.spielaktiv = False
+        self.spiel_fertig = False
 
     def Network_players(self, data):
         string = [p for p in data['players'] if p != self.mein_name and p != "-"]
@@ -763,6 +808,7 @@ class GalaxisGame(ConnectionListener):
                 self.alarm = 1
                 self.antwort = 10
                 self.empfangen = True
+                self.spiel_fertig = True
                 self.timer_stoppen()
                 verloren(self.gegner)
 
@@ -777,6 +823,7 @@ class GalaxisGame(ConnectionListener):
                     self.timer_stoppen()
                     gewonnen()
                     sound_gewonnen()
+                    self.spiel_fertig = True
                     info = "Du hast gegen " + str(self.gegner) + " gewonnen."
                     userinfo(info)
                     #time.sleep(5)
@@ -786,6 +833,7 @@ class GalaxisGame(ConnectionListener):
                     self.alarm = 1
                     self.antwort = 10
                     self.empfangen = True
+                    self.spiel_fertig = True
                     self.timer_stoppen()
                     verloren(self.gegner)
                 else:
@@ -807,6 +855,7 @@ class GalaxisGame(ConnectionListener):
             if wert == 5 and self.gefunden == 4:   # Du hast gewonnen!!!
                 self.timer_stoppen()
                 print("Du hast gewonnen!!!")
+                self.spiel_fertig = True
             self.antwort = wert
             self.empfangen = True
 
@@ -845,9 +894,10 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 2.5                  #### Hier die Client-Version!!!!
+        self.version = 2.7                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
+        self.spiel_fertig = False
 
 
         #initialize pygame clock
@@ -904,20 +954,20 @@ class GalaxisGame(ConnectionListener):
         self.alarm = 0
         self.umschalt_warnung = False
 
-        # Schleife Hauptprogramm
+##### Game Hauptschleife
         while self.spielaktiv:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.spielaktiv = False
                     #print("Spieler hat beendet")
                     self.timer_stoppen()
-                    return self.spielaktiv
+                    return self.spiel_fertig
 
                 if event.type == QUIT:
                     self.timer_stoppen()
                     pygame.quit()
                     self.spielaktiv = False
-                    return self.spielaktiv
+                    return self.spiel_fertig
 
                 elif event.type == MOUSEBUTTONDOWN:
                     x = pygame.mouse.get_pos()[0]
@@ -948,6 +998,7 @@ class GalaxisGame(ConnectionListener):
                             self.alarm = 1
                             self.timer_stoppen()
                             verloren(self.gegner)
+                            self.spiel_fertig = True
 
                         if self.antwort==5:
                             raumschiff_zeichnen(xpos,ypos,ROT)
@@ -969,6 +1020,7 @@ class GalaxisGame(ConnectionListener):
                             self.alarm = 0
                             self.timer_stoppen()
                             gewonnen()
+                            self.spiel_fertig = True
                             info = "Du hast gegen " + str(self.gegner) + " gewonnen."
                             sound_gewonnen()
                             userinfo(info)
@@ -976,9 +1028,7 @@ class GalaxisGame(ConnectionListener):
                         if self.verraten == True:
                             time.sleep(3.7)
                             sound_verraten()
-
                         #time.sleep(4.9)
-
             self.Pump()
             connection.Pump()
             sleep(0.01)
@@ -993,6 +1043,7 @@ class GalaxisGame(ConnectionListener):
                 self.alarm = 1
                 gewonnen()
                 self.timer_stoppen()
+                self.spiel_fertig = True
                 info = "Du hast gegen " + str(self.gegner) + " gewonnen."
                 userinfo(info)
                 pygame.display.flip()
@@ -1009,23 +1060,27 @@ class GalaxisGame(ConnectionListener):
                     info = "Noch 6 Sekunden, dann ist "+self.gegner+" am Zug!"
                     userinfo(info)
 
-        return True
+            if self.spiel_fertig == True:
+                break
+
+        return self.spiel_fertig
 
 ##### Der Terminal/Chat Thread
 
     def InputLoop(self):
         # horrid threaded input loop
         # continually reads from stdin and sends whatever is typed to the server
-
+        global thread_return_wert
         while 1:
-            # Wenn user eingabe, dann self.chat = False
-            #connection.Send({"action": "gegnerauswahl", "gegner": stdin.readline().rstrip("\n"), "spieler": self.mein_name})
             input = stdin.readline().rstrip("\n")
             connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
             self.input = input
             self.Pump()
             connection.Pump()
             sleep(0.1)
+            if self.spiel_fertig == True:
+                thread_return_wert = input
+                return
 
 ##### Update Interval
 
@@ -1039,7 +1094,6 @@ class GalaxisGame(ConnectionListener):
             #quit if the quit button was pressed
             if event.type == pygame.QUIT:
                 exit()
-  
    
     def Loop(self):
         connection.Pump()
@@ -1114,15 +1168,15 @@ class GalaxisGame(ConnectionListener):
         self.input = ""
 
         t = start_new_thread(self.InputLoop, ())
+        return t
 
 
 ##### Grundsätzliche Aufrufe
 
-galax=GalaxisGame(nickname) #__init__ is called right here
+galax=GalaxisGame(nickname) # __init__ wird hier aufgerufen
 
-if galax.Chat() == False:
-    pygame.quit()
-    sys.exit()
+# Chat starten
+galax.Chat()
 
 # Spielfeld erzeugen über Berechnung
 fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 31 * MULTIPLIKATOR))
@@ -1150,8 +1204,42 @@ if galax.Verstecken() == False:
     pygame.quit()
     sys.exit()
 
-# Spiel starten
+#### Spiel starten
 
-if galax.Galaxis() == False:
+if galax.Galaxis() == False:       # Spiel abgebrochen?
+    print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
+    connection.Close()
+    time.sleep(5)
+
+# Spiel neu starten?
+
+if betriebssystem != "mac":
+    master = Tk()
+    master.title("Spiel beendet")
+    Label(master, justify=LEFT, text="Möchtest Du noch eine Runde spielen?").grid(row=0, column=0)
+    Label(master, justify=LEFT, text="j oder n").grid(row=1, column=0)
+    e2 = Entry(master)
+    e2.grid(row=2, column=0)
+    Button(master, text='OK', command=user_antwort).grid(row=3, column=0, pady=4)
+    mainloop( )
+else:
+    thread_return_wert = ""
+    print(Fore.RED + "Spiel beendet")
+    print(Fore.BLUE + Style.BRIGHT + "Möchtest Du noch eine Runde spielen (j oder n)?" + Style.RESET_ALL)
+    while 1:
+        antwort_jn = thread_return_wert
+        if len(antwort_jn) > 0:
+            break
+
+if antwort_jn == "j":
+    connection.Close()
+    pygame.display.quit()
+    pygame.quit()
+    sys.stdout.flush()
+    os.system(sys.argv[0] + str(" VorHanden!"+mein_name))
+    sys.exit()
+    quit()
+
+else:
     pygame.quit()
     sys.exit()
