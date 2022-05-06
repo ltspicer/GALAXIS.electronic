@@ -139,6 +139,10 @@ def gewonnen():
     imag = font.render("Spiel gewonnen :)", True, ROT)
     fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
 
+def gewonnen_offline():
+    imag = font.render("Spiel gewonnen. ESC zum Verlassen.", True, ROT)
+    fenster.blit(imag, ([kor(2.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+
 # Spiel verloren
 def verloren(gegner_name):
     imag = font.render("Spiel verloren :(", True, ROT)
@@ -459,7 +463,7 @@ if spielmodus == 1:
 
         if gefunden == 4 and alarm==0:
             alarm = 1
-            gewonnen()
+            gewonnen_offline()
             pygame.display.flip()
             #print("Spiel gewonnen mit", spielzuege, "Spielzügen.")
             mixer.music.load("gewonnen.mp3")
