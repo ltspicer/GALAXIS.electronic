@@ -19,6 +19,7 @@ Missing libraries should be installed automatically on first start.
 In some cases you have to restart the game up to 3 times when you start it for the first time so that the libraries that have just been installed are taken over.
 
 Alternative for Windows users: Click galaxis.exe (no Python needed).
+
 Linux users: If no option "run in terminal", start the starter.sh
 
 Game Instructions:
@@ -72,6 +73,7 @@ Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 In manchen Fällen muss man das Spiel beim Erststart bis zu 3 mal neu starten, damit die gerade installierten Libraries übernommen werden.
 
 Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig).
+
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht: starter.sh ausführen.
 
 Spiel Anleitung:
