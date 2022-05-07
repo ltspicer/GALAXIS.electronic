@@ -54,14 +54,15 @@ except ImportError as e:
     install = 1
     print("colorama ist installiert.")
 
-try:
-    from tkinter import *
-except ImportError as e:
-    from colorama import Fore
-    print(Fore.RED + "tkinter ist nicht installiert, bitte manuell installieren mit:")
-    print(Fore.BLUE + "Debian/Ubuntu >  sudo apt-get install -y python3-tk")
-    print("OSX           >  brew install python-tk")
-    install = 1
+if betriebssystem != "mac":
+    try:
+        from tkinter import *
+    except ImportError as e:
+        from colorama import Fore
+        print(Fore.RED + "tkinter ist nicht installiert, bitte manuell installieren mit:")
+        print(Fore.BLUE + "Debian/Ubuntu >  sudo apt-get install -y python3-tk")
+        print("OSX           >  brew install python-tk")
+        install = 1
 
 if install == 1:
     from colorama import Fore
@@ -76,7 +77,8 @@ pygame.init()
 from pygame import mixer
 from time import sleep
 from sys import stdin, exit
-from tkinter import *
+if betriebssystem != "mac":
+    from tkinter import *
 from colorama import Fore
 from colorama import Style
 colorama.init()
@@ -667,7 +669,7 @@ class GalaxisGame(ConnectionListener):
             print("Download: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989")
             connection.Close()
             pygame.quit()
-            sleep(60)
+            sleep(15)
             sys.exit()
 
 ##### Diverses für PodSixNet
