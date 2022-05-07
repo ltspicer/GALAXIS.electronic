@@ -315,7 +315,7 @@ if nick == "-" or not nick.startswith("VorHanden!"):
         master.title("GALAXIS Spielmodus")
         Label(master, justify=LEFT, text="Keine Eingabe = Offline - 1 Spieler").grid(sticky = W, row=0, column=0)
         Label(master, justify=LEFT, text="Nickname (mind. 3 Zeichen) = Online - 2 Spieler").grid(sticky = W, row=1, column=0)
-        Label(master, justify=LEFT, text="Nickname").grid(sticky = W, row=2, column=0)
+        Label(master, justify=LEFT, text="Eingabe:").grid(sticky = W, row=2, column=0)
 
         e2 = Entry(master)
 
