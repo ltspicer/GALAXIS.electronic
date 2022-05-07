@@ -58,7 +58,7 @@ Start with double-click on galaxis.exe .
 
 I found that Windows doesn't need the starter. Just click galaxis.exe!
 
-Linux users can click the galaxy.py and select "run in terminal". The starter.sh is also superfluous here.
+Linux users can click the galaxis.py and select "run in terminal". The starter.sh is also superfluous here.
 
 Home of this game: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
 
