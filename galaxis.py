@@ -12,11 +12,11 @@
 
 
 from __future__ import print_function
-import os, sys
+import os, sys, platform
 
 
-betriebssystem = os.name
-#betriebssystem = "posix"   #### Auskommentieren, wenn OSX keine Probleme mit TKinter hat !!! ####
+betriebssystem = platform.system().lower()
+#betriebssystem = "linux"   #### Auskommentieren, wenn OSX keine Probleme mit TKinter hat !!! ####
 
 
 # Netzwerk (Server)
@@ -54,7 +54,7 @@ except ImportError as e:
     install = 1
     print("colorama ist installiert.")
 
-if betriebssystem != "mac":
+if betriebssystem != "darwin":
     try:
         from tkinter import *
     except ImportError as e:
@@ -77,7 +77,7 @@ pygame.init()
 from pygame import mixer
 from time import sleep
 from sys import stdin, exit
-if betriebssystem != "mac":
+if betriebssystem != "darwin":
     from tkinter import *
 from colorama import Fore
 from colorama import Style
@@ -310,7 +310,7 @@ except IndexError:
     pass
 
 if nick == "-" or not nick.startswith("VorHanden!"):
-    if betriebssystem != "mac":
+    if betriebssystem != "darwin":
         spielmodus = 0
 
         master = Tk()
@@ -1219,7 +1219,7 @@ if galax.Galaxis() == False:       # Spiel abgebrochen?
 
 # Spiel neu starten?
 
-if betriebssystem != "mac":
+if betriebssystem != "darwin":
     master = Tk()
     master.title("Spiel beendet")
     Label(master, justify=LEFT, text="Möchtest Du noch eine Runde spielen?").grid(row=0, column=0)
