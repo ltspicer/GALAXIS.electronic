@@ -68,7 +68,7 @@ from colorama import Fore
 from colorama import Style
 colorama.init()
 
-#### Definitionen ####
+##### Definitionen
 
 # GALAXIS Spielmodus Fenster
 def user_eingabe():
@@ -87,18 +87,6 @@ def user_eingabe():
         return
     else:
         print("Gib Deinen Nicknamen ein (mind. 3 Zeichen)!")
-
-# Fenster noch ein Spiel? j/n
-def user_antwort():
-    global antwort_jn
-    eingabe = (e2.get()).replace(" ", "") 
-    #print("Eingabe:", eingabe)
-    if eingabe != "j":
-        antwort_jn = "n"
-        master.destroy()
-    else:
-        antwort_jn = "j"
-        master.destroy()
 
 # Korrekturfaktor berechnen
 def kor(zahl):
@@ -296,8 +284,8 @@ def spielfeld_zeichnen():
         for y in range(0,7):
             element_zeichnen(x,y,GRAU)
 
-# Offline oder Netzwerk Spiel / Neu gestartet?
 
+##### Offline oder Netzwerk Spiel / Neu gestartet?
 
 class InputBox:
 
@@ -516,7 +504,7 @@ if spielmodus == 1:
     sys.exit()
 
 
-#### Netzwerk Spiel
+##### Netzwerk Spiel
 
 
 import PodSixNet
@@ -1146,17 +1134,6 @@ class GalaxisGame(ConnectionListener):
             if event.type == pygame.QUIT:
                 exit()
    
-    def Loop(self):
-        connection.Pump()
-        self.Pump()
-
-    def finished(self):
-        self.screen.blit(self.gameover if not self.didiwin else self.winningscreen, (0,0))
-        while 1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
-            pygame.display.flip()
 
 ##### Raumschiffe verstecken
 
