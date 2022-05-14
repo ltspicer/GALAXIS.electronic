@@ -16,7 +16,6 @@ Python3.x should already be pre-installed in Linux systems. However, ev pip3 has
 
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
 Missing libraries should be installed automatically on first start.
-In some cases you have to restart the game up to 3 times when you start it for the first time so that the libraries that have just been installed are taken over.
 
 Alternative for Windows users: Click galaxis.exe (no Python needed).
 
@@ -70,7 +69,6 @@ Und tkinter ( sudo apt-get install -y python3-tk ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
-In manchen Fällen muss man das Spiel beim Erststart bis zu 3 mal neu starten, damit die gerade installierten Libraries übernommen werden.
 
 Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig).
 
