@@ -64,7 +64,7 @@ if install == 1:
 # Importieren der Bibliotheken
 
 import pygame as pg
-import random, math, json, threading, socket, colorama
+import random, math, json, threading, socket
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
@@ -75,6 +75,7 @@ colorama.init()
 
 # Pfad zu mp3 und jpg holen
 pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep
+#pfad = "data" + os.sep  # Für Windows exe (compilieren)
 
 #### Definitionen ####
 
@@ -1241,6 +1242,7 @@ clock.tick(100)
 antwort_jn = "-"
 while antwort_jn == "-":
     for event in pygame.event.get():
+        pygame.display.flip()
         if event.type == MOUSEBUTTONDOWN:
             x = pygame.mouse.get_pos()[0]
             y = pygame.mouse.get_pos()[1]
