@@ -52,14 +52,19 @@ except ImportError as e:
 
 if install == 1:
     from colorama import Fore
-    print(Fore.RED + "Starte mich neu!")
-    time.sleep(5)
+    from colorama import Style
+    print(Fore.RED + "Ich starte neu!" + Style.RESET_ALL)
+    time.sleep(2)
+    sys.stdout.flush()
+    os.system(sys.argv[0])
     sys.exit()
+    quit()
+
 
 # Importieren der Bibliotheken
 
 import pygame as pg
-import pygame, random, math, json, threading, socket, colorama
+import random, math, json, threading, socket, colorama
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
@@ -68,7 +73,7 @@ from colorama import Fore
 from colorama import Style
 colorama.init()
 
-##### Definitionen
+#### Definitionen ####
 
 # GALAXIS Spielmodus Fenster
 def user_eingabe():
@@ -284,8 +289,8 @@ def spielfeld_zeichnen():
         for y in range(0,7):
             element_zeichnen(x,y,GRAU)
 
+# Offline oder Netzwerk Spiel / Neu gestartet?
 
-##### Offline oder Netzwerk Spiel / Neu gestartet?
 
 class InputBox:
 
@@ -334,7 +339,7 @@ ROT     = ( 255,   0,   0)
 WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
 
-
+restarted = False
 nick = "-"
 try:
     nick = sys.argv[1]
@@ -382,6 +387,7 @@ if nick == "-" or not nick.startswith("VorHanden-"):
 else:
     nickname = nick.replace("VorHanden-", "")
     spielmodus = 2
+    restarted = True
 
 
 # Sound initialisieren
@@ -504,13 +510,9 @@ if spielmodus == 1:
     sys.exit()
 
 
-##### Netzwerk Spiel
+#### Netzwerk Spiel
 
-
-import PodSixNet
 from PodSixNet.Connection import connection, ConnectionListener
-from _thread import *
-
 
 # Anfrage auswerten
 
@@ -709,7 +711,7 @@ class GalaxisGame(ConnectionListener):
         info = "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten."
         userinfo(info)
         self.timer_stoppen()
-        time.sleep(6)
+        time.sleep(1)
 #        exit()
         self.spielaktiv = False
         self.spiel_fertig = False
@@ -728,14 +730,14 @@ class GalaxisGame(ConnectionListener):
             sound_message()
 
     def Network_error(self, data):
-        print('error:', data['error'][1])
+        print('Fehler:', data['error'][1])
         connection.Close()
 
     def Network_connected(self, data):
         print("Du bist nun mit dem Server verbunden")
     
     def Network_disconnected(self, data):
-        print('Server disconnected')
+        print(Fore.RED + 'Sorry. Server nicht verbunden. Nach Spielneustart, Nachricht einfach nochmal eingeben!' + Style.RESET_ALL)
         exit()
 
     def Network_num_gameid(self, data):
@@ -944,9 +946,6 @@ class GalaxisGame(ConnectionListener):
         #self.initSound()
         self.turn = False
         self.owner=[[0 for x in range(6)] for y in range(6)]
-        self.me=0
-        self.otherplayer=0
-        self.didiwin=False
         self.running=False
 
         try:
@@ -1114,26 +1113,10 @@ class GalaxisGame(ConnectionListener):
         while 1:
             input = stdin.readline().rstrip("\n")
             connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
-            self.input = input
             self.Pump()
             connection.Pump()
             sleep(0.1)
-            if self.spiel_fertig == True:
-                break
 
-##### Update Interval
-
-    def update(self):
-        #sleep to make the game 60 fps
-        self.clock.tick(60)
-        connection.Pump()
-        self.Pump()
-
-        for event in pygame.event.get():
-            #quit if the quit button was pressed
-            if event.type == pygame.QUIT:
-                exit()
-   
 
 ##### Raumschiffe verstecken
 
@@ -1193,11 +1176,14 @@ class GalaxisGame(ConnectionListener):
 
 ##### Chat Thread starten
 
-    def Chat(self):
-        self.chat = True
-        self.input = ""
-        t = start_new_thread(self.InputLoop, ())
-        return
+    def Chat(self, restarted):
+        self.restarted = restarted
+#        self.input_thread = start_new_thread(self.InputLoop, ())
+        input_thread = threading.Thread(target=self.InputLoop, name="input_thread")
+        input_thread.daemon = True
+        input_thread.start()
+        self.input_thread = input_thread
+        return self.input_thread
 
 
 ##### Grundsätzliche Aufrufe
@@ -1205,7 +1191,7 @@ class GalaxisGame(ConnectionListener):
 galax=GalaxisGame(nickname) # __init__ wird hier aufgerufen
 
 # Chat starten
-galax.Chat()
+input_thread = galax.Chat(restarted)
 
 # Spielfeld erzeugen über Berechnung
 fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 31 * MULTIPLIKATOR))
