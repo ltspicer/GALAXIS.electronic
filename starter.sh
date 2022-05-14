@@ -1,4 +1,5 @@
 #!/bin/sh
 
-cd /home/daniel/galaxis.electronic   # Hier korrekten Pfad eintragen !!!
+HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
+cd ${HOME}/galaxis.electronic   # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!
 ./galaxis.py
