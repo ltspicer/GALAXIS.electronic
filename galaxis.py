@@ -56,7 +56,7 @@ if install == 1:
     print(Fore.RED + "Ich starte neu!" + Style.RESET_ALL)
     time.sleep(2)
     sys.stdout.flush()
-    os.system(sys.argv[0])
+    os.system('"' + sys.argv[0] + '"')
     sys.exit()
     quit()
 
@@ -1261,7 +1261,7 @@ if antwort_jn == "j":
     pygame.display.quit()
     pygame.quit()
     sys.stdout.flush()
-    os.system(sys.argv[0] + str(" VorHanden-"+mein_name))
+    os.system('"' + sys.argv[0] + '"' + str(" VorHanden-"+mein_name))
     sys.exit()
     quit()
 
