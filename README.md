@@ -21,6 +21,7 @@ Alternative for Windows users: Click galaxis.exe (no Python needed).
 
 In Linux, if no "run in terminal" option is available or a starter is created, run starter.sh.
 
+You can adjust the language in the file config.py (language = "en").
 
 Game Instructions:
 
@@ -42,8 +43,8 @@ Online (2 players) starts when a nickname is entered (at least 3 characters):
 Now you have to hide your 4 spaceships (right mouse button), which your opponent has to find.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
-Enter 'gegner={nickname}' to connect to an opponent (eg gegner=daniel ). Now the "found" sound is played to alert both players.
-In rare cases, the message "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." appears.
+Enter 'opponent={nickname}' to connect to an opponent (eg opponent=daniel ). Now the "found" sound is played to alert both players.
+In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
@@ -74,6 +75,8 @@ Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig).
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh ausführen.
+
+Die Sprache kann in der Datei config.py eigestellt werden (language = "de").
 
 
 Spiel Anleitung:
