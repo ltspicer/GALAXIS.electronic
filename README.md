@@ -77,7 +77,7 @@ Allerdings wird da die config Datei nicht gelesen. Darum eine galaxis_en.exe ver
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh ausführen.
 
-Die Sprache kann in der Datei config.py eigestellt werden (language = "de").
+Die Sprache kann in der Datei config.py eingestellt werden (language = "de").
 
 
 Spiel Anleitung:
