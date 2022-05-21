@@ -71,7 +71,6 @@ Installation:
 
 Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Nach der Installation einen Reboot machen!
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden ( sudo apt install python3-pip ).
-Und tkinter ( sudo apt-get install -y python3-tk ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
