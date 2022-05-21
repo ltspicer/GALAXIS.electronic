@@ -38,6 +38,10 @@ Clicking on it again removes the marking.
 For example, with a 0 there are definitely no more spaceships to be found in all 8 directions from this point. These points can be marked in black.
 The game is over when all 4 spaceships have been found.
 
+PS:
+The high score is 9 moves. If you beat them, take a screenshot and post it here:
+https://www.ltspiceusers.ch/threads/ravensburger-galaxis-electronic-1980-f%C3%BCr-pc-off-online.989/#post-2643
+
 Online (2 players) starts when a nickname is entered (at least 3 characters):
 
 Now you have to hide your 4 spaceships (right mouse button), which your opponent has to find.
@@ -95,6 +99,10 @@ Mit der linken Maustaste können Punkte, in welchen kein Raumschiff sein kann, s
 Erneuter Klick darauf entfernt die Markierung wieder.
 ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Raumschiffe mehr zufinden. Diese Punkte können schwarz markiert werden.
 Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
+
+PS:
+Die Hi-Score ist 9 Spielzüge. Falls Du diese unterbietest, mach doch einen Screenshot davon und poste den unter:
+https://www.ltspiceusers.ch/threads/ravensburger-galaxis-electronic-1980-f%C3%BCr-pc-off-online.989/#post-2643
 
 Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
 
