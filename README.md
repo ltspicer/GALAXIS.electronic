@@ -11,8 +11,11 @@ I coded the Ravensburger game "GALAXIS electronic" from 1980 for fun and as a Py
 
 Installation:
 
-Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Reboot after installation!
+Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
+It's important to set mark „Add Python 3.x to PATH“ there.
+Reboot after installation!
 Python3.x should already be pre-installed in Linux systems. However, ev pip3 has to be installed afterwards (sudo apt install python3-pip).
+
 
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
 Missing libraries should be installed automatically on first start.
@@ -69,7 +72,10 @@ Habe aus Spass und zur Python-Übung das Ravensburger Spiel "GALAXIS electronic"
 
 Installation:
 
-Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ). Nach der Installation einen Reboot machen!
+Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
+Es ist wichtig, ein Häkchen bei „Add Python 3.x to PATH“ zu setzen.
+Nach der Installation einen Reboot machen!
+
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
