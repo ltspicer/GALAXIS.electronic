@@ -24,7 +24,7 @@ Alternative for Windows users: Click galaxis.exe (no Python needed).
 
 In Linux, if no "run in terminal" option is available or a starter is created, run starter.sh.
 
-You can adjust the language in the file config.py (language = "en").
+You can adjust the language in the file config.ini (language = "en").
 
 Game Instructions:
 
@@ -85,7 +85,7 @@ Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh ausführen.
 
-Die Sprache kann in der Datei config.py eingestellt werden (language = "de").
+Die Sprache kann in der Datei config.ini eingestellt werden (language = "de").
 
 
 Spiel Anleitung:
