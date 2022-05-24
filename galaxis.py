@@ -12,7 +12,7 @@
 
 
 from __future__ import print_function
-import os, sys, time, config
+import os, sys, time, configparser
 from time import sleep
 
 # Netzwerk (Server)
@@ -20,7 +20,6 @@ from time import sleep
 HOST_ADDR = "galaxis.game-host.org"   # Hier IP des Servers
 HOST_PORT = 10002                     # Hier Port des Servers
 install = 0
-language = config.language
 
 # Import-Versuche
 
@@ -376,9 +375,12 @@ GRAU    = ( 192, 192, 192)
 ROT     = ( 255,   0,   0)
 WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
-
+config = configparser.ConfigParser()
+config.read("config.ini")
+nick = config.get("DEFAULT", "nick")
+language = config.get("DEFAULT", "language")
 restarted = False
-nick = config.nick
+
 try:
     nick = sys.argv[1]
 except IndexError:
@@ -422,7 +424,7 @@ if nick == "-" or not nick.startswith("VorHanden-"):
             clock.tick(30)
     else:
         nickname = nick
-        spielmodus = config.spielmodus
+        spielmodus = int(config.get("DEFAULT", "spielmodus"))
 
 else:
     nickname = nick.replace("VorHanden-", "")
