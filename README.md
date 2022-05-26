@@ -21,7 +21,7 @@ Unzip the zip and start galaxy.py in the resulting directory (Linux users have t
 It is important that a terminal opens!
 Missing libraries should be installed automatically on first start.
 
-Alternative for Windows users: Click galaxis.exe (no Python needed).
+Alternative for Windows users: Click galaxis.exe (no Python needed). But needed data directory & config.ini
 
 In Linux, if no "run in terminal" option is available or a starter is created, run starter.sh.
 
@@ -83,7 +83,8 @@ Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im T
 Wichtig ist, das ein Terminal auf geht!
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 
-Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig).
+Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig). Aber nötig data Verzeichnis & config.ini
+
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh ausführen.
 
