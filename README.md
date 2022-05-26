@@ -18,6 +18,7 @@ Python3.x should already be pre-installed in Linux systems. However, ev pip3 has
 
 
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
+It is important that a terminal opens!
 Missing libraries should be installed automatically on first start.
 
 Alternative for Windows users: Click galaxis.exe (no Python needed).
@@ -79,6 +80,7 @@ Nach der Installation einen Reboot machen!
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
+Wichtig ist, das ein Terminal auf geht!
 Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 
 Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig).
