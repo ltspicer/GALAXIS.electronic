@@ -26,6 +26,8 @@ In Linux, if no "run in terminal" option is available or a launcher is created, 
 Or create launcher with command line (e.g. MATE Desktop):
 mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Adjust the path!
 
+The terminal is only necessary for the online game!
+
 You can adjust the language in the config.ini (language = "en").
 The config.ini file and the data directory are always necessary.
 
@@ -90,6 +92,8 @@ Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh (den Pfad anpassen) ausführen.
 Oder Starter anlegen mit Befehlszeile (zBsp MATE Desktop):
 mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Den Pfad anpassen!
+
+Das Terminal ist nur für das online Game notwendig!
 
 Die Sprache kann in der config.ini eingestellt werden (language = "de").
 Die config.ini Datei und das Verzeichnis data sind immer notwendig.
