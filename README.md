@@ -5,6 +5,7 @@ Ravensburger game from 1980
 ---------------------
 
 Read the file Anleitung.txt
+
 Lies die Datei Anleitung.txt
 
 ---------------------
