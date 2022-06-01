@@ -4,29 +4,10 @@ Ravensburger game from 1980
 
 ---------------------
 
-English translator version:
+Read the file Anleitung.txt
+Lies die Datei Anleitung.txt
 
-
-I coded the Ravensburger game "GALAXIS electronic" from 1980 for fun and as a Python exercise.
-
-Installation:
-
-Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
-It's important to set mark „Add Python 3.x to PATH“ there.
-Reboot after installation!
-Python3.x should already be pre-installed in Linux systems. However, ev pip3 has to be installed afterwards (sudo apt install python3-pip).
-
-
-Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
-It is important that a terminal opens!
-Missing libraries should be installed automatically on first start.
-
-Alternative for Windows users: Click galaxis.exe (no Python needed). But needed data directory & config.ini
-
-In Linux, if no "run in terminal" option is available or a starter is created, run starter.sh.
-
-You can adjust the language in the config.ini (language = en).
-The config.ini file and the data directory are required for each variant.
+---------------------
 
 Game Instructions:
 
@@ -57,44 +38,9 @@ In rare cases, the message "Your opponent has disappeared from the network. Plea
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
-
-Other suggestions and bug reports are welcome.
-
-Have fun
-Daniel
-
-
-Home of this game: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
-
-----------------------------------------
-
-Original Text deutsch:
-
-Habe aus Spass und zur Python-Übung das Ravensburger Spiel "GALAXIS electronic" von 1980 gecodet.
-
-Installation:
-
-Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
-Es ist wichtig, ein Häkchen bei „Add Python 3.x to PATH“ zu setzen.
-Nach der Installation einen Reboot machen!
-
-In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da ev pip3 nachinstalliert werden ( sudo apt install python3-pip ).
-
-Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
-Wichtig ist, das ein Terminal auf geht!
-Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
-
-Alternative für Windows Benutzer: Klicke galaxis.exe (keine Python Installation notwendig). Aber nötig data Verzeichnis & config.ini
-
-
-In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh ausführen.
-
-Die Sprache kann in der config.ini eingestellt werden (language = de).
-Die Datei config.ini und das Verzeichnis data sind bei jeder Variante notwendig.
-
+------------------
 
 Spiel Anleitung:
-
 
 Offline (1 Spieler) startet, wenn KEIN Nickname eingegeben wird:
 
@@ -122,14 +68,3 @@ Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
-
-
-Weitere Anregungen und Bugreports sind willkommen.
-
-
-Viel Spass
-
-Daniel
-
-
-Dieses Spiel ist hier zuhause: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
