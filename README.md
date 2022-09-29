@@ -39,6 +39,8 @@ In rare cases, the message "Your opponent has disappeared from the network. Plea
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
+You can also play against the server. This opponent is called "robot" ! So enter "opponent=robot" in the chat.
+
 ------------------
 
 Spiel Anleitung:
@@ -69,3 +71,5 @@ Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
+
+Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
