@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.1    #
+#  GALAXIS electronic V3.2    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -375,6 +375,8 @@ GRAU    = ( 192, 192, 192)
 ROT     = ( 255,   0,   0)
 WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
+
+# config.ini lesen
 config = configparser.ConfigParser()
 config.read("config.ini")
 nick = config.get("DEFAULT", "nick")
@@ -753,15 +755,23 @@ class GalaxisGame(ConnectionListener):
                 print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
                 print("oder")
                 print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
+                print("oder")
+                print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
+                print(" ")
+                print("Fenster schliesst in 20 Sekunden.")
             else:
                 print("Please use new game version." + Style.RESET_ALL)
                 print("Download at")
                 print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
                 print("or")
                 print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
+                print("or")
+                print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
+                print(" ")
+                print("Window closes in 20 seconds.")
             connection.Close()
             pygame.quit()
-            sleep(15)
+            sleep(20)
             sys.exit()
 
 ##### Diverses für PodSixNet
@@ -788,7 +798,18 @@ class GalaxisGame(ConnectionListener):
             self.old_string = string
             if self.running == False:
                 sound_message()
-    
+
+    def Network_busyplayers(self, data):
+        string = [p for p in data['players'] if p != "-"]
+        if self.old_string2 != string:
+            if language == "de":
+                print("Besetzte Spieler: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["keine"])  + Style.RESET_ALL)
+            else:
+                print("Occupied players: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["none"])  + Style.RESET_ALL)
+            self.old_string2 = string
+            if self.running == False:
+                sound_message()
+
     def Network_message(self, data):
         print(Fore.BLUE + Style.BRIGHT + data['who'] + ": " + data['message']  + Style.RESET_ALL)
         if self.running == False:
@@ -854,9 +875,11 @@ class GalaxisGame(ConnectionListener):
         gegnerbereit = False
 
         if language == "de":
-            print("Anzahl Spieler empfangen:", anzahl_spieler, "Spieler:", num, "Bereit?", bereit, "Gegner bereit?", gegnerbereit, "Spieler bereit?", self.spielerbereit)
+            pass
+            #print("Anzahl Spieler empfangen:", anzahl_spieler, "| Spieler:", num, "| Bereit?", bereit, "| Gegner bereit?", gegnerbereit, "| Spieler bereit?", self.spielerbereit)
         else:
-            print("Number of players received:", anzahl_spieler, "Player:", num, "Ready?", bereit, "Opponent ready?", gegnerbereit, "Player ready?", self.spielerbereit)
+            pass
+            #print("Number of players received:", anzahl_spieler, "| Player:", num, "| Ready?", bereit, "| Opponent ready?", gegnerbereit, "| Player ready?", self.spielerbereit)
         if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit == True:
             self.spielaktiv = True
             self.running = True
@@ -1031,9 +1054,10 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.1                  #### Hier die Client-Version!!!!
+        self.version = 3.2                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
+        self.old_string2 = ""
         self.spiel_fertig = False
 
 
@@ -1056,7 +1080,7 @@ class GalaxisGame(ConnectionListener):
         print("Galaxis Client Version", self.version, "gestartet / started")
 
 
-##### Die Game Klasse by self
+##### Die Game Klasse
 
 
     def Galaxis(self):
