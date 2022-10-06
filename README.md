@@ -40,6 +40,7 @@ This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
 You can also play against the server. This opponent is called "robot" ! So enter "opponent=robot" in the chat.
+The roboteasy is a bit easier to defeat.
 
 ------------------
 
@@ -73,3 +74,4 @@ Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
 Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
+Der roboteasy ist etwas einfacher zu besiegen.
