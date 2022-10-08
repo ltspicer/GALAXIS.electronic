@@ -53,7 +53,7 @@ except ImportError as e:
 if install == 1:
     from colorama import Fore
     from colorama import Style
-    print(Fore.RED + "Ich starte neu!" + Style.RESET_ALL)
+    print("Ich starte neu!")
     time.sleep(2)
     sys.stdout.flush()
     os.system('"' + sys.argv[0] + '"')
@@ -841,6 +841,21 @@ class GalaxisGame(ConnectionListener):
         self.userid=data["userid"]
         self.gegner=data["nickgegner"]
         gegner_bereit = data["bereit"]
+
+        if self.mein_name == "robot" or self.mein_name == "roboteasy":
+            if language == "de":
+                print(Fore.RED + "Dieser Nickname ist nicht erlaubt!" + Style.RESET_ALL)
+            else:
+                print(Fore.RED + "This nickname is not allowed!" + Style.RESET_ALL)
+            time.sleep(6)
+            pygame.display.quit()
+            pygame.quit()
+            sys.stdout.flush()
+            os.system('"' + sys.argv[0] + '" -')
+            sys.exit()
+            quit()
+
+
         if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
             if language == "de":
                 print(Fore.RED + "Dein gewählter Nickname ist bereits vergeben!" + Style.RESET_ALL)
