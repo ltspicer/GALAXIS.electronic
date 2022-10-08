@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.2    #
+#  GALAXIS electronic V3.3    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -847,14 +847,11 @@ class GalaxisGame(ConnectionListener):
                 print(Fore.RED + "Dieser Nickname ist nicht erlaubt!" + Style.RESET_ALL)
             else:
                 print(Fore.RED + "This nickname is not allowed!" + Style.RESET_ALL)
-            time.sleep(6)
+            time.sleep(8)
             pygame.display.quit()
             pygame.quit()
-            sys.stdout.flush()
-            os.system('"' + sys.argv[0] + '" -')
             sys.exit()
             quit()
-
 
         if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-":
             if language == "de":
@@ -1069,7 +1066,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.2                  #### Hier die Client-Version!!!!
+        self.version = 3.3                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
