@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.4    #
+#  GALAXIS electronic V3.5    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -15,52 +15,63 @@ from __future__ import print_function
 import os, sys, time, configparser, hashlib
 from time import sleep
 
-# Netzwerk (Server)
 
-windows_compilieren = False
-HOST_ADDR = "galaxis.game-host.org"   # Hier IP des Servers
-HOST_PORT = 10002                     # Hier Port des Servers
+# config.ini lesen
+config = configparser.ConfigParser()
+config.read("config.ini")
+nick = config.get("DEFAULT", "nick")
+language = config.get("DEFAULT", "language")
+HOST_ADDR = config.get("DEFAULT", "hostaddr")
+HOST_PORT = int(config.get("DEFAULT", "hostport"))
+
+winexe = 0
+if sys.argv[0].endswith(".exe") == True:
+    winexe = 1
+
 install = 0
+restarted = False
 
 # Import-Versuche
 
-try:
+if winexe == 0:
+    try:
+        import pygame
+    except ImportError as e:
+        print("pygame ist nicht installiert, wird installiert!")
+        import subprocess, sys
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
+        install = 1
+        print("Pygame ist installiert.")
+
+    try:
+        import PodSixNet
+    except ImportError as e:
+        print("PodSixNet ist nicht installiert, wird installiert!")
+        import subprocess, sys
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
+        install = 1
+        print("PodSixNet ist installiert.")
+
+    try:
+        import colorama
+    except ImportError as e:
+        print("colorama ist nicht installiert, wird installiert!")
+        import subprocess, sys
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
+        install = 1
+        print("colorama ist installiert.")
+
+    if install == 1:
+        print("Ich starte neu!")
+        time.sleep(2)
+        sys.stdout.flush()
+        os.system('"' + sys.argv[0] + '"')
+        sys.exit()
+        quit()
+else:
     import pygame
-except ImportError as e:
-    print("pygame ist nicht installiert, wird installiert!")
-    import subprocess, sys
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
-    install = 1
-    print("Pygame ist installiert.")
-
-try:
     import PodSixNet
-except ImportError as e:
-    print("PodSixNet ist nicht installiert, wird installiert!")
-    import subprocess, sys
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
-    install = 1
-    print("PodSixNet ist installiert.")
-
-try:
     import colorama
-except ImportError as e:
-    print("colorama ist nicht installiert, wird installiert!")
-    import subprocess, sys
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
-    install = 1
-    print("colorama ist installiert.")
-
-if install == 1:
-    from colorama import Fore
-    from colorama import Style
-    print("Ich starte neu!")
-    time.sleep(2)
-    sys.stdout.flush()
-    os.system('"' + sys.argv[0] + '"')
-    sys.exit()
-    quit()
-
 
 # Importieren der Bibliotheken
 
@@ -76,10 +87,10 @@ colorama.init()
 
 # Pfad zu mp3 und jpg holen
 
-if windows_compilieren == False:
+if winexe == 0:
     pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep
 else:
-    pfad = "data" + os.sep  # Für Windows exe (compilieren)
+    pfad = "data" + os.sep  # Bei Windows-exe
 
 #### Definitionen ####
 
@@ -380,12 +391,6 @@ ROT     = ( 255,   0,   0)
 WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
 
-# config.ini lesen
-config = configparser.ConfigParser()
-config.read("config.ini")
-nick = config.get("DEFAULT", "nick")
-language = config.get("DEFAULT", "language")
-restarted = False
 
 try:
     nick = sys.argv[1]
@@ -700,13 +705,12 @@ def userinfo(info):
     fenster.blit(imag, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.44)*5.4+0.00*MULTIPLIKATOR]))
     pygame.display.flip()
 
-if windows_compilieren == False:
-    def md5(file1):
-        md5h = hashlib.md5()
-        with open(file1, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
-                md5h.update(chunk)
-        return md5h.hexdigest()
+def md5(file1):
+    md5h = hashlib.md5()
+    with open(file1, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            md5h.update(chunk)
+    return md5h.hexdigest()
 
 ##### Das Spiel
 
@@ -757,7 +761,6 @@ class GalaxisGame(ConnectionListener):
 
     def Network_version(self, data):
         version = data["version"]
-        checksumme = data["checksumme"]
         version = int(float(version) * 10)/10
         if version > self.version:
             print(Fore.RED + "Server Version:", version, "/ Client Version:", self.version)
@@ -785,34 +788,45 @@ class GalaxisGame(ConnectionListener):
             pygame.quit()
             sleep(20)
             sys.exit()
-        if windows_compilieren == False:
-            if md5("galaxis.py") != checksumme:
-                if language == "de":
-                    print(Fore.RED + "Der Quellcode wurde verändert. Bitte aktuelle Version runterladen!" + Style.RESET_ALL)
-                    print("Download bei")
-                    print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
-                    print("oder")
-                    print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
-                    print("oder")
-                    print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
-                    print(" ")
-                    print("Fenster schliesst in 20 Sekunden.")
-                else:
-                    print(Fore.RED + "The source code was modified manually. Please download current version!" + Style.RESET_ALL)
-                    print("Download at")
-                    print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
-                    print("or")
-                    print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
-                    print("or")
-                    print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
-                    print(" ")
-                    print("Window closes in 20 seconds.")
-                connection.Close()
-                pygame.quit()
-                sleep(20)
-                sys.exit()
+
+
+        if winexe == 0:
+            checksumme = md5("galaxis.py")
+        else:
+            checksumme = md5("galaxis.exe")
+
+        self.Send({"action": "checksumme", "summe": checksumme, "gameid": self.gameid, "userid": self.userid})
+
 
 ##### Diverses für PodSixNet
+
+    def Network_checksum(self, data):
+        status=data["status"]
+        if status == False:
+            if language == "de":
+                print(Fore.RED + "Der Quellcode wurde verändert. Bitte aktuelle Version runterladen!" + Style.RESET_ALL)
+                print("Download bei")
+                print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
+                print("oder")
+                print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
+                print("oder")
+                print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
+                print(" ")
+                print("Fenster schliesst in 20 Sekunden.")
+            else:
+                print(Fore.RED + "The source code was modified manually. Please download current version!" + Style.RESET_ALL)
+                print("Download at")
+                print(Fore.BLUE + Style.BRIGHT + "https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989" + Style.RESET_ALL)
+                print("or")
+                print(Fore.BLUE + Style.BRIGHT + "https://github.com/ltspicer/GALAXIS.electronic" + Style.RESET_ALL)
+                print("or")
+                print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
+                print(" ")
+                print("Window closes in 20 seconds.")
+            connection.Close()
+            pygame.quit()
+            sleep(20)
+            sys.exit()
 
     def Network_close(self, data):
         if language == "de":
@@ -925,11 +939,12 @@ class GalaxisGame(ConnectionListener):
         gegnerbereit = False
 
         if language == "de":
-            pass
             #print("Anzahl Spieler empfangen:", anzahl_spieler, "| Spieler:", num, "| Bereit?", bereit, "| Gegner bereit?", gegnerbereit, "| Spieler bereit?", self.spielerbereit)
-        else:
             pass
+        else:
             #print("Number of players received:", anzahl_spieler, "| Player:", num, "| Ready?", bereit, "| Opponent ready?", gegnerbereit, "| Player ready?", self.spielerbereit)
+            pass
+
         if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit == True:
             self.spielaktiv = True
             self.running = True
@@ -1104,7 +1119,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.4                  #### Hier die Client-Version!!!!
+        self.version = 3.5                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1366,7 +1381,6 @@ class GalaxisGame(ConnectionListener):
 
     def Chat(self, restarted):
         self.restarted = restarted
-#        self.input_thread = start_new_thread(self.InputLoop, ())
         input_thread = threading.Thread(target=self.InputLoop, name="input_thread")
         input_thread.daemon = True
         input_thread.start()
