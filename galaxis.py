@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.5    #
+#  GALAXIS electronic V3.6    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -84,6 +84,10 @@ from sys import stdin, exit
 from colorama import Fore
 from colorama import Style
 colorama.init()
+
+# Zeichensatz initialisieren
+pygame.font.init()
+font = pygame.font.SysFont(None, 27)
 
 # Pfad zu mp3 und jpg holen
 
@@ -446,10 +450,6 @@ else:
 # Sound initialisieren
 mixer.init()
 mixer.music.set_volume(0.7)
-
-# Zeichensatz initialisieren
-pygame.font.init()
-font = pygame.font.SysFont(None, 27)
 
 # Multiplikator
 MULTIPLIKATOR = 20
@@ -1119,7 +1119,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.5                  #### Hier die Client-Version!!!!
+        self.version = 3.6                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1437,7 +1437,10 @@ if galax.Galaxis() == False:       # Spiel abgebrochen?
     else:
         print(Fore.RED + "Game aborted" + Style.RESET_ALL)
 
+connection.Send({"action": "UserSchliessen"})
+time.sleep(2)
 connection.Close()
+
 #### Spiel neu starten?
 
 ja_nein_zeichnen()
