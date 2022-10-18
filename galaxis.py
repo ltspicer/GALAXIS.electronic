@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.7    #
+#  GALAXIS electronic V3.8    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -940,6 +940,13 @@ class GalaxisGame(ConnectionListener):
 
 ##### Spielbezogene Funktionen
 
+    def raumschiff_loeschen(self):
+        spielfeld_zeichnen()
+        for ypos in range(7):
+            for xpos in range(9):
+                if self.galaxis[ypos][xpos] == 5:
+                    raumschiff_zeichnen(xpos,ypos,WEISS)
+
     def wer_ist_am_zug(self):
         if self.turn==True:
             if language == "de":
@@ -1101,7 +1108,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.7                  #### Hier die Client-Version!!!!
+        self.version = 3.8                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1348,7 +1355,7 @@ class GalaxisGame(ConnectionListener):
 
 ##### Raumschiffe verstecken
 
-    def Verstecken(self):
+    def Verstecken(self, info):
         anzahl_versteckt = 0
         i = 0
         while anzahl_versteckt < 4:
@@ -1385,8 +1392,9 @@ class GalaxisGame(ConnectionListener):
                         anzahl_versteckt+=1
 
                     elif mouse_presses[2] or mouse_presses[0] and self.galaxis[ypos][xpos]==5:
-                        raumschiff_zeichnen(xpos,ypos,GRAU)
                         self.galaxis[ypos][xpos] = 6
+                        self.raumschiff_loeschen()
+                        userinfo(info)
                         anzahl_versteckt-=1
                 connection.Pump()
                 self.Pump()
@@ -1461,7 +1469,7 @@ while True:
         info = mein_name + ", hide your spaceships (right mouse button)"
     userinfo(info)
 
-    if galax.Verstecken() == False:
+    if galax.Verstecken(info) == False:
         pygame.quit()
         sys.exit()
 
