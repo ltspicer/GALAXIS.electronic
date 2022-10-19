@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.0    #
+#  GALAXIS electronic V4.1    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -162,8 +162,8 @@ def ja_nein_zeichnen():
     if language == "de":
         imag = font.render("Möchtest Du noch eine Runde spielen?", True, ROT)
         fenster.blit(imag, ([kor(2.0)*4+1.90*MULTIPLIKATOR, kor(4.5)*4+2.05*MULTIPLIKATOR]))
-        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+1*MULTIPLIKATOR, kor(5.5)*4+1*MULTIPLIKATOR,kor(3),kor(3)], 0)
-        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+1*MULTIPLIKATOR, kor(5.5)*4+1*MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         img = font.render(str("Ja"), True, SCHWARZ)
         fenster.blit(img, ([kor(3)*4+2.00*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
         img = font.render(str("Nein"), True, SCHWARZ)
@@ -171,8 +171,8 @@ def ja_nein_zeichnen():
     else:
         imag = font.render("Would you like to play another round?", True, ROT)
         fenster.blit(imag, ([kor(2.0)*4+1.90*MULTIPLIKATOR, kor(4.5)*4+2.05*MULTIPLIKATOR]))
-        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+1*MULTIPLIKATOR, kor(5.5)*4+1*MULTIPLIKATOR,kor(3),kor(3)], 0)
-        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+1*MULTIPLIKATOR, kor(5.5)*4+1*MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         img = font.render(str("Yes"), True, SCHWARZ)
         fenster.blit(img, ([kor(3)*4+1.75*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
         img = font.render(str("No"), True, SCHWARZ)
@@ -682,8 +682,8 @@ def userinfo(info):
         if language == "en":
             string = "6 seconds left"
     imag = font.render(string, True, farbe)
-    pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.40)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
-    fenster.blit(imag, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.44)*5.4+0.00*MULTIPLIKATOR]))
+    pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(29.13),kor(60),kor(1.4)], 0)
+    fenster.blit(imag, ([kor(2.6), kor(29.376)]))
     pygame.display.flip()
 
 def userinfotext(verfugbar, besetzt):
@@ -697,11 +697,11 @@ def userinfotext(verfugbar, besetzt):
         verf = font2.render("Available players: " + verfugbar, True, farbe)
         bese = font2.render("Occupied players: " + besetzt, True, farbe)
     if verfugbar != "-":
-        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.7)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
-        fenster.blit(verf, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.74)*5.4+0.00*MULTIPLIKATOR]))
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(30.85),kor(31.1),kor(1.2)], 0)
+        fenster.blit(verf, ([kor(2.6)*1, kor(5.74)*5.4]))
     if besetzt != "-":
-        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.88)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
-        fenster.blit(bese, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.92)*5.4+0.00*MULTIPLIKATOR]))
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(31.822),kor(31.1),kor(1.2)], 0)
+        fenster.blit(bese, ([kor(2.6)*1, kor(5.92)*5.4]))
 
     pygame.display.flip()
 
@@ -896,7 +896,7 @@ class GalaxisGame(ConnectionListener):
         self.gameid=data["gameid"]
         self.userid=data["userid"]
         self.gegner=data["nickgegner"]
-        gegner_bereit = data["bereit"]
+        self.gegner_bereit = data["bereit"]
 
         if self.mein_name == "robot" or self.mein_name == "roboteasy":
             if language == "de":
@@ -920,14 +920,14 @@ class GalaxisGame(ConnectionListener):
                 print(Fore.RED + "Your new nickname is", self.mein_name + Style.RESET_ALL)
 
         restarted = False
-        if gegner_bereit == True and self.spielerbereit == True:
+        if self.gegner_bereit == True and self.spielerbereit == True:
             self.spielaktiv = True
             self.running = True
         if self.num == 0:
             self.turn = True
         else:
             self.turn = False
-        if gegner_bereit == True:
+        if self.gegner_bereit == True:
             print("Gameid:", self.gameid, ", Userid:", self.userid)
             if language == "de":
                 print("Spieler 0 beginnt. Du bist Spieler", self.num)
@@ -1132,7 +1132,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.0                  #### Hier die Client-Version!!!!
+        self.version = 4.1                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1209,14 +1209,22 @@ class GalaxisGame(ConnectionListener):
             time.sleep(5)
             sys.exit()
 
-##### Die Game Klasse
+    def Warten(self):
+        i = 0
+        while True:
+            self.Pump()
+            connection.Pump()
+            time.sleep(0.01)
+            i+=1
+            if i == 200:
+                return self.gegner_verbunden
 
-
-    def Galaxis(self, mein_name, message, gegner_verbunden):
-        self.gegner_verbunden = gegner_verbunden
-        self.Send({"action": "spieler_bereit", "num": self.num, "gameid": self.gameid, "userid": self.userid, "bereit": self.spielerbereit})
-        self.Send({"action": "message", "message": message, "gameid": self.gameid, "user": mein_name})
-
+##### Game Hauptschleife
+    def Galaxis(self):
+        self.spielzuege = 0
+        self.alarm = 0
+        self.umschalt_warnung = False
+        self.timer_stoppen()
         i = 0
         while not self.running:
             self.Pump()
@@ -1227,45 +1235,23 @@ class GalaxisGame(ConnectionListener):
                 i = 0
                 self.ping_remote(0, 0, 7, self.num, self.gameid)   # Sag dem Gegner, dass er nichts machen soll. Timeout verhindern
             pygame.display.flip()
-
+        sound_gefunden()
+        while self.spielaktiv:
             for event in pygame.event.get():
-                if self.gegner_verbunden == False:
-                    self.spiel_fertig = False
-                    self.spielaktiv = False
-                    return self.spiel_fertig, self.gegner_verbunden
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.spielaktiv = False
-                    self.spiel_fertig = False
                     if language == "de":
                         print("Spieler hat beendet")
                     else:
                         print("Player has finished")
-                    return self.spiel_fertig, self.gegner_verbunden
-                if event.type == QUIT:
-                    self.spiel_fertig = False
-                    self.spielaktiv = False
-                    return self.spiel_fertig, self.gegner_verbunden
-
-        sound_gefunden()
-        self.spielzuege = 0
-        self.alarm = 0
-        self.umschalt_warnung = False
-
-##### Game Hauptschleife
-        while self.spielaktiv:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    #print("Spieler hat beendet")
-                    self.timer_stoppen()
-                    self.spiel_fertig = False
-                    return self.spiel_fertig, self.gegner_verbunden
+                    self.spiel_fertig = True
+                    return self.spielaktiv
 
                 if event.type == QUIT:
-                    self.timer_stoppen()
                     pygame.quit()
-                    self.spiel_fertig = False
-                    return self.spiel_fertig, self.gegner_verbunden
-
+                    self.spielaktiv = False
+                    self.spiel_fertig = True
+                    return self.spielaktiv
                 elif event.type == MOUSEBUTTONDOWN:
                     x = pygame.mouse.get_pos()[0]
                     y = pygame.mouse.get_pos()[1]
@@ -1330,10 +1316,6 @@ class GalaxisGame(ConnectionListener):
                             time.sleep(3.7)
                             sound_verraten()
                         #time.sleep(4.9)
-            if self.gegner_verbunden == False:
-                self.spiel_fertig = True
-                return self.spiel_fertig, self.gegner_verbunden
-                
                 
             self.Pump()
             connection.Pump()
@@ -1374,7 +1356,7 @@ class GalaxisGame(ConnectionListener):
             if self.spiel_fertig == True:
                 self.spielaktiv = False
 
-        return self.spiel_fertig, self.gegner_verbunden
+        return self.spiel_fertig
 
 ##### Der Terminal/Chat Thread
 
@@ -1453,14 +1435,16 @@ class GalaxisGame(ConnectionListener):
         return True
 
     def GegnerWaehlen(self):
+        self.gegner_verbunden = True
+        self.Send({"action": "spieler_bereit", "num": self.num, "gameid": self.gameid, "userid": self.userid, "bereit": self.spielerbereit})
         if language == "de":
             text = "Wähle einen Gegner:"
         else:
             text = "Choose an opponent:"
         text = font2.render(text, True, (255, 0, 0))
-        pygame.draw.rect(fenster, SCHWARZ, [kor(5.5)*1+12*MULTIPLIKATOR, kor(29.25),kor(30),kor(1.2)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(17.5), kor(29.25),kor(30),kor(1.2)], 0)
         fenster.blit(text, ([kor(17.6), kor(29.5)]))
-        pygame.draw.rect(fenster, SCHWARZ, [kor(25.5), kor(29.25),kor(30),kor(1.2)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(25.5), kor(29.25),kor(10.3),kor(1.2)], 1)
         pygame.display.flip()
         while True:
@@ -1477,7 +1461,10 @@ class GalaxisGame(ConnectionListener):
                         text = ""
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            run = False
+                            if len(text) > 2 or len(text) == 0:
+                                run = False
+                                if len(text) == 0:
+                                    return False, False
                         elif event.key == pygame.K_BACKSPACE:
                             text =  text[:-1]
                         else:
@@ -1488,11 +1475,11 @@ class GalaxisGame(ConnectionListener):
                     connection.Pump()
                     self.Pump()
                     pygame.display.flip()
-            pygame.draw.rect(fenster, SCHWARZ, [kor(25.5), kor(29.25),kor(30),kor(1.2)], 0)
-            if len(text) > 2:
-                return "gegner=" + text
-            else:
-                return False
+                    if self.running == True:
+                        return False, True
+            pygame.draw.rect(fenster, SCHWARZ, [kor(17.5), kor(29.25),kor(30),kor(1.2)], 0)
+            pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
+            return "gegner=" + text, True
 
 
 ##### Chat Thread starten
@@ -1556,11 +1543,9 @@ while True:
     gegner_verbunden = True
     while gegner_verbunden:
         while erfolg == False:
-            erfolg = galax.GegnerWaehlen()          # 'False' falls Länge Nick gewählter Gegner < 3, sonst gegner=nickname Gegner.
-
-
-            #### Spiel starten
-
+            gegner, erfolg = galax.GegnerWaehlen()          # False   False = Abgebrochen
+                                                            # False   True  = Von anderem Spieler aufgerufen
+                                                            # !=False True  = selber Gegner ausgewählt
             if erfolg == False:
                 if language == "de":
                     print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
@@ -1568,24 +1553,25 @@ while True:
                     print(Fore.RED + "Game aborted" + Style.RESET_ALL)
                 gegner_verbunden = False
                 break
-            spiel_fertig, gegner_verbunden = galax.Galaxis(mein_name, erfolg, gegner_verbunden)
-            if spiel_fertig == False and gegner_verbunden == True:          # Wenn Spiel abgebrochen:
-                if language == "de":
-                    print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
-                else:
-                    print(Fore.RED + "Game aborted" + Style.RESET_ALL)
-                gegner_verbunden = False
+            if gegner == False and erfolg == True:
                 break
-            if spiel_fertig == False and gegner_verbunden == False:         # Wenn Gegner nicht verbunden:
-                print("Gegner nicht verbunden!")
-                erfolg = False
-                gegner_verbunden = True
-                break
-            if spiel_fertig == True and gegner_verbunden == True:           # Wenn Spiel fertig:
-                gegner_verbunden = False
-                break
-            if spiel_fertig == True and gegner_verbunden == False:          # Wenn Spiel fertig und Gegner nicht verbunden:
-                break
+            if gegner != False and erfolg == True:
+                connection.Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
+            erfolg = galax.Warten()
+
+        #### Spiel starten
+
+        spiel_fertig = galax.Galaxis()
+        if spiel_fertig == False:                                       # Wenn Spiel abgebrochen:
+            if language == "de":
+                print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
+            else:
+                print(Fore.RED + "Game aborted" + Style.RESET_ALL)
+            gegner_verbunden = False
+            break
+        if spiel_fertig == True:                                        # Wenn Spiel fertig:
+            gegner_verbunden = False
+            break
 
     #### Spiel neu starten?
 
