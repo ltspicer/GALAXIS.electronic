@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V3.8    #
+#  GALAXIS electronic V4.0    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -88,6 +88,7 @@ colorama.init()
 # Zeichensatz initialisieren
 pygame.font.init()
 font = pygame.font.SysFont(None, 27)
+font2 = pygame.font.SysFont(None, 21)
 
 # Pfad zu mp3 und jpg holen
 
@@ -381,7 +382,6 @@ except IndexError:
 
 nick = nick.replace(" ", "")
 
-#if nick == "-" or not nick.startswith("VorHanden-"):
 if nick == "-":
     if len(nick) < 3:
         pg.init()
@@ -686,6 +686,26 @@ def userinfo(info):
     fenster.blit(imag, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.44)*5.4+0.00*MULTIPLIKATOR]))
     pygame.display.flip()
 
+def userinfotext(verfugbar, besetzt):
+    farbe = BLAU
+    verfugbar = ",".join(verfugbar)
+    besetzt = ",".join(besetzt)
+    if language == "de":
+        verf = font2.render("Verfügbare Spieler: " + verfugbar, True, farbe)
+        bese = font2.render("Besetzte Spieler: " + besetzt, True, farbe)
+    else:
+        verf = font2.render("Available players: " + verfugbar, True, farbe)
+        bese = font2.render("Occupied players: " + besetzt, True, farbe)
+    if verfugbar != "-":
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.7)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
+        fenster.blit(verf, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.74)*5.4+0.00*MULTIPLIKATOR]))
+    if besetzt != "-":
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5)*1+0.00*MULTIPLIKATOR, kor(5.88)*5.4+0.07*MULTIPLIKATOR,kor(31.1),kor(1.2)], 0)
+        fenster.blit(bese, ([kor(2.6)*1+0.00*MULTIPLIKATOR, kor(5.92)*5.4+0.00*MULTIPLIKATOR]))
+
+    pygame.display.flip()
+
+
 def md5(file1):
     md5h = hashlib.md5()
     with open(file1, "rb") as f:
@@ -701,12 +721,10 @@ class GalaxisGame(ConnectionListener):
 ##### Warn-Timer #####
 
     def timer_starten(self):
-#        print("timer_starten ausgeführt, threading.active_count()=", threading.active_count())
         if threading.active_count() < 3 and self.spielaktiv == True:
             self.timer = threading.Timer(54.0, self.timer54)
             self.timer.daemon = True
             self.timer.start()
-#            print("timer_starten ausgeführt, threading.active_count()=", threading.active_count())
 
 
     def timer_stoppen(self):
@@ -824,6 +842,7 @@ class GalaxisGame(ConnectionListener):
     def Network_players(self, data):
         string = [p for p in data['players'] if p != self.mein_name and p != "-"]
         if self.old_string != string:
+            userinfotext(string, "-")
             if language == "de":
                 print("Verfügbare Spieler: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["keine"])  + Style.RESET_ALL)
             else:
@@ -835,6 +854,7 @@ class GalaxisGame(ConnectionListener):
     def Network_busyplayers(self, data):
         string = [p for p in data['players'] if p != "-"]
         if self.old_string2 != string:
+            userinfotext("-", string)
             if language == "de":
                 print("Besetzte Spieler: " + Fore.BLUE + Style.BRIGHT + ", ".join(string if len(string) > 0 else ["keine"])  + Style.RESET_ALL)
             else:
@@ -845,8 +865,11 @@ class GalaxisGame(ConnectionListener):
 
     def Network_message(self, data):
         print(Fore.BLUE + Style.BRIGHT + data['who'] + ": " + data['message']  + Style.RESET_ALL)
+        pygame.display.flip()
         if self.running == False:
             sound_message()
+        if data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") and data["who"] == self.mein_name:
+            self.gegner_verbunden = False
 
     def Network_error(self, data):
         print('Fehler/error:', data['error'][1])
@@ -946,6 +969,7 @@ class GalaxisGame(ConnectionListener):
             for xpos in range(9):
                 if self.galaxis[ypos][xpos] == 5:
                     raumschiff_zeichnen(xpos,ypos,WEISS)
+
 
     def wer_ist_am_zug(self):
         if self.turn==True:
@@ -1108,7 +1132,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 3.8                  #### Hier die Client-Version!!!!
+        self.version = 4.0                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1188,9 +1212,11 @@ class GalaxisGame(ConnectionListener):
 ##### Die Game Klasse
 
 
-    def Galaxis(self):
-
+    def Galaxis(self, mein_name, message, gegner_verbunden):
+        self.gegner_verbunden = gegner_verbunden
         self.Send({"action": "spieler_bereit", "num": self.num, "gameid": self.gameid, "userid": self.userid, "bereit": self.spielerbereit})
+        self.Send({"action": "message", "message": message, "gameid": self.gameid, "user": mein_name})
+
         i = 0
         while not self.running:
             self.Pump()
@@ -1203,17 +1229,22 @@ class GalaxisGame(ConnectionListener):
             pygame.display.flip()
 
             for event in pygame.event.get():
+                if self.gegner_verbunden == False:
+                    self.spiel_fertig = False
+                    self.spielaktiv = False
+                    return self.spiel_fertig, self.gegner_verbunden
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.spielaktiv = False
-                    pygame.quit()
+                    self.spiel_fertig = False
                     if language == "de":
                         print("Spieler hat beendet")
                     else:
                         print("Player has finished")
+                    return self.spiel_fertig, self.gegner_verbunden
                 if event.type == QUIT:
-                    pygame.quit()
+                    self.spiel_fertig = False
                     self.spielaktiv = False
-
+                    return self.spiel_fertig, self.gegner_verbunden
 
         sound_gefunden()
         self.spielzuege = 0
@@ -1224,18 +1255,16 @@ class GalaxisGame(ConnectionListener):
         while self.spielaktiv:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.spielaktiv = False
                     #print("Spieler hat beendet")
                     self.timer_stoppen()
-                    self.spiel_fertig = True
-                    return self.spiel_fertig
+                    self.spiel_fertig = False
+                    return self.spiel_fertig, self.gegner_verbunden
 
                 if event.type == QUIT:
                     self.timer_stoppen()
                     pygame.quit()
-                    self.spielaktiv = False
-                    self.spiel_fertig = True
-                    return self.spiel_fertig
+                    self.spiel_fertig = False
+                    return self.spiel_fertig, self.gegner_verbunden
 
                 elif event.type == MOUSEBUTTONDOWN:
                     x = pygame.mouse.get_pos()[0]
@@ -1301,6 +1330,11 @@ class GalaxisGame(ConnectionListener):
                             time.sleep(3.7)
                             sound_verraten()
                         #time.sleep(4.9)
+            if self.gegner_verbunden == False:
+                self.spiel_fertig = True
+                return self.spiel_fertig, self.gegner_verbunden
+                
+                
             self.Pump()
             connection.Pump()
             sleep(0.01)
@@ -1338,26 +1372,33 @@ class GalaxisGame(ConnectionListener):
                     userinfo(info)
 
             if self.spiel_fertig == True:
-                break
+                self.spielaktiv = False
 
-        return self.spiel_fertig
+        return self.spiel_fertig, self.gegner_verbunden
 
 ##### Der Terminal/Chat Thread
 
     def InputLoop(self):
         while 1:
             input = stdin.readline().rstrip("\n")
-            connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
-            self.Pump()
-            connection.Pump()
-            sleep(0.1)
+            if input.startswith("gegner=") or input.startswith("opponent="):
+                print("Eingabe nicht erlaubt!")
+                print("Input not allowed!")
+            else:
+                connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
+                self.Pump()
+                connection.Pump()
+                sleep(0.1)
 
 
 ##### Raumschiffe verstecken
 
     def Verstecken(self, info):
+        self.spielerbereit = False
         anzahl_versteckt = 0
         i = 0
+        verfugbar, besetzt = "-", "-"
+        userinfotext(verfugbar, besetzt)
         while anzahl_versteckt < 4:
             i+=1
             if i == 7000:
@@ -1367,18 +1408,13 @@ class GalaxisGame(ConnectionListener):
                 self.Pump()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.spielaktiv = False
                     if language == "de":
                         print("Spieler hat beendet")
                     else:
                         print("Player has finished")
-                    self.spiel_fertig = True
-                    return self.spielaktiv
+                    return False
                 if event.type == QUIT:
-                    pygame.quit()
-                    self.spielaktiv = False
-                    self.spiel_fertig = True
-                    return self.spielaktiv
+                    return False
                 elif event.type == MOUSEBUTTONDOWN:
                     x = pygame.mouse.get_pos()[0]
                     y = pygame.mouse.get_pos()[1]
@@ -1395,6 +1431,7 @@ class GalaxisGame(ConnectionListener):
                         self.galaxis[ypos][xpos] = 6
                         self.raumschiff_loeschen()
                         userinfo(info)
+                        userinfotext(verfugbar, besetzt)
                         anzahl_versteckt-=1
                 connection.Pump()
                 self.Pump()
@@ -1410,10 +1447,52 @@ class GalaxisGame(ConnectionListener):
         else:
             info = self.mein_name+", wait for opponent"
         userinfo(info)
-
+        userinfotext(verfugbar, besetzt)
         self.spielerbereit = True
 
         return True
+
+    def GegnerWaehlen(self):
+        if language == "de":
+            text = "Wähle einen Gegner:"
+        else:
+            text = "Choose an opponent:"
+        text = font2.render(text, True, (255, 0, 0))
+        pygame.draw.rect(fenster, SCHWARZ, [kor(5.5)*1+12*MULTIPLIKATOR, kor(29.25),kor(30),kor(1.2)], 0)
+        fenster.blit(text, ([kor(17.6), kor(29.5)]))
+        pygame.draw.rect(fenster, SCHWARZ, [kor(25.5), kor(29.25),kor(30),kor(1.2)], 0)
+        pygame.draw.rect(fenster, BLAU, [kor(25.5), kor(29.25),kor(10.3),kor(1.2)], 1)
+        pygame.display.flip()
+        while True:
+            text = ""
+            run = True
+            pg.key.set_repeat()
+            while run:
+                clock.tick(60)
+                for event in pygame.event.get():
+                    if event.type == pygame.K_ESCAPE:
+                        return False
+                    if event.type == pygame.QUIT:
+                        run = False
+                        text = ""
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            run = False
+                        elif event.key == pygame.K_BACKSPACE:
+                            text =  text[:-1]
+                        else:
+                            text += event.unicode[:1]
+
+                        text_surf = font.render(text, True, (255, 0, 0))
+                        fenster.blit(text_surf, ([kor(25.6), kor(29.376)]))
+                    connection.Pump()
+                    self.Pump()
+                    pygame.display.flip()
+            pygame.draw.rect(fenster, SCHWARZ, [kor(25.5), kor(29.25),kor(30),kor(1.2)], 0)
+            if len(text) > 2:
+                return "gegner=" + text
+            else:
+                return False
 
 
 ##### Chat Thread starten
@@ -1440,7 +1519,7 @@ while True:
         galax.Neustart()
 
     # Spielfeld erzeugen über Berechnung
-    fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 31 * MULTIPLIKATOR))
+    fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 33 * MULTIPLIKATOR))
 
     # Titel für Fensterkopf
     if language == "de":
@@ -1458,12 +1537,12 @@ while True:
     # Raumschiffe verstecken
 
     if language == "de":
-        print("Wenn Du fertig versteckt hast, wähle mit " + Fore.RED +"gegner={nickname}" + Style.RESET_ALL + " einen Gegner aus.")
+        print("Wenn Du fertig versteckt hast, wähle einen Gegner aus.")
         print("ESC im Spielfenster zum verlassen.")
         print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
         info = mein_name + ", verstecke Deine Raumschiffe (rechte Maustaste)"
     else:
-        print("When you have finished hiding, choose an opponent with " + Fore.RED + "opponent={nickname}" + Style.RESET_ALL)
+        print("When you have finished hiding, choose an opponent.")
         print("ESC in game window to exit.")
         print("Enter your chat messages here. Submit with ENTER")
         info = mein_name + ", hide your spaceships (right mouse button)"
@@ -1473,14 +1552,40 @@ while True:
         pygame.quit()
         sys.exit()
 
-    #### Spiel starten
+    erfolg = False
+    gegner_verbunden = True
+    while gegner_verbunden:
+        while erfolg == False:
+            erfolg = galax.GegnerWaehlen()          # 'False' falls Länge Nick gewählter Gegner < 3, sonst gegner=nickname Gegner.
 
-    if galax.Galaxis() == False:       # Spiel abgebrochen?
-        if language == "de":
-            print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
-        else:
-            print(Fore.RED + "Game aborted" + Style.RESET_ALL)
 
+            #### Spiel starten
+
+            if erfolg == False:
+                if language == "de":
+                    print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
+                else:
+                    print(Fore.RED + "Game aborted" + Style.RESET_ALL)
+                gegner_verbunden = False
+                break
+            spiel_fertig, gegner_verbunden = galax.Galaxis(mein_name, erfolg, gegner_verbunden)
+            if spiel_fertig == False and gegner_verbunden == True:          # Wenn Spiel abgebrochen:
+                if language == "de":
+                    print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
+                else:
+                    print(Fore.RED + "Game aborted" + Style.RESET_ALL)
+                gegner_verbunden = False
+                break
+            if spiel_fertig == False and gegner_verbunden == False:         # Wenn Gegner nicht verbunden:
+                print("Gegner nicht verbunden!")
+                erfolg = False
+                gegner_verbunden = True
+                break
+            if spiel_fertig == True and gegner_verbunden == True:           # Wenn Spiel fertig:
+                gegner_verbunden = False
+                break
+            if spiel_fertig == True and gegner_verbunden == False:          # Wenn Spiel fertig und Gegner nicht verbunden:
+                break
 
     #### Spiel neu starten?
 
