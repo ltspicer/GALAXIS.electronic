@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.1    #
+#  GALAXIS electronic V4.2    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -697,10 +697,10 @@ def userinfotext(verfugbar, besetzt):
         verf = font2.render("Available players: " + verfugbar, True, farbe)
         bese = font2.render("Occupied players: " + besetzt, True, farbe)
     if verfugbar != "-":
-        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(30.85),kor(31.1),kor(1.2)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(30.7),kor(34),kor(1.2)], 0)
         fenster.blit(verf, ([kor(2.6)*1, kor(5.74)*5.4]))
     if besetzt != "-":
-        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(31.822),kor(31.1),kor(1.2)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(31.822),kor(34),kor(1.2)], 0)
         fenster.blit(bese, ([kor(2.6)*1, kor(5.92)*5.4]))
 
     pygame.display.flip()
@@ -1132,7 +1132,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.1                  #### Hier die Client-Version!!!!
+        self.version = 4.2                  #### Hier die Client-Version!!!!
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1449,34 +1449,32 @@ class GalaxisGame(ConnectionListener):
         pygame.display.flip()
         while True:
             text = ""
-            run = True
             pg.key.set_repeat()
-            while run:
-                clock.tick(60)
-                for event in pygame.event.get():
-                    if event.type == pygame.K_ESCAPE:
-                        return False
-                    if event.type == pygame.QUIT:
-                        run = False
-                        text = ""
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            if len(text) > 2 or len(text) == 0:
+            while len(text) < 3:
+                run = True
+                while run:
+                    clock.tick(60)
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            run = False
+                            text = ""
+                        elif event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                return False, False
+                            if event.key == pygame.K_RETURN:
                                 run = False
-                                if len(text) == 0:
-                                    return False, False
-                        elif event.key == pygame.K_BACKSPACE:
-                            text =  text[:-1]
-                        else:
-                            text += event.unicode[:1]
-
-                        text_surf = font.render(text, True, (255, 0, 0))
-                        fenster.blit(text_surf, ([kor(25.6), kor(29.376)]))
-                    connection.Pump()
-                    self.Pump()
-                    pygame.display.flip()
-                    if self.running == True:
-                        return False, True
+                            elif event.key == pygame.K_BACKSPACE:
+                                text =  text[:-1]
+                            else:
+                                text += event.unicode[:1]
+                            text_surf = font.render(text, True, (255, 0, 0))
+                            pygame.draw.rect(fenster, SCHWARZ, [kor(25.6), kor(29.35),kor(10.1),kor(1)], 0)
+                            fenster.blit(text_surf, ([kor(25.6), kor(29.376)]))
+                        connection.Pump()
+                        self.Pump()
+                        pygame.display.flip()
+                        if self.running == True:
+                            return False, True
             pygame.draw.rect(fenster, SCHWARZ, [kor(17.5), kor(29.25),kor(30),kor(1.2)], 0)
             pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
             return "gegner=" + text, True
@@ -1540,38 +1538,35 @@ while True:
         sys.exit()
 
     erfolg = False
-    gegner_verbunden = True
-    while gegner_verbunden:
-        while erfolg == False:
-            gegner, erfolg = galax.GegnerWaehlen()          # False   False = Abgebrochen
-                                                            # False   True  = Von anderem Spieler aufgerufen
-                                                            # !=False True  = selber Gegner ausgewählt
-            if erfolg == False:
+    gegner_verbunden = True                                                 # False   False = Abgebrochen
+    while gegner_verbunden:                                                 # False   True  = Von anderem Spieler aufgerufen
+        while erfolg == False:                                              # !=False True  = selber Gegner ausgewählt
+            gegner, erfolg = galax.GegnerWaehlen()
+            if erfolg == False:                                             # False   False = Gegnerwahl abgebrochen:
                 if language == "de":
                     print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
                 else:
                     print(Fore.RED + "Game aborted" + Style.RESET_ALL)
                 gegner_verbunden = False
                 break
-            if gegner == False and erfolg == True:
+            if gegner == False and erfolg == True:                          # False   True  = Von anderem Spieler aufgerufen
                 break
-            if gegner != False and erfolg == True:
+            if gegner != False and erfolg == True:                          # !=False True  = selber Gegner ausgewählt
                 connection.Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
             erfolg = galax.Warten()
 
         #### Spiel starten
 
-        spiel_fertig = galax.Galaxis()
-        if spiel_fertig == False:                                       # Wenn Spiel abgebrochen:
-            if language == "de":
-                print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
-            else:
-                print(Fore.RED + "Game aborted" + Style.RESET_ALL)
-            gegner_verbunden = False
-            break
-        if spiel_fertig == True:                                        # Wenn Spiel fertig:
-            gegner_verbunden = False
-            break
+        if gegner_verbunden == True:
+            spiel_fertig = galax.Galaxis()
+            if spiel_fertig == False:                                       # Wenn Spiel abgebrochen:
+                if language == "de":
+                    print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
+                else:
+                    print(Fore.RED + "Game aborted" + Style.RESET_ALL)
+                gegner_verbunden = False
+            if spiel_fertig == True:                                        # Wenn Spiel fertig:
+                gegner_verbunden = False
 
     #### Spiel neu starten?
 
