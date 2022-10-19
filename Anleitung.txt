@@ -28,7 +28,7 @@ mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Adjust the path!
 or
 mate-terminal -e /home/user/galaxis.electronic/starter.sh # Adjust the path!
 
-The terminal is only necessary for the online game!
+The terminal is only necessary for the online game so that the chat is displayed.
 
 You can adjust the language in the config.ini (language = "en").
 The config.ini file and the data directory are always necessary.
@@ -57,14 +57,14 @@ Online (2 players) starts when a nickname is entered (at least 3 characters):
 
 Now you have to hide your 4 spaceships (right mouse button), which your opponent has to find.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
-Available opponents in the network are displayed in the console, in which a chat is also running. Here you can enter messages, which will then be sent to all players present.
-Enter 'opponent={nickname}' to connect to an opponent (eg opponent=daniel ). Now the "found" sound is played to alert both players.
+Available opponents in the network are displayed. There is also a chat running in the console. Here you can enter messages, which will then be sent to all players present.
+When you are successfully connected to an opponent, the "found" sound will be played to alert both players.
 In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
-You can also play against the server. This opponent is called "robot" ! So enter "opponent=robot" in the chat.
-The roboteasy is a bit easier to defeat.
+You can also play against the server. This opponent is called "robot".
+The "roboteasy" is a bit easier to defeat.
 
 
 Other suggestions and bug reports are welcome.
@@ -100,7 +100,7 @@ mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Den Pfad anpassen!
 oder
 mate-terminal -e /home/user/galaxis.electronic/starter.sh # Den Pfad anpassen!
 
-Das Terminal ist nur für das online Game notwendig!
+Das Terminal ist nur für das online Game notwendig, damit der Chat angezeigt wird.
 
 Die Sprache kann in der config.ini eingestellt werden (language = "de").
 Die config.ini Datei und das Verzeichnis data sind immer notwendig.
@@ -130,14 +130,14 @@ Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
 
 Nun musst Du Deine 4 Raumschiffe verstecken (rechte Maustaste), welche Dein Gegner zufinden hat.
 Nach dem ersten Zug hast Du jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
-Verfügbare Gegner im Netz werden in der Konsole angezeigt, in welcher auch ein Chat läuft. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
-Gib 'gegner={nickname}' ein, um Dich mit einem Gegner zu verbinden (ZBsp  gegner=daniel  ). Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
+Verfügbare Gegner im Netz werden angezeigt. In der Konsole läuft auch ein Chat. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
+Wenn Du erfolgreich mit einem Gegner verbunden bist, wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
-Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
-Der roboteasy ist etwas einfacher zu besiegen.
+Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot".
+Der "roboteasy" ist etwas einfacher zu besiegen.
 
 
 Weitere Anregungen und Bugreports sind willkommen.
