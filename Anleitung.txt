@@ -24,8 +24,7 @@ Missing libraries should be installed automatically on first start.
 
 In Linux, if no "run in terminal" option is available or a launcher is created, run starter.sh (adjust the path).
 Or create launcher with command line (e.g. MATE Desktop):
-mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Adjust the path!
-or
+
 mate-terminal -e /home/user/galaxis.electronic/starter.sh # Adjust the path!
 
 The terminal is only necessary for the online game so that the chat is displayed.
@@ -96,8 +95,7 @@ Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh (den Pfad anpassen) ausführen.
 Oder Starter anlegen mit Befehlszeile (zBsp MATE Desktop):
-mate-terminal -e /home/user/galaxis.electronic/galaxis.py # Den Pfad anpassen!
-oder
+
 mate-terminal -e /home/user/galaxis.electronic/starter.sh # Den Pfad anpassen!
 
 Das Terminal ist nur für das online Game notwendig, damit der Chat angezeigt wird.
