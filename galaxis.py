@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.2    #
+#  GALAXIS electronic V4.3    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -12,7 +12,7 @@
 
 
 from __future__ import print_function
-import os, sys, time, configparser, hashlib
+import os, sys, time, configparser, hashlib, subprocess
 from time import sleep
 
 
@@ -35,10 +35,23 @@ restarted = False
 
 if winexe == 0:
     try:
+        subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
+    except:
+        print()
+        print("python3-pip is not installed! / python3-pip ist nicht installiert!")
+        print()
+        print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
+        print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
+        print("MacOS:                 sudo easy_install pip")
+        print()
+        print("Window closes in 20 seconds. / Fenster schliesst in 20 Sekunden.")
+        sleep(20)
+        sys.exit()
+
+    try:
         import pygame
     except ImportError as e:
         print("pygame ist nicht installiert, wird installiert!")
-        import subprocess, sys
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
         install = 1
         print("Pygame ist installiert.")
@@ -47,7 +60,6 @@ if winexe == 0:
         import PodSixNet
     except ImportError as e:
         print("PodSixNet ist nicht installiert, wird installiert!")
-        import subprocess, sys
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
         install = 1
         print("PodSixNet ist installiert.")
@@ -56,7 +68,6 @@ if winexe == 0:
         import colorama
     except ImportError as e:
         print("colorama ist nicht installiert, wird installiert!")
-        import subprocess, sys
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
         install = 1
         print("colorama ist installiert.")
@@ -84,6 +95,7 @@ from sys import stdin, exit
 from colorama import Fore
 from colorama import Style
 colorama.init()
+print()
 
 # Zeichensatz initialisieren
 pygame.font.init()
@@ -686,6 +698,13 @@ def userinfo(info):
     fenster.blit(imag, ([kor(2.6), kor(29.376)]))
     pygame.display.flip()
 
+def md5(file1):
+    md5h = hashlib.md5()
+    with open(file1, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            md5h.update(chunk)
+    return md5h.hexdigest()
+
 def userinfotext(verfugbar, besetzt):
     farbe = BLAU
     verfugbar = ",".join(verfugbar)
@@ -706,15 +725,7 @@ def userinfotext(verfugbar, besetzt):
     pygame.display.flip()
 
 
-def md5(file1):
-    md5h = hashlib.md5()
-    with open(file1, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            md5h.update(chunk)
-    return md5h.hexdigest()
-
 ##### Das Spiel
-
 
 class GalaxisGame(ConnectionListener):
 
@@ -728,12 +739,10 @@ class GalaxisGame(ConnectionListener):
 
 
     def timer_stoppen(self):
-        #print("timer_stoppen, threading.active_count()=", threading.active_count())
         try:
             if self.timer.is_alive() == True:
                 self.timer.cancel()
                 self.umschalt_warnung = False
-#                print("timer gestoppt")
         except:
             pass
 
@@ -750,10 +759,9 @@ class GalaxisGame(ConnectionListener):
             else:
                 print("6 seconds left!!!")
 
-    def timer6(self):
+    def timer6(self):        # Hier self.turn auf false setzen und an Gegner senden
         self.turn = False
         self.umschalt_warnung = False
-        # Hier self.turn auf false setzen und an Gegner senden
         self.ping_remote(0, 0, 8, self.num, self.gameid)
 
 ##### Version abfragen
@@ -788,12 +796,10 @@ class GalaxisGame(ConnectionListener):
             sleep(20)
             sys.exit()
 
-
         if winexe == 0:
             checksumme = md5("galaxis.py")
         else:
             checksumme = md5("galaxis.exe")
-
         self.Send({"action": "checksumme", "summe": checksumme, "gameid": self.gameid, "userid": self.userid})
 
 
@@ -880,6 +886,7 @@ class GalaxisGame(ConnectionListener):
             print("Du bist nun mit dem Server verbunden")
         else:
             print("You are now connected to the server")
+        print()
     
     def Network_disconnected(self, data):
         if language == "de":
@@ -897,7 +904,6 @@ class GalaxisGame(ConnectionListener):
         self.userid=data["userid"]
         self.gegner=data["nickgegner"]
         self.gegner_bereit = data["bereit"]
-
         if self.mein_name == "robot" or self.mein_name == "roboteasy":
             if language == "de":
                 print(Fore.RED + "Dieser Nickname ist nicht erlaubt!" + Style.RESET_ALL)
@@ -943,12 +949,10 @@ class GalaxisGame(ConnectionListener):
         num=data["num"]
         gegnerbereit = False
 
-        if language == "de":
-            #print("Anzahl Spieler empfangen:", anzahl_spieler, "| Spieler:", num, "| Bereit?", bereit, "| Gegner bereit?", gegnerbereit, "| Spieler bereit?", self.spielerbereit)
-            pass
-        else:
-            #print("Number of players received:", anzahl_spieler, "| Player:", num, "| Ready?", bereit, "| Opponent ready?", gegnerbereit, "| Player ready?", self.spielerbereit)
-            pass
+#        if language == "de":
+#            print("Anzahl Spieler empfangen:", anzahl_spieler, "| Spieler:", num, "| Bereit?", bereit, "| Gegner bereit?", gegnerbereit, "| Spieler bereit?", self.spielerbereit)
+#        else:
+#            print("Number of players received:", anzahl_spieler, "| Player:", num, "| Ready?", bereit, "| Opponent ready?", gegnerbereit, "| Player ready?", self.spielerbereit)
 
         if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit == True:
             self.spielaktiv = True
@@ -969,7 +973,6 @@ class GalaxisGame(ConnectionListener):
             for xpos in range(9):
                 if self.galaxis[ypos][xpos] == 5:
                     raumschiff_zeichnen(xpos,ypos,WEISS)
-
 
     def wer_ist_am_zug(self):
         if self.turn==True:
@@ -1012,7 +1015,7 @@ class GalaxisGame(ConnectionListener):
             self.turn = True
             return
 
-        if num != self.num and wert == 7: #### Gegner sagt, unternimm nichts
+        if num != self.num and wert == 7:  #### Gegner sagt, unternimm nichts
             return
 
         if num != self.num and wert == 6:  #### Anfrage von Gegner
@@ -1132,7 +1135,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.2                  #### Hier die Client-Version!!!!
+        self.version = 4.3
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1209,7 +1212,7 @@ class GalaxisGame(ConnectionListener):
             time.sleep(5)
             sys.exit()
 
-    def Warten(self):
+    def Warten(self):       # 2 Sekunden warten, dabei "Gegner verbunden" Status abfragen
         i = 0
         while True:
             self.Pump()
@@ -1537,10 +1540,10 @@ while True:
         pygame.quit()
         sys.exit()
 
-    erfolg = False
-    gegner_verbunden = True                                                 # False   False = Abgebrochen
-    while gegner_verbunden:                                                 # False   True  = Von anderem Spieler aufgerufen
-        while erfolg == False:                                              # !=False True  = selber Gegner ausgewählt
+    erfolg = False                                                          # Info:
+    gegner_verbunden = True                                                 # - False   False = Abgebrochen
+    while gegner_verbunden:                                                 # - False   True  = Von anderem Spieler aufgerufen
+        while erfolg == False:                                              # - !=False True  = selber Gegner ausgewählt
             gegner, erfolg = galax.GegnerWaehlen()
             if erfolg == False:                                             # False   False = Gegnerwahl abgebrochen:
                 if language == "de":
@@ -1555,10 +1558,8 @@ while True:
                 connection.Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
             erfolg = galax.Warten()
 
-        #### Spiel starten
-
         if gegner_verbunden == True:
-            spiel_fertig = galax.Galaxis()
+            spiel_fertig = galax.Galaxis()                                  #### Spiel starten
             if spiel_fertig == False:                                       # Wenn Spiel abgebrochen:
                 if language == "de":
                     print(Fore.RED + "Spiel abgebrochen" + Style.RESET_ALL)
@@ -1569,7 +1570,6 @@ while True:
                 gegner_verbunden = False
 
     #### Spiel neu starten?
-
     ja_nein_zeichnen()
 
     # Fenster aktualisieren
@@ -1595,7 +1595,6 @@ while True:
                 if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
                     antwort_jn = "n"
                     break
-
     if antwort_jn == "j":
         restarted = True
     else:
