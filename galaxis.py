@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.3    #
+#  GALAXIS electronic V4.5    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -12,7 +12,7 @@
 
 
 from __future__ import print_function
-import os, sys, time, configparser, hashlib, subprocess
+import os, sys, time, configparser, hashlib, subprocess, shutil
 from time import sleep
 
 
@@ -170,10 +170,14 @@ def verloren(gegner_name):
     mixer.music.play()
 
 # Ja/Nein zeichnen
-def ja_nein_zeichnen():
+def ja_nein_zeichnen(grund):            # 0 noch eine Runde, 1 auto Update
     if language == "de":
-        imag = font.render("Möchtest Du noch eine Runde spielen?", True, ROT)
-        fenster.blit(imag, ([kor(2.0)*4+1.90*MULTIPLIKATOR, kor(4.5)*4+2.05*MULTIPLIKATOR]))
+        if grund == 0:
+            imag = font.render("Möchtest Du noch eine Runde spielen?", True, ROT)
+            fenster.blit(imag, ([kor(9.9), kor(20.05)]))
+        else:
+            imag = font.render("Neue Version verfügbar. Soll ich automatisch updaten?", True, ROT)
+            fenster.blit(imag, ([kor(6.0), kor(20.05)]))
         pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         img = font.render(str("Ja"), True, SCHWARZ)
@@ -181,8 +185,12 @@ def ja_nein_zeichnen():
         img = font.render(str("Nein"), True, SCHWARZ)
         fenster.blit(img, ([kor(5)*4+1.50*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
     else:
-        imag = font.render("Would you like to play another round?", True, ROT)
-        fenster.blit(imag, ([kor(2.0)*4+1.90*MULTIPLIKATOR, kor(4.5)*4+2.05*MULTIPLIKATOR]))
+        if grund == 0:
+            imag = font.render("Would you like to play another round?", True, ROT)
+            fenster.blit(imag, ([kor(9.9), kor(20.05)]))
+        else:
+            imag = font.render("New version available. Should I update automatically?", True, ROT)
+            fenster.blit(imag, ([kor(6.0), kor(20.05)]))
         pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
         img = font.render(str("Yes"), True, SCHWARZ)
@@ -766,6 +774,78 @@ class GalaxisGame(ConnectionListener):
 
 ##### Version abfragen
 
+    def Updater(self):
+        tmp_folder = "new_release"
+
+        # remove temp folder
+        shutil.rmtree(tmp_folder, ignore_errors=True)
+
+        # Div. Variablen
+
+        if winexe == 0:
+            try:
+                from git import Repo
+            except ImportError as e:
+                print("gitpython ist nicht installiert, wird installiert!")
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'gitpython'])
+                install = 1
+                print("gitpython ist installiert.")
+                from git import Repo
+
+            pfad = os.path.dirname(os.path.abspath(__file__))
+
+            if language == "de":
+                print("Hole neues Release.")
+                print("Bitte etwas Geduld ;)")
+            else:
+                print("Get new release.")
+                print("Please be patient ;)")
+            link = "https://github.com/ltspicer/GALAXIS.electronic.git"
+            clone = "git clone " + link + " " + tmp_folder
+            Repo.clone_from(link, tmp_folder)
+            #os.system(clone)
+
+            # Files to be move
+            if winexe == 0:
+                zu_kopierende_files = [
+                    "config.ini",
+                    "Anleitung.txt",
+                    "README.md",
+                    "starter.sh",
+                    "galaxis.py"
+                ]
+            else:
+                zu_kopierende_files = [
+                    "config.ini",
+                    "Anleitung.txt",
+                    "README.md",
+                    "galaxis.exe"
+                ]
+
+            # Move files
+            for files in zu_kopierende_files:
+                shutil.move(tmp_folder + os.sep + files, pfad + os.sep + files)
+
+            # Move data directory
+            original = tmp_folder + os.sep + "data"
+            target = pfad + os.sep
+            shutil.rmtree("data", ignore_errors=True)
+            shutil.move(original, target)
+
+            # Remove temp folder
+            shutil.rmtree(tmp_folder, ignore_errors=True)
+
+            # galaxis.py ausführbar machen
+            os.system("chmod +x galaxis.py")
+            os.system("chmod +x starter.sh")
+
+            print("Finished! / Fertig!")
+
+        else:
+            os.system("updater.bat")
+        pygame.quit()
+        sys.exit()
+
     def Network_version(self, data):
         version = data["version"]
         version = int(float(version) * 10)/10
@@ -780,7 +860,7 @@ class GalaxisGame(ConnectionListener):
                 print("oder")
                 print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
                 print(" ")
-                print("Fenster schliesst in 20 Sekunden.")
+                print("Soll ich automatisch updaten (j/n)?")
             else:
                 print("Please use new game version." + Style.RESET_ALL)
                 print("Download at")
@@ -790,10 +870,29 @@ class GalaxisGame(ConnectionListener):
                 print("or")
                 print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
                 print(" ")
-                print("Window closes in 20 seconds.")
+                print("Should I update automatically (y/n)?")
             connection.Close()
+            ja_nein_zeichnen(1)
+            antwort_jn = "-"
+            while antwort_jn == "-":
+                for event in pygame.event.get():
+                    pygame.display.flip()
+                    if event.type == MOUSEBUTTONDOWN:
+                        x = pygame.mouse.get_pos()[0]
+                        y = pygame.mouse.get_pos()[1]
+                        xpos, ypos = fensterposition(x,y)
+                        xpos = int(xpos)
+                        ypos = int(ypos)
+                        mouse_presses = pygame.mouse.get_pressed()
+                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
+                            antwort_jn = "j"
+                            break
+                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
+                            antwort_jn = "n"
+                            break
+            if antwort_jn == "j":
+                self.Updater()
             pygame.quit()
-            sleep(20)
             sys.exit()
 
         if winexe == 0:
@@ -1135,7 +1234,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.3
+        self.version = 4.5
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1570,7 +1669,7 @@ while True:
                 gegner_verbunden = False
 
     #### Spiel neu starten?
-    ja_nein_zeichnen()
+    ja_nein_zeichnen(0)
 
     # Fenster aktualisieren
     pygame.display.flip()
