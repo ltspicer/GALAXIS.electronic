@@ -1,4 +1,17 @@
 @echo off
+
+echo:
+echo ###############################
+echo #  GALAXIS electronic V4.5    #
+echo #  von Daniel Luginbuehl      #
+echo #        (C) 2022             #
+echo # webmaster@ltspiceusers.ch   #
+echo #         updater.bat         #
+echo #        Serveradresse        #
+echo #    galaxis.game-host.org    #
+echo ###############################
+echo:
+
 taskkill /F /IM galaxis.exe
 set "DstFolder=%~dp0"
 set "SrcFolder=%~dp0new_release\"
@@ -48,6 +61,7 @@ rmdir /S /Q "new_release"
 
 start "galaxis" /separate galaxis.exe
 echo **** galaxis restarted
+echo:
 echo **** Finished! You can now exit the updater by pressing RETURN. ****
 move /Y updater_tmp.bat updater.bat
 
