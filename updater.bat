@@ -13,8 +13,6 @@ echo ###############################
 echo:
 
 taskkill /F /IM galaxis.exe
-REM set "DstFolder=%~dp0"
-REM set "SrcFolder=%~dp0new_release\"
 
 for /f "tokens=4-7 delims=[.] " %%i in ('ver') do (
 if %%i == Version set OSVersion=%%j.%%k
