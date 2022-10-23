@@ -38,7 +38,6 @@ if %OSVersion% gtr 99 (
 )
 
 :NOCURL
-set "gitname=git-cmd.exe"
 git --version
 IF ERRORLEVEL 1 (
 	echo Unfortunately, CURL is not pre-installed before Windows 10, version 1803. That's why GIT needs to be installed.
