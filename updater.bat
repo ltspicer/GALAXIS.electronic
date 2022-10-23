@@ -13,6 +13,8 @@ echo ###############################
 echo:
 
 taskkill /F /IM galaxis.exe
+REM set "DstFolder=%~dp0"
+REM set "SrcFolder=%~dp0new_release\"
 
 for /f "tokens=4-7 delims=[.] " %%i in ('ver') do (
 if %%i == Version set OSVersion=%%j.%%k
@@ -37,22 +39,22 @@ if %OSVersion% gtr 99 (
 
 :NOCURL
 set "gitname=git-cmd.exe"
-git --version
+python3 -V
 IF ERRORLEVEL 1 (
-echo Unfortunately, CURL is not pre-installed before Windows 10, version 1803. That's why GIT needs to be installed.
-echo git is not installed. Please install first.
-echo "Should I open the browser at the correct address (Y = Yes, Q = Quit)?"
-For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" goto:CONTINUE
-goto END
-:CONTINUE
-start https://git-scm.com/download/win
-echo "Is git installed (Y = Yes, Q = Quit)?"
-For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" goto:CONTINUE2
-goto END
-:CONTINUE2
-echo "Reboot computer (Y = Yes, Q = Quit)?"
-For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" shutdown /r /t 0
-goto END
+	echo Unfortunately, CURL is not pre-installed before Windows 10, version 1803. That's why GIT needs to be installed.
+	echo git is not installed. Please install first.
+	echo "Should I open the browser at the correct address (Y = Yes, Q = Quit)?"
+	For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" goto:CONTINUE
+	goto END
+	:CONTINUE
+	start https://git-scm.com/download/win
+	echo "Is git installed (Y = Yes, Q = Quit)?"
+	For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" goto:CONTINUE2
+	goto END
+	:CONTINUE2
+	echo "Reboot computer (Y = Yes, Q = Quit)?"
+	For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" shutdown /r /t 0
+	goto END
 )
 
 rmdir /S /Q "new_release"
