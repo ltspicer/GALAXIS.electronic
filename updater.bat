@@ -13,11 +13,35 @@ echo ###############################
 echo:
 
 taskkill /F /IM galaxis.exe
-set "DstFolder=%~dp0"
-set "SrcFolder=%~dp0new_release\"
+REM set "DstFolder=%~dp0"
+REM set "SrcFolder=%~dp0new_release\"
+
+for /f "tokens=4-7 delims=[.] " %%i in ('ver') do (
+if %%i == Version set OSVersion=%%j.%%k
+if %%i neq Version set OSVersion=%%i.%%j
+)
+set /a OSVersion=%OSVersion:.=%
+if %OSVersion% gtr 99 (
+	curl --version
+	IF ERRORLEVEL 1 goto NOCURL
+	rmdir /S /Q "new_release"
+	mkdir new_release
+	curl -L -o new_release\main.zip https://github.com/ltspicer/GALAXIS.electronic/archive/refs/heads/main.zip
+	cd new_release
+	tar -xf main.zip
+	del main.zip
+	cd..
+	move /Y new_release\GALAXIS.electronic-main\data new_release\data
+	move new_release\GALAXIS.electronic-main\*.* new_release
+	rmdir /S /Q "new_release\GALAXIS.electronic-main"
+	goto VERTEILEN
+)
+
+:NOCURL
 set "gitname=git-cmd.exe"
 git --version
 IF ERRORLEVEL 1 (
+echo Unfortunately, CURL is not pre-installed before Windows 10, version 1803. That's why GIT needs to be installed.
 echo git is not installed. Please install first.
 echo "Should I open the browser at the correct address (Y = Yes, Q = Quit)?"
 For /f Delims^= %%G in ('choice /n /c:YQ')Do if /I "%%G"=="Y" goto:CONTINUE
@@ -36,10 +60,11 @@ goto END
 rmdir /S /Q "new_release"
 git clone https://github.com/ltspicer/GALAXIS.electronic.git new_release
 
+:VERTEILEN
 echo **** Move data directory to the game root.
 rmdir /S /Q "data"
-move /Y %SrcFolder%data %DstFolder%data
-IF %DstFolder:~-1%==\ SET DstFolder=%DstFolder:~0,-1%
+move /Y new_release\data data
+REM IF %DstFolder:~-1%==\ SET DstFolder=%DstFolder:~0,-1%
 
 echo **** Move all necessary files to the game root.
 set "zu_kopierende_files[0]=config.ini"
@@ -51,10 +76,10 @@ REM set "zu_kopierende_files[4]=updater.bat"
 setlocal enabledelayedexpansion
 for /l %%n in (0,1,3) do (
 	echo !zu_kopierende_files[%%n]!
-	move "!SrcFolder!!zu_kopierende_files[%%n]!" "!DstFolder!"
+	move "new_release\!zu_kopierende_files[%%n]!"
 )
 
-move %SrcFolder%updater.bat %DstFolder%\updater_tmp.bat
+move new_release\updater.bat updater_tmp.bat
 
 echo **** Remove temporary directory.
 rmdir /S /Q "new_release"
