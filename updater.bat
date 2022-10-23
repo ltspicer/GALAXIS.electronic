@@ -61,7 +61,6 @@ git clone https://github.com/ltspicer/GALAXIS.electronic.git new_release
 echo **** Move data directory to the game root.
 rmdir /S /Q "data"
 move /Y new_release\data data
-REM IF %DstFolder:~-1%==\ SET DstFolder=%DstFolder:~0,-1%
 
 echo **** Move all necessary files to the game root.
 set "zu_kopierende_files[0]=config.ini"
