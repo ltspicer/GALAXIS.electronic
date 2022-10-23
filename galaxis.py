@@ -916,7 +916,7 @@ class GalaxisGame(ConnectionListener):
                 print("oder")
                 print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
                 print(" ")
-                print("Fenster schliesst in 20 Sekunden.")
+                print("Soll ich sie automatisch holen (j/n)?")
             else:
                 print(Fore.RED + "The source code was modified manually. Please download current version!" + Style.RESET_ALL)
                 print("Download at")
@@ -926,10 +926,29 @@ class GalaxisGame(ConnectionListener):
                 print("or")
                 print(Fore.BLUE + Style.BRIGHT + "https://ltspicer.itch.io/galaxis-electronic" + Style.RESET_ALL)
                 print(" ")
-                print("Window closes in 20 seconds.")
+                print("Should I fetch them automatically (y/n)?")
             connection.Close()
+            ja_nein_zeichnen(1)
+            antwort_jn = "-"
+            while antwort_jn == "-":
+                for event in pygame.event.get():
+                    pygame.display.flip()
+                    if event.type == MOUSEBUTTONDOWN:
+                        x = pygame.mouse.get_pos()[0]
+                        y = pygame.mouse.get_pos()[1]
+                        xpos, ypos = fensterposition(x,y)
+                        xpos = int(xpos)
+                        ypos = int(ypos)
+                        mouse_presses = pygame.mouse.get_pressed()
+                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
+                            antwort_jn = "j"
+                            break
+                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
+                            antwort_jn = "n"
+                            break
+            if antwort_jn == "j":
+                self.Updater()
             pygame.quit()
-            sleep(20)
             sys.exit()
 
     def Network_close(self, data):
