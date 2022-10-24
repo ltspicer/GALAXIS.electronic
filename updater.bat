@@ -84,7 +84,7 @@ start "galaxis" /separate galaxis.exe
 echo **** galaxis restarted
 echo:
 echo **** Finished! You can now exit the updater by pressing RETURN. ****
-move /Y updater_tmp.bat updater.bat
+move /Y updater_tmp.bat updater.bat & exit
 
 :END
 exit /b 1
