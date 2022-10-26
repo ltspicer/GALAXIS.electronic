@@ -2,7 +2,7 @@
 
 echo:
 echo ###############################
-echo #  GALAXIS electronic V4.5    #
+echo #  GALAXIS electronic V4.6    #
 echo #  von Daniel Luginbuehl      #
 echo #        (C) 2022             #
 echo # webmaster@ltspiceusers.ch   #
@@ -13,6 +13,8 @@ echo ###############################
 echo:
 
 taskkill /F /IM galaxis.exe
+taskkill /F /IM py.exe
+taskkill /F /IM python.exe
 
 for /f "tokens=4-7 delims=[.] " %%i in ('ver') do (
 if %%i == Version set OSVersion=%%j.%%k
@@ -67,10 +69,12 @@ set "zu_kopierende_files[0]=config.ini"
 set "zu_kopierende_files[1]=Anleitung.txt"
 set "zu_kopierende_files[2]=README.md"
 set "zu_kopierende_files[3]=galaxis.exe"
+set "zu_kopierende_files[4]=galaxis.py"
+set "zu_kopierende_files[5]=updater.sh"
 REM set "zu_kopierende_files[4]=updater.bat"
 
 setlocal enabledelayedexpansion
-for /l %%n in (0,1,3) do (
+for /l %%n in (0,1,5) do (
 	echo !zu_kopierende_files[%%n]!
 	move "new_release\!zu_kopierende_files[%%n]!"
 )
@@ -80,8 +84,6 @@ move new_release\updater.bat updater_tmp.bat
 echo **** Remove temporary directory.
 rmdir /S /Q "new_release"
 
-start "galaxis" /separate galaxis.exe
-echo **** galaxis restarted
 echo:
 echo **** Finished! You can now exit the updater by pressing RETURN. ****
 move /Y updater_tmp.bat updater.bat & exit

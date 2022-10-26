@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.5    #
+#  GALAXIS electronic V4.6    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -12,7 +12,7 @@
 
 
 from __future__ import print_function
-import os, sys, time, configparser, hashlib, subprocess, shutil
+import os, sys, time, configparser, hashlib, subprocess
 from time import sleep
 
 
@@ -34,46 +34,97 @@ restarted = False
 # Import-Versuche
 
 if winexe == 0:
-    try:
-        subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
-    except:
-        print()
-        print("python3-pip is not installed! / python3-pip ist nicht installiert!")
-        print()
-        print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
-        print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
-        print("MacOS:                 sudo easy_install pip")
-        print()
-        print("Window closes in 20 seconds. / Fenster schliesst in 20 Sekunden.")
-        sleep(20)
-        sys.exit()
+
+    def InstallFrage(wert):
+        if install > 0:
+            if language == "de":
+                print("Ich kann versuchen, die fehlenden Pakete automatisch zu installieren.")
+                print("q = Abbruch, o = Ok, automatisch installieren")
+            else:
+                print("I can try to install the missing packages automatically.")
+                print("q = Abort, o = Ok, install automatically")
+            antwort = input('[q/o]: ')
+            if antwort == "q":
+                return 2
+
+            try:
+                subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
+            except:
+                print()
+                if language == "de":
+                    print("python3-pip ist nicht installiert!")
+                else:
+                    print("python3-pip is not installed!")
+                print()
+                print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
+                print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
+                print("MacOS:                 sudo easy_install pip")
+                print("Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/")
+                print()
+
+                if language == "de":
+                    print("Fenster schliesst in 20 Sekunden.")
+                else:
+                    print("Window closes in 20 seconds.")
+
+                sleep(20)
+                return 2
+
+            if wert-4 > -1:
+                wert-=4
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
+                print("colorama is installed / ist installiert")
+
+            if wert-2 > -1:
+                wert-=2
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
+                print("PodSixNet is installed / ist installiert")
+
+            if wert-1 > -1:
+                wert-=1
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
+                print("Pygame is installed / ist installiert")
+
+            return 1
+        else:
+            return 0
 
     try:
         import pygame
     except ImportError as e:
-        print("pygame ist nicht installiert, wird installiert!")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
-        install = 1
-        print("Pygame ist installiert.")
+        install+=1
+        if language == "de":
+            print("pygame ist nicht installiert!")
+        else:
+            print("pygame is not installed!")
 
     try:
         import PodSixNet
     except ImportError as e:
-        print("PodSixNet ist nicht installiert, wird installiert!")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
-        install = 1
-        print("PodSixNet ist installiert.")
+        install+=2
+        if language == "de":
+            print("PodSixNet ist nicht installiert!")
+        else:
+            print("PodSixNet is not installed!")
 
     try:
         import colorama
     except ImportError as e:
-        print("colorama ist nicht installiert, wird installiert!")
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'colorama'])
-        install = 1
-        print("colorama ist installiert.")
+        install+=4
+        if language == "de":
+            print("colorama ist nicht installiert!")
+        else:
+            print("colorama is not installed!")
 
-    if install == 1:
-        print("Ich starte neu!")
+    antwort = InstallFrage(install)
+    if antwort == 2:
+        sys.exit()
+        quit()
+    if antwort == 1:
+        if language == "de":
+            print("Ich starte neu!")
+        else:
+            print("I'm restarting!")
         time.sleep(2)
         sys.stdout.flush()
         os.system('"' + sys.argv[0] + '"')
@@ -775,75 +826,24 @@ class GalaxisGame(ConnectionListener):
 ##### Version abfragen
 
     def Updater(self):
-        tmp_folder = "new_release"
-
-        # remove temp folder
-        shutil.rmtree(tmp_folder, ignore_errors=True)
-
-        # Div. Variablen
+        pygame.quit()
 
         if winexe == 0:
-            try:
-                from git import Repo
-            except ImportError as e:
-                print("gitpython ist nicht installiert, wird installiert!")
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'gitpython'])
-                install = 1
-                print("gitpython ist installiert.")
-                from git import Repo
-
             pfad = os.path.dirname(os.path.abspath(__file__))
-
-            if language == "de":
-                print("Hole neues Release.")
-                print("Bitte etwas Geduld ;)")
-            else:
-                print("Get new release.")
-                print("Please be patient ;)")
-            link = "https://github.com/ltspicer/GALAXIS.electronic.git"
-            clone = "git clone " + link + " " + tmp_folder
-            Repo.clone_from(link, tmp_folder)
-            #os.system(clone)
-
-            # Files to be move
-            if winexe == 0:
-                zu_kopierende_files = [
-                    "config.ini",
-                    "Anleitung.txt",
-                    "README.md",
-                    "starter.sh",
-                    "galaxis.py"
-                ]
-            else:
-                zu_kopierende_files = [
-                    "config.ini",
-                    "Anleitung.txt",
-                    "README.md",
-                    "galaxis.exe"
-                ]
-
-            # Move files
-            for files in zu_kopierende_files:
-                shutil.move(tmp_folder + os.sep + files, pfad + os.sep + files)
-
-            # Move data directory
-            original = tmp_folder + os.sep + "data"
-            target = pfad + os.sep
-            shutil.rmtree("data", ignore_errors=True)
-            shutil.move(original, target)
-
-            # Remove temp folder
-            shutil.rmtree(tmp_folder, ignore_errors=True)
-
-            # galaxis.py ausführbar machen
-            os.system("chmod +x galaxis.py")
-            os.system("chmod +x starter.sh")
-
-            print("Finished! / Fertig!")
-
+            my_os=sys.platform
+            #          print("OS in my system : ",my_os)
+            #`win32`   for Windows(Win32)
+            #'cygwin'  for Windows(cygwin)
+            #'darwin'  for macOS
+            #'aix'     for AIX
+            if my_os == "win32":
+                os.system("updater.bat")
+            if my_os == "linux":
+                os.system("./updater.sh")
+            if my_os == "darwin":
+                os.system("./updater.sh")
         else:
             os.system("updater.bat")
-        pygame.quit()
         sys.exit()
 
     def Network_version(self, data):
@@ -1253,7 +1253,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.5
+        self.version = 4.6
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
