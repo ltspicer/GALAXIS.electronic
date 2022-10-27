@@ -11,7 +11,7 @@
 
 
 killall -9 "galaxis.py"
-killall -9 "galaxis.exe"
+# killall -9 "galaxis.exe"
 url="https://github.com/ltspicer/GALAXIS.electronic/tarball/master"
 
 # use curl or wget, depending on which one we find
@@ -38,7 +38,7 @@ mv * ../
 cd ..
 rm -rf ../data
 
-movables=(config.ini Anleitung.txt README.md galaxis.exe galaxis.py updater.bat starter.sh)
+movables=(config.ini Anleitung.txt README.md galaxis.py updater.bat starter.sh)
 
 for move in "${movables[@]}" ; do
     mv $move ../
@@ -48,11 +48,11 @@ mv data ../
 cd ..
 rm -rf new_release
 chmod +x galaxis.py
-chmod +x galaxis.exe
+# chmod +x galaxis.exe
 chmod +x starter.sh
 chmod +x updater_tmp.sh
 chmod +x updater.bat
 echo
 echo "Press RETURN if this window doesn't close!"
-mv updater_tmp.sh updater.sh 2> /dev/null & exit 1
+mv updater_tmp.sh updater.sh 2> /dev/null & exit 0
 
