@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.6    #
+#  GALAXIS electronic V4.7    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -27,6 +27,8 @@ HOST_PORT = int(config.get("DEFAULT", "hostport"))
 winexe = 0
 if sys.argv[0].endswith("galaxis.exe") == True:
     winexe = 1
+if sys.argv[0].endswith("galaxis") == True:
+    winexe = 2
 
 install = 0
 restarted = False
@@ -827,23 +829,18 @@ class GalaxisGame(ConnectionListener):
 
     def Updater(self):
         pygame.quit()
-
-        if winexe == 0:
-            pfad = os.path.dirname(os.path.abspath(__file__))
-            my_os=sys.platform
-            #          print("OS in my system : ",my_os)
-            #`win32`   for Windows(Win32)
-            #'cygwin'  for Windows(cygwin)
-            #'darwin'  for macOS
-            #'aix'     for AIX
-            if my_os == "win32":
-                os.system("updater.bat")
-            if my_os == "linux":
-                os.system(os.getcwd()+"/updater.sh")
-            if my_os == "darwin":
-                os.system(os.getcwd()+"/updater.sh")
-        else:
+        my_os=sys.platform
+        #          my_os=
+        #`win32`   for Windows(Win32)
+        #'cygwin'  for Windows(cygwin)
+        #'darwin'  for macOS
+        #'aix'     for AIX
+        if my_os == "win32":
             os.system("updater.bat")
+        if my_os == "linux":
+            os.system(os.getcwd()+"/updater.sh")
+        if my_os == "darwin":
+            os.system(os.getcwd()+"/updater.sh")
         sys.exit()
 
     def Network_version(self, data):
@@ -897,8 +894,10 @@ class GalaxisGame(ConnectionListener):
 
         if winexe == 0:
             checksumme = md5("galaxis.py")
-        else:
+        if winexe == 1:
             checksumme = md5("galaxis.exe")
+        if winexe == 2:
+            checksumme = md5("galaxis")
         self.Send({"action": "checksumme", "summe": checksumme, "gameid": self.gameid, "userid": self.userid})
 
 
@@ -1253,7 +1252,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.6
+        self.version = 4.7
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
