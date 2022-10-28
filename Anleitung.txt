@@ -32,6 +32,8 @@ The terminal is only necessary for the online game so that the chat is displayed
 You can adjust the language in the config.ini (language = "en").
 The config.ini file and the data directory are always necessary.
 
+The automatic update may not work with older versions. In this case, get the current version directly from one of the links provided.
+
 
 Game Instructions:
 
@@ -102,6 +104,8 @@ Das Terminal ist nur für das online Game notwendig, damit der Chat angezeigt wi
 
 Die Sprache kann in der config.ini eingestellt werden (language = "de").
 Die config.ini Datei und das Verzeichnis data sind immer notwendig.
+
+Bei älteren Versionen funktioniert der automatische Update unter Umständen nicht. In diesem Fall hole die aktuelle Version selbst direkt bei einem der angegebenen Links.
 
 
 Spiel Anleitung:
