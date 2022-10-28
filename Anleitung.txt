@@ -16,7 +16,7 @@ Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/
 It's important to set mark „Add Python 3.8 to PATH“ there.
 Reboot after installation!
 Or start galaxis.exe (no Python needed) for Windows.
-Start galaxis for Linux (no Python needed).
+Start galaxis (respectively starter.sh) for Linux (no Python needed).
 
 Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
@@ -90,7 +90,7 @@ Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-sch
 Es ist wichtig, ein Häkchen bei „Add Python 3.8 to PATH“ zu setzen.
 Nach der Installation einen Reboot machen!
 Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
-Für Linux galaxis starten (keine Python Installation notwendig).
+Für Linux galaxis (bzw starter.sh) starten (keine Python Installation notwendig).
 
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
