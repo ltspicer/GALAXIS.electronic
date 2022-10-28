@@ -10,7 +10,7 @@
 ###############################
 
 
-killall -9 "galaxis.py"
+# killall -9 "galaxis.py"
 # killall -9 "galaxis.exe"
 url="https://github.com/ltspicer/GALAXIS.electronic/tarball/master"
 
