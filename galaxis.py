@@ -839,9 +839,9 @@ class GalaxisGame(ConnectionListener):
             if my_os == "win32":
                 os.system("updater.bat")
             if my_os == "linux":
-                os.system("./updater.sh")
+                os.system(os.getcwd()+"/updater.sh")
             if my_os == "darwin":
-                os.system("./updater.sh")
+                os.system(os.getcwd()+"/updater.sh")
         else:
             os.system("updater.bat")
         sys.exit()
