@@ -25,7 +25,7 @@ HOST_ADDR = config.get("DEFAULT", "hostaddr")
 HOST_PORT = int(config.get("DEFAULT", "hostport"))
 
 winexe = 0
-if sys.argv[0].endswith(".exe") == True:
+if sys.argv[0].endswith("galaxis.exe") == True:
     winexe = 1
 
 install = 0
