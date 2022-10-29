@@ -65,16 +65,16 @@ rmdir /S /Q "data"
 move /Y new_release\data data
 
 echo **** Move all necessary files to the game root.
-set "zu_kopierende_files[0]=config.ini"
-set "zu_kopierende_files[1]=Anleitung.txt"
-set "zu_kopierende_files[2]=README.md"
-set "zu_kopierende_files[3]=galaxis.exe"
-set "zu_kopierende_files[4]=galaxis.py"
-set "zu_kopierende_files[5]=updater.sh"
-REM set "zu_kopierende_files[4]=updater.bat"
+REM set "zu_kopierende_files[x]=config.ini"     REM less stay old version
+set "zu_kopierende_files[0]=Anleitung.txt"
+set "zu_kopierende_files[1]=README.md"
+set "zu_kopierende_files[2]=galaxis.exe"
+set "zu_kopierende_files[3]=galaxis.py"
+set "zu_kopierende_files[4]=updater.sh"
+REM set "zu_kopierende_files[5]=updater.bat"
 
 setlocal enabledelayedexpansion
-for /l %%n in (0,1,5) do (
+for /l %%n in (0,1,4) do (
 	echo !zu_kopierende_files[%%n]!
 	move "new_release\!zu_kopierende_files[%%n]!"
 )
