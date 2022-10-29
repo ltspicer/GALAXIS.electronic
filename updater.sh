@@ -54,15 +54,21 @@ cd ..
 rm -rf ../data
 
 # Move files
-movables=(config.ini Anleitung.txt README.md galaxis.py updater.bat starter.sh)
+movables=(Anleitung.txt README.md galaxis.py)   #Insert config.ini if you want
 for move in "${movables[@]}" ; do
     mv $move ../
 done
-mv -v updater.sh ../updater_tmp.sh
+mv updater.sh ../updater_tmp.sh
+
+# Move required files (binary or Python)
+if [[ $compiled -ne 1 ]] ; then
+    mv starter.sh ../
+    mv updater.bat ../
+fi
 
 # Move compiled file
 if [[ $compiled -eq 1 ]] ; then
-    mv -v galaxis ../
+    mv galaxis ../
 fi
 
 # Move data directory
@@ -70,6 +76,9 @@ mv data ../
 
 cd ..
 rm -rf new_release
+if [[ $compiled -eq 1 ]] ; then
+    rm galaxis.py
+fi
 chmod +x galaxis.py
 chmod +x galaxis
 chmod +x starter.sh
