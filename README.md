@@ -96,5 +96,5 @@ Required files/directories for the Linux binary (see release section):
 - **data** directory
 - **config.ini** file
 - **updater.sh** file
-- **starter.sh** file (Change this line to: **cd ${HOME}/galaxis.electronic.linux; ./galaxis** )
+- **starter.sh** file (Change this line to: **cd ${HOME}/galaxis.electronic.linux ; ./galaxis** )
 - **galaxis** file
