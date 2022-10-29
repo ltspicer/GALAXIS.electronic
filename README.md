@@ -75,3 +75,18 @@ Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
 Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
 Der roboteasy ist etwas einfacher zu besiegen.
+
+
+Required files/directories for the Windows exe:
+- data directory
+- config.ini file
+- updater.bat file
+- galaxis.exe file
+
+Required files/directories for the Python3 variant:
+- data directory
+- config.ini file
+- updater.bat file
+- updater.sh file
+- starter.sh file
+- galaxis.py file
