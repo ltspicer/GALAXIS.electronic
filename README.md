@@ -79,15 +79,22 @@ Der roboteasy ist etwas einfacher zu besiegen.
 ---------------------
 
 Required files/directories for the Windows exe:
-- data directory
-- config.ini file
-- updater.bat file
-- galaxis.exe file
+- **data** directory
+- **config.ini** file
+- **updater.bat** file
+- **galaxis.exe** file
 
 Required files/directories for the Python3 variant:
-- data directory
-- config.ini file
-- updater.bat file
-- updater.sh file
-- starter.sh file
-- galaxis.py file
+- **data** directory
+- **config.ini** file
+- **updater.bat** file
+- **updater.sh** file
+- **starter.sh** file
+- **galaxis.py** file
+
+Required files/directories for the Linux binary (see release section):
+- **data** directory
+- **config.ini** file
+- **updater.sh** file
+- **starter.sh** file
+- **galaxis** file
