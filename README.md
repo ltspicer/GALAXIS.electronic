@@ -98,3 +98,5 @@ Required files/directories for the Linux binary (see release section):
 - **updater.sh** file
 - **starter.sh** file (Change this line to: **cd ${HOME}/galaxis.electronic.linux ; ./galaxis** )
 - **galaxis** file
+
+On Raspberry works the Python3 variant fine.
