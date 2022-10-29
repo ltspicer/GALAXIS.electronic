@@ -76,6 +76,7 @@ Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
 Der roboteasy ist etwas einfacher zu besiegen.
 
+---------------------
 
 Required files/directories for the Windows exe:
 - data directory
