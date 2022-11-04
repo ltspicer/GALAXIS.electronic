@@ -22,7 +22,7 @@ Just start ./galaxis in a terminal or click starter.sh.
 Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
-Missing libraries should be installed automatically on first start.
+Missing libraries can be installed automatically on first start (the user will be asked).
 
 In Linux, if no "run in terminal" option is available or a launcher is created, run starter.sh (adjust the path).
 Or create launcher with command line (e.g. MATE Desktop):
@@ -97,7 +97,7 @@ Einfach ./galaxis in einem Terminal oder Klick auf starter.sh.
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
-Fehlende Bibliotheken sollten beim Erststart automatisch installiert werden.
+Fehlende Bibliotheken können beim Erststart automatisch installiert werden (der User wird danach gefragt).
 
 In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh (den Pfad anpassen) ausführen.
 Oder Starter anlegen mit Befehlszeile (zBsp MATE Desktop):
