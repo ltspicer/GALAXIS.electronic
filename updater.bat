@@ -2,7 +2,7 @@
 
 echo:
 echo ###############################
-echo #  GALAXIS electronic V4.6    #
+echo #  GALAXIS electronic V4.7    #
 echo #  von Daniel Luginbuehl      #
 echo #        (C) 2022             #
 echo # webmaster@ltspiceusers.ch   #
