@@ -19,6 +19,8 @@ Or start galaxis.exe (no Python needed) for Windows.
 Or start galaxis for Linux (no Python needed).
 Just start ./galaxis in a terminal or click starter.sh.
 
+On the Raspberry use the Python3 variant.
+
 Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
@@ -93,6 +95,8 @@ Nach der Installation einen Reboot machen!
 Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
 Oder galaxis starten (keine Python Installation notwendig) für Linux.
 Einfach ./galaxis in einem Terminal oder Klick auf starter.sh.
+
+Auf dem Raspberry benutze die Python3 Variante.
 
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
