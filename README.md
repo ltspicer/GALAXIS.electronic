@@ -92,7 +92,7 @@ Required files/directories for the Python3 variant:
 - **starter.sh** file
 - **galaxis.py** file
 
-Required files/directories for the Linux binary (see release section):
+Required files/directories for the Linux binary (see release section because greather than 25MB):
 - **data** directory
 - **config.ini** file
 - **updater.sh** file
