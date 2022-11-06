@@ -99,4 +99,4 @@ Required files/directories for the Linux binary (see release section because gre
 - **starter.sh** file (Change this line to: **cd ${HOME}/galaxis.electronic.linux ; ./galaxis** )
 - **galaxis** file
 
-On Raspberry works the Python3 variant fine.
+On Raspberry (Raspian/Raspi-OS) works the Python3 variant fine.
