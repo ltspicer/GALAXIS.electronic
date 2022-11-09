@@ -78,9 +78,11 @@ cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
     rm galaxis.py
+    chmod +x galaxis
+else
+    chmod +x galaxis.py
 fi
-chmod +x galaxis.py
-chmod +x galaxis
+
 chmod +x starter.sh
 chmod +x updater_tmp.sh
 chmod +x updater.bat
