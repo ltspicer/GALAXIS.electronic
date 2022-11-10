@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V4.7    #
+#  GALAXIS electronic V4.8    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -13,7 +13,7 @@
 
 # URL to repo
 url="https://github.com/ltspicer/GALAXIS.electronic/tarball/master"
-url_rls="https://github.com/ltspicer/GALAXIS.electronic/releases/download/V4.7/galaxis"
+url_rls="https://github.com/ltspicer/GALAXIS.electronic/releases/download/V4.8/galaxis"
 
 # Exist compiled galaxis file? 
 if [ -f "galaxis" ] ; then
