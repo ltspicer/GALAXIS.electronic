@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V4.7    #
-#  von Daniel Luginbuehl      #
-#        (C) 2022             #
-# webmaster@ltspiceusers.ch   #
+#   GALAXIS electronic V4.8   #
+#    von Daniel Luginbuehl    #
+#         (C) 2022            #
+#  webmaster@ltspiceusers.ch  #
 #                             #
 #        Serveradresse        #
 #    galaxis.game-host.org    #
@@ -1113,8 +1113,9 @@ class GalaxisGame(ConnectionListener):
 
     def ping_remote(self, xpos, ypos, wert, num, gameid):
         if self.galaxis[ypos][xpos] == 5:
-            self.verraten = True
-            raumschiff_zeichnen(xpos,ypos,SCHWARZ)
+            if gameid != -1:
+                self.verraten = True
+                raumschiff_zeichnen(xpos,ypos,SCHWARZ)
         else:
             self.verraten = False
         self.Send({"action": "antwort", "xpos": xpos, "ypos": ypos, "verraten": self.verraten, "num": num, "gameid": gameid, "gefunden": self.gefunden, "wert": wert})
@@ -1252,7 +1253,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 4.7
+        self.version = 4.8
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1349,9 +1350,9 @@ class GalaxisGame(ConnectionListener):
         while not self.running:
             self.Pump()
             connection.Pump()
-            sleep(1.5)
+            sleep(0.01)
             i+=1
-            if i == 40:
+            if i == 6000:
                 i = 0
                 self.ping_remote(0, 0, 7, self.num, self.gameid)   # Sag dem Gegner, dass er nichts machen soll. Timeout verhindern
             pygame.display.flip()
@@ -1386,6 +1387,7 @@ class GalaxisGame(ConnectionListener):
                         element_zeichnen(xpos,ypos,GRAU)
                         self.angepeilt[ypos][xpos] = 0
                     if mouse_presses[2] and self.angepeilt[ypos][xpos]==0 and self.turn == True:
+                        self.turn = False
                         self.timer_stoppen()
                         self.spielzuege+=1
                         self.angepeilt[ypos][xpos] = 1
@@ -1415,8 +1417,6 @@ class GalaxisGame(ConnectionListener):
                             self.turn = False
                             time.sleep(0.2)
                             sounds(self.antwort)
-                        else:
-                            raumschiff_zeichnen(xpos,ypos,SCHWARZ)
 
                         if self.antwort==9:
                             self.gefunden = 4
@@ -1490,7 +1490,7 @@ class GalaxisGame(ConnectionListener):
                 connection.Send({"action": "message", "message": input, "gameid": self.gameid, "user": self.mein_name})
                 self.Pump()
                 connection.Pump()
-                sleep(0.1)
+                sleep(0.01)
 
 
 ##### Raumschiffe verstecken
@@ -1572,6 +1572,8 @@ class GalaxisGame(ConnectionListener):
             pg.key.set_repeat()
             while len(text) < 3:
                 run = True
+                text_surf = font.render("_", True, (255, 0, 0))
+                fenster.blit(text_surf, ([kor(25.6), kor(29.376)]))
                 while run:
                     clock.tick(60)
                     for event in pygame.event.get():
@@ -1587,7 +1589,7 @@ class GalaxisGame(ConnectionListener):
                                 text =  text[:-1]
                             else:
                                 text += event.unicode[:1]
-                            text_surf = font.render(text, True, (255, 0, 0))
+                            text_surf = font.render(text+"_", True, (255, 0, 0))
                             pygame.draw.rect(fenster, SCHWARZ, [kor(25.6), kor(29.35),kor(10.1),kor(1)], 0)
                             fenster.blit(text_surf, ([kor(25.6), kor(29.376)]))
                         connection.Pump()
