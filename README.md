@@ -76,6 +76,10 @@ Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" ! Gib also "gegner=robot" im Chat ein.
 Der roboteasy ist etwas einfacher zu besiegen.
 
+https://github.com/ltspicer/GALAXIS.electronic/blob/main/screenshot1.png
+https://github.com/ltspicer/GALAXIS.electronic/blob/main/screenshot2.png
+https://github.com/ltspicer/GALAXIS.electronic/blob/main/screenshot3.png
+
 ---------------------
 
 Required files/directories for the Windows exe:
