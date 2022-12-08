@@ -26,12 +26,6 @@ Python3.x should already be pre-installed in Linux systems. However, possibly pi
 Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
 Missing libraries can be installed automatically on first start (the user will be asked).
 
-In Linux, if no "run in terminal" option is available or a launcher is created, run starter.sh (adjust the path).
-Or create launcher with command line (e.g. MATE Desktop):
-
-mate-terminal -e /home/user/galaxis.electronic/starter.sh # Adjust the path!
-
-The terminal is only necessary for the online game so that the chat is displayed.
 
 You can adjust the language in the config.ini (language = "en").
 The config.ini file and the data directory are always necessary.
@@ -62,7 +56,8 @@ Online (2 players) starts when a nickname is entered (at least 3 characters):
 
 Now you have to hide your 4 spaceships (right mouse button), which your opponent has to find.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
-Available opponents in the network are displayed. There is also a chat running in the console. Here you can enter messages, which will then be sent to all players present.
+Available opponents in the network are displayed. A chat is running on the right side. Here you can enter messages, which will then be sent to all players present.
+Enter your text with the keyboard and confirm with ENTER.
 When you are successfully connected to an opponent, the "found" sound will be played to alert both players.
 In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
@@ -103,12 +98,6 @@ In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
 Fehlende Bibliotheken können beim Erststart automatisch installiert werden (der User wird danach gefragt).
 
-In Linux, wenn keine Option "im Terminal ausführen" zur Verfügung steht oder ein Starter angelegt wird, starter.sh (den Pfad anpassen) ausführen.
-Oder Starter anlegen mit Befehlszeile (zBsp MATE Desktop):
-
-mate-terminal -e /home/user/galaxis.electronic/starter.sh # Den Pfad anpassen!
-
-Das Terminal ist nur für das online Game notwendig, damit der Chat angezeigt wird.
 
 Die Sprache kann in der config.ini eingestellt werden (language = "de").
 Die config.ini Datei und das Verzeichnis data sind immer notwendig.
@@ -140,7 +129,8 @@ Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
 
 Nun musst Du Deine 4 Raumschiffe verstecken (rechte Maustaste), welche Dein Gegner zufinden hat.
 Nach dem ersten Zug hast Du jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
-Verfügbare Gegner im Netz werden angezeigt. In der Konsole läuft auch ein Chat. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
+Verfügbare Gegner im Netz werden angezeigt. Auf der rechten Seite läuft ein Chat. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
+Gib dazu Deinen Text mit der Tastatur ein und bestätige mit ENTER.
 Wenn Du erfolgreich mit einem Gegner verbunden bist, wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
