@@ -17,13 +17,13 @@ It's important to set mark „Add Python 3.8 to PATH“ there.
 Reboot after installation!
 Or start galaxis.exe (no Python needed) for Windows.
 Or start galaxis for Linux (no Python needed).
-Just start ./galaxis in a terminal or click starter.sh.
+Just start ./galaxis in a terminal or double it.
 
 On the Raspberry use the Python3 variant.
 
 Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
-Unzip the zip and start galaxy.py in the resulting directory (Linux users have to select "run in terminal").
+Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries can be installed automatically on first start (the user will be asked).
 
 
@@ -90,13 +90,13 @@ Es ist wichtig, ein Häkchen bei „Add Python 3.8 to PATH“ zu setzen.
 Nach der Installation einen Reboot machen!
 Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
 Oder galaxis starten (keine Python Installation notwendig) für Linux.
-Einfach ./galaxis in einem Terminal oder Klick auf starter.sh.
+Einfach ./galaxis in einem Terminal oder Doppelklick darauf.
 
 Auf dem Raspberry benutze die Python3 Variante.
 
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
-Zip entpacken und galaxis.py im entstandenen Verzeichnis starten (in Linux "im Terminal ausführen" auswählen).
+Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken können beim Erststart automatisch installiert werden (der User wird danach gefragt).
 
 
