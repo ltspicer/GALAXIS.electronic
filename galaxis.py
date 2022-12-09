@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.0   #
+#   GALAXIS electronic V5.1   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -23,11 +23,11 @@ nick = config.get("DEFAULT", "nick")
 language = config.get("DEFAULT", "language")
 HOST_ADDR = config.get("DEFAULT", "hostaddr")
 HOST_PORT = int(config.get("DEFAULT", "hostport"))
-my_os=sys.platform
+my_os=sys.platform      # Betriebssystem in my_os speichern
 winexe = 0
-if sys.argv[0].endswith("galaxis.exe") == True:
+if sys.argv[0].endswith("galaxis.exe") == True:     # wenn Windows exe
     winexe = 1
-if sys.argv[0].endswith("galaxis") == True:
+if sys.argv[0].endswith("galaxis") == True:         # wenn Linux bin
     winexe = 2
 
 install = 0
@@ -141,9 +141,9 @@ font2 = pygame.font.SysFont(None, 21)
 # Pfad zu mp3 und jpg holen
 
 if winexe == 0:
-    pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep
+    pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep        # wenn Linux bin
 else:
-    pfad = "data" + os.sep  # Bei Windows-exe
+    pfad = "data" + os.sep                                                              # wenn Windows exe
 
 #### Definitionen ####
 
@@ -362,7 +362,7 @@ def chatfensterposition(x,y):
         y = 0
     return x, y
 
-
+# Spielfeld zeichnen
 def spielfeld_zeichnen():
     # Hintergrundbild holen
     bg = pygame.image.load(pfad + "space5.jpg")
@@ -387,8 +387,8 @@ def spielfeld_zeichnen():
         for y in range(0,7):
             element_zeichnen(x,y,GRAU)
 
-# Offline oder Netzwerk Spiel und/oder Neu gestartet?
 
+# Offline oder Netzwerk Spiel und/oder Neu gestartet?
 
 class InputBox:
 
@@ -441,6 +441,7 @@ WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
 
 
+# Nickname bei Aufruf mitgegeben?
 try:
     nick = sys.argv[1]
 except IndexError:
@@ -556,7 +557,7 @@ if spielmodus == 1:
     alarm = 0
     spielaktiv = True
 
-    # Schleife Hauptprogramm
+    # Spiel Hauptschleife
     while spielaktiv:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -748,7 +749,7 @@ def userinfo(info):
         if language == "en":
             string = "6 seconds left"
     imag = font.render(string, True, farbe)
-    pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(29.13),kor(60),kor(1.4)], 0)
+    pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(29.13),kor(34.8),kor(1.4)], 0)
     fenster.blit(imag, ([kor(2.6), kor(29.376)]))
     pygame.display.flip()
 
@@ -775,7 +776,6 @@ def userinfotext(verfugbar, besetzt):
     if besetzt != "-":
         pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(31.822),kor(34),kor(1.2)], 0)
         fenster.blit(bese, ([kor(2.6)*1, kor(5.92)*5.4]))
-
     pygame.display.flip()
 
 
@@ -1011,7 +1011,7 @@ class GalaxisGame(ConnectionListener):
         userinfo(info)
         self.timer_stoppen()
         time.sleep(1)
-#        exit()
+#        sys.exit()
         self.spielaktiv = False
         self.spiel_fertig = False
 
@@ -1062,10 +1062,10 @@ class GalaxisGame(ConnectionListener):
     def Network_disconnected(self, data):
         if language == "de":
             print('Sorry. Server nicht verbunden.')
-            exit()
+            sys.exit()
         else:
             print('Sorry server not connected.')
-            exit()
+            sys.exit()
 
     def Network_num_gameid(self, data):
         #print("type data:", type(data))
@@ -1310,7 +1310,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.0
+        self.version = 5.1
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1400,18 +1400,12 @@ class GalaxisGame(ConnectionListener):
             if i == 200:
                 return self.gegner_verbunden
 
-    def FensterFokus(self):
-        if my_os == "win32":
-            pass
-        else:
-            os.system("wmctrl -a " + '"' + fenstertitel + '"')
-
     def chatausgabe(self, text):
         if text != "":
             self.chattext.append(text)
         if len(self.chattext) > 40:
             del self.chattext[0]
-        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(37.6),kor(29.1)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.5),kor(29.1)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
         pygame.display.flip()
         zeile = 0
@@ -1422,9 +1416,10 @@ class GalaxisGame(ConnectionListener):
             zeile+=0.7
         pygame.display.flip()
 
-##### Game Hauptschleife
+##### Spiel Hauptschleife
     def Galaxis(self):
         self.chatausgabe("")
+        self.inputbox_zeichnen("", False)
         self.spielzuege = 0
         self.alarm = 0
         self.umschalt_warnung = False
@@ -1567,27 +1562,36 @@ class GalaxisGame(ConnectionListener):
 
         return self.spiel_fertig
 
-
-    def chatinput(self, text):
-        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(37.6),kor(3)], 0)
+    def inputbox_zeichnen(self, text, gegner_auswahl):
+        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(19.5),kor(3)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(29.25),kor(18.3),kor(1.2)], 1)
-        pygame.display.flip()
         pg.key.set_repeat()
-        run = True
         text_surf = font.render(text+"_", True, BLAU)
         fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
-        if language == "de":
-            chatanleitung = "Chat Eingabe.   Senden mit ENTER"
+        if gegner_auswahl == False:
+            if language == "de":
+                chatanleitung = "Chat Eingabe.              Senden mit ENTER"
+            else:
+                chatanleitung = "Chat input.                 Send with ENTER"
         else:
-            chatanleitung = "Chat input.      Send with ENTER"
+            if language == "de":
+                chatanleitung = "Hier klicken um eine Chat-Nachricht einzugeben"
+            else:
+                chatanleitung = "Click here to enter a chat message"
         text_surf = font2.render(chatanleitung, True, BLAU)
-        fenster.blit(text_surf, ([kor(40.6), kor(29.376+1.5)]))
+        fenster.blit(text_surf, ([kor(37.9), kor(29.376+1.5)]))
+        pygame.display.flip()
+
+
+    def chatinput(self, text):
+        self.inputbox_zeichnen(text, False)
+        run = True
         while run:
             clock.tick(60)
             for event in pygame.event.get():
                 mouse_presses = pygame.mouse.get_pressed()
                 if mouse_presses[2] or mouse_presses[0]:
-                    pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(37.6),kor(3)], 0)
+                    self.inputbox_zeichnen("", False)
                     return
                 if event.type == pygame.QUIT:
                     run = False
@@ -1610,7 +1614,7 @@ class GalaxisGame(ConnectionListener):
         connection.Send({"action": "message", "message": text, "gameid": self.gameid, "user": self.mein_name})
         self.Pump()
         connection.Pump()
-        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(37.6),kor(3)], 0)
+        self.inputbox_zeichnen("", False)
 
 
 ##### Raumschiffe verstecken
@@ -1622,6 +1626,7 @@ class GalaxisGame(ConnectionListener):
         verfugbar, besetzt = "-", "-"
         userinfotext(verfugbar, besetzt)
         self.chatausgabe("")
+        self.inputbox_zeichnen("", False)
         while anzahl_versteckt < 4:
             i+=1
             if i == 7000:
@@ -1640,7 +1645,7 @@ class GalaxisGame(ConnectionListener):
                         return False
 
                     if event.type == pygame.KEYDOWN and event.type != QUIT:
-                        self.chatinput("")
+                        self.chatinput(event.unicode[:1])
 
                     if event.type == QUIT:
                         return False
@@ -1662,6 +1667,7 @@ class GalaxisGame(ConnectionListener):
                                     anzahl_versteckt-=1
                                     self.raumschiff_loeschen()
                                     self.chatausgabe("")
+                                    self.inputbox_zeichnen("", False)
                                     userinfo(info)
                                     userinfotext(self.old_string, self.old_string2)
 
@@ -1696,7 +1702,7 @@ class GalaxisGame(ConnectionListener):
         fenster.blit(text, ([kor(17.6), kor(29.5)]))
         pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(25.5), kor(29.25),kor(10.3),kor(1.2)], 1)
-        pygame.display.flip()
+        self.inputbox_zeichnen("", True)
 #        pygame.event.set_grab(True)         # Maus in Fenster einsperren
         while True:
             text = ""
@@ -1734,6 +1740,7 @@ class GalaxisGame(ConnectionListener):
                             if xpos > 8:
                                 if mouse_presses[2] or mouse_presses[0]:
                                     self.chatinput("")
+                                    self.inputbox_zeichnen("", True)
                     connection.Pump()
                     self.Pump()
                     pygame.display.flip()
@@ -1742,6 +1749,7 @@ class GalaxisGame(ConnectionListener):
             pygame.draw.rect(fenster, SCHWARZ, [kor(17.5), kor(29.25),kor(30),kor(1.2)], 0)
             pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
             return "gegner=" + text, True
+
 
 ##### Grundsätzliche Aufrufe
 
@@ -1767,7 +1775,8 @@ while True:
     connection.Pump()
     galax.Pump()
 
-    mein_name = str(galax.mein_name_retour())
+    mein_name = str(galax.mein_name_retour())       # Nickname an Server senden und Server Antwort holen
+
 
     # Raumschiffe verstecken
 
@@ -1775,12 +1784,12 @@ while True:
         print("Wenn Du fertig versteckt hast, wähle einen Gegner aus.")
         print("ESC im Spielfenster zum verlassen.")
         print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
-        info = mein_name + ", verstecke Deine Raumschiffe (rechte Maustaste)"
+        info = mein_name + ", verstecke Deine Raumschiffe (nochmaliger Klick entfernt Raumschiff)"
     else:
         print("When you have finished hiding, choose an opponent.")
         print("ESC in game window to exit.")
         print("Enter your chat messages here. Submit with ENTER")
-        info = mein_name + ", hide your spaceships (right mouse button)"
+        info = mein_name + ", hide your spaceships (click again removes spaceship)"
     userinfo(info)
 
     if galax.Verstecken(info) == False:
