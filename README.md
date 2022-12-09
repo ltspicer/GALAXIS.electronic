@@ -93,14 +93,12 @@ Required files/directories for the Python3 variant:
 - **config.ini** file
 - **updater.bat** file
 - **updater.sh** file
-- **starter.sh** file
 - **galaxis.py** file
 
 Required files/directories for the Linux binary (see release section because greather than 25MB):
 - **data** directory
 - **config.ini** file
 - **updater.sh** file
-- **starter.sh** file (Change this line to: **cd ${HOME}/galaxis.electronic.linux ; ./galaxis** )
 - **galaxis** file
 
 On Raspberry (Raspian/Raspi-OS) works the Python3 variant fine.
