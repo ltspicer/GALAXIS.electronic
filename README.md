@@ -95,7 +95,7 @@ Required files/directories for the Python3 variant:
 - **updater.sh** file
 - **galaxis.py** file
 
-Required files/directories for the Linux binary (see release section because greather than 25MB):
+Required files/directories for the Linux binary:
 - **data** directory
 - **config.ini** file
 - **updater.sh** file
