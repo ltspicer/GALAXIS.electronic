@@ -62,7 +62,7 @@ mv updater.sh ../updater_tmp.sh
 
 # Move required files (binary or Python)
 if [[ $compiled -ne 1 ]] ; then
-    mv starter.sh ../
+#    mv starter.sh ../
     mv updater.bat ../
 fi
 
@@ -83,7 +83,7 @@ else
     chmod +x galaxis.py
 fi
 
-chmod +x starter.sh
+#chmod +x starter.sh
 chmod +x updater_tmp.sh
 chmod +x updater.bat
 
