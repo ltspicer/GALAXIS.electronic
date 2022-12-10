@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.1   #
+#   GALAXIS electronic V5.2   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -494,6 +494,7 @@ else:
         spielmodus = 2
     else:
         spielmodus = 1
+nickname = nickname[:10].lower()        # Nickname auf 10 Zeichen kürzen und Kleinschreibung
 
 # Sound initialisieren
 mixer.init()
@@ -1310,7 +1311,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.1
+        self.version = 5.2
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1405,7 +1406,7 @@ class GalaxisGame(ConnectionListener):
             self.chattext.append(text)
         if len(self.chattext) > 40:
             del self.chattext[0]
-        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.5),kor(29.1)], 0)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.9),kor(29.1)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
         pygame.display.flip()
         zeile = 0
@@ -1783,13 +1784,11 @@ while True:
     if language == "de":
         print("Wenn Du fertig versteckt hast, wähle einen Gegner aus.")
         print("ESC im Spielfenster zum verlassen.")
-        print("Gib hier Deine Chat-Nachrichten ein. Absenden mit ENTER")
-        info = mein_name + ", verstecke Deine Raumschiffe (nochmaliger Klick entfernt Raumschiff)"
+        info = mein_name + ", verstecke Deine 4 Raumschiffe"
     else:
         print("When you have finished hiding, choose an opponent.")
         print("ESC in game window to exit.")
-        print("Enter your chat messages here. Submit with ENTER")
-        info = mein_name + ", hide your spaceships (click again removes spaceship)"
+        info = mein_name + ", hide your 4 spaceships"
     userinfo(info)
 
     if galax.Verstecken(info) == False:
