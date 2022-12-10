@@ -76,11 +76,11 @@ mv data ../
 
 cd ..
 rm -rf new_release
-if [[ $compiled -eq 1 ]] ; then
-    rm galaxis.py
-    chmod +x galaxis
+if [[ $compiled -eq 1 ]] ; then         # wenn Linux bin vorhanden,
+    rm galaxis.py                       # lösche die .py
+    chmod +x galaxis                    # und setzte die Binary auf ausfuehrbar
 else
-    chmod +x galaxis.py
+    chmod +x galaxis.py                 # sonst die .py ausfuehrbar machen
 fi
 
 #chmod +x starter.sh
