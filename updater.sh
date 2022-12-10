@@ -76,7 +76,7 @@ mv data ../
 
 cd ..
 rm -rf new_release
-if [[ $compiled -eq 1 ]] ; then         # wenn Linux bin vorhanden,
+if [[ $compiled -eq 1 ]] ; then         # wenn Linux Binary vorhanden,
     rm galaxis.py                       # lösche die .py
     chmod +x galaxis                    # und setzte die Binary auf ausfuehrbar
 else
