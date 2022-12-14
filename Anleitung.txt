@@ -18,6 +18,8 @@ Reboot after installation!
 Or start galaxis.exe (no Python needed) for Windows.
 Or start galaxis for Linux (no Python needed).
 Just start ./galaxis in a terminal or double it.
+Possible error message with the Linux variant (e.g. with Fedora):
+"libGL error: MESA-LOADER: failed to open swrast". Solution: Enter the following in the terminal: export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 
 On the Raspberry use the Python3 variant.
 
@@ -91,6 +93,8 @@ Nach der Installation einen Reboot machen!
 Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
 Oder galaxis starten (keine Python Installation notwendig) für Linux.
 Einfach ./galaxis in einem Terminal oder Doppelklick darauf.
+Mögliche Fehlermeldung bei der Linux Variante (zBsp bei Fedora):
+"libGL error: MESA-LOADER: failed to open swrast". Lösung: Gib folgendes im Terminal ein:  export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 
 Auf dem Raspberry benutze die Python3 Variante.
 
