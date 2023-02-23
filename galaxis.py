@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.2   #
+#   GALAXIS electronic V5.3   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -1311,7 +1311,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.2
+        self.version = 5.3
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1827,8 +1827,11 @@ while True:
     #### Spiel neu starten?
     ja_nein_zeichnen(0)
 
-    # Fenster aktualisieren
-    pygame.display.flip()
+    # Fenster aktualisieren und Online-User Anzeige löschen
+    if language == "de":
+        userinfotext(["Momentan keine Information verfügbar"], ["Momentan keine Information verfügbar"])
+    else:
+        userinfotext(["No information available at the moment"], ["No information available at the moment"])
 
     # Refresh-Zeit festlegen
     clock.tick(100)
