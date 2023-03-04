@@ -69,6 +69,7 @@ Then you have to restart the game and hide the spaceships again.
 You can also play against the server. This opponent is called "robot".
 The "roboteasy" is a bit easier to defeat.
 
+By entering #hiscore in the chat input field, the top 15 players can be displayed.
 
 Other suggestions and bug reports are welcome.
 
@@ -144,6 +145,8 @@ Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
 Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot".
 Der "roboteasy" ist etwas einfacher zu besiegen.
+
+Mit Eingabe von #hiscore im Chat-Eingabefeld können die besten 15 Spieler angezeigt werden.
 
 
 Weitere Anregungen und Bugreports sind willkommen.
