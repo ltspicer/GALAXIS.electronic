@@ -12,7 +12,7 @@ I coded the Ravensburger game "GALAXIS electronic" from 1980 for fun and as a Py
 
 Installation:
 
-Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
+Windows users must install Python 3.7 - 3.11 (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
 It's important to set mark „Add Python 3.8 to PATH“ there.
 Reboot after installation!
 Or start galaxis.exe (no Python needed) for Windows.
@@ -23,7 +23,7 @@ Possible error message with the Linux variant (e.g. with Fedora):
 
 On the Raspberry use the Python3 variant.
 
-Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
+Python3.x should already be pre-installed in Linux systems (3.7 - 3.11). However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
 Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries can be installed automatically on first start (the user will be asked).
@@ -88,7 +88,7 @@ Habe aus Spass und zur Python-Übung das Ravensburger Spiel "GALAXIS electronic"
 
 Installation:
 
-Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
+Windows-User müssen Python 3.7 bis 3.11 installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
 Es ist wichtig, ein Häkchen bei „Add Python 3.8 to PATH“ zu setzen.
 Nach der Installation einen Reboot machen!
 Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
@@ -99,7 +99,7 @@ Mögliche Fehlermeldung bei der Linux Variante (zBsp bei Fedora):
 
 Auf dem Raspberry benutze die Python3 Variante.
 
-In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
+In Linux Systemen sollte Python3.x bereits vorinstalliert sein (3.7 bis 3.11). Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
 Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken können beim Erststart automatisch installiert werden (der User wird danach gefragt).
