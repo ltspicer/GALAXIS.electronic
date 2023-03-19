@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.3   #
+#   GALAXIS electronic V5.4   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -130,6 +130,7 @@ from pygame.locals import *
 pygame.init()
 from pygame import mixer
 from sys import stdin, exit
+from re import sub
 
 print()
 
@@ -440,6 +441,9 @@ ROT     = ( 255,   0,   0)
 WEISS   = ( 255, 255, 255)
 BLAU    = (  51, 255, 255)
 
+# Nickname bearbeiten
+def edit_nick(text=""):
+    return sub('[^abcdefghijklmnopqrstuvwxyzäöüéèàABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ1234567890._]', '', text)
 
 # Nickname bei Aufruf mitgegeben?
 try:
@@ -494,7 +498,9 @@ else:
         spielmodus = 2
     else:
         spielmodus = 1
-nickname = nickname[:10].lower()        # Nickname auf 10 Zeichen kürzen und Kleinschreibung
+
+nickname = edit_nick(nickname)          # Nicht erlaubte Zeichen löschen
+nickname = nickname[:10]                # Nickname auf 10 Zeichen kürzen
 
 # Sound initialisieren
 mixer.init()
@@ -1046,7 +1052,7 @@ class GalaxisGame(ConnectionListener):
 
         if self.running == False:
             sound_message()
-        if data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") and data["who"] == self.mein_name:
+        if (data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") or data["message"].startswith("Your chosen opponent is not ready yet!")) and data["who"] == self.mein_name:
             self.gegner_verbunden = False
 
     def Network_error(self, data):
@@ -1120,7 +1126,7 @@ class GalaxisGame(ConnectionListener):
                 print("Player 0 begins. You are player", self.num)
                 self.chatausgabe("Player 0 begins. You are player " + str(self.num))
 
-        connection.Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid})
+        connection.Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid, "sprache": language})
 
     def Network_startgame(self, data):
         anzahl_spieler=data["players"]
@@ -1311,7 +1317,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.3
+        self.version = 5.4
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1820,9 +1826,13 @@ while True:
                     print("Spiel abgebrochen")
                 else:
                     print("Game aborted")
-                gegner_verbunden = False
+                break
             if spiel_fertig == True:                                        # Wenn Spiel fertig:
-                gegner_verbunden = False
+                if language == "de":
+                    print("Spiel fertig")
+                else:
+                    print("Game finished")
+                break
 
     #### Spiel neu starten?
     ja_nein_zeichnen(0)
