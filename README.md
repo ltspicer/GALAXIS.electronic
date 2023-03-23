@@ -102,7 +102,7 @@ Required files/directories for the Linux binary:
 - **updater.sh** file
 - **galaxis** file
 
-On Raspberry (Raspian/Raspi-OS) works the Python3 variant fine.
+On Raspberry (Raspbian/Raspi-OS) works the Python3 variant fine.
 
 The PodSixNet directory is necessary from Python 3.12.
 Just copy this into the game directory (parallel to galaxis.py).
