@@ -89,7 +89,7 @@ fi
 chmod +x starter.sh
 chmod +x updater_tmp.sh
 chmod +x updater.bat
-chmod +x PodSixNet/*
+#chmod +x PodSixNet/*
 
 echo
 echo "Press RETURN if this window doesn't close!"
