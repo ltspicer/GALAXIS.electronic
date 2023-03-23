@@ -94,6 +94,7 @@ Required files/directories for the Python3 variant:
 - **updater.bat** file
 - **updater.sh** file
 - **galaxis.py** file
+- **PodSixNet** directory (only for Python 3.12+ needed)
 
 Required files/directories for the Linux binary:
 - **data** directory
@@ -102,3 +103,6 @@ Required files/directories for the Linux binary:
 - **galaxis** file
 
 On Raspberry (Raspian/Raspi-OS) works the Python3 variant fine.
+
+The PodSixNet directory is necessary from Python 3.12.
+Just copy this into the game directory (parallel to galaxis.py).
