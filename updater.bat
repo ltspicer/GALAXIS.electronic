@@ -2,7 +2,7 @@
 
 echo:
 echo ###############################
-echo #  GALAXIS electronic V4.8    #
+echo #  GALAXIS electronic V5.4    #
 echo #  von Daniel Luginbuehl      #
 echo #        (C) 2022             #
 echo # webmaster@ltspiceusers.ch   #
@@ -60,9 +60,11 @@ rmdir /S /Q "new_release"
 git clone https://github.com/ltspicer/GALAXIS.electronic.git new_release
 
 :VERTEILEN
-echo **** Move data directory to the game root.
+echo **** Move data and PodSixNet directory to the game root.
 rmdir /S /Q "data"
+rmdir /S /Q "PodSixNet"
 move /Y new_release\data data
+move /Y new_release\PodSixNet PodSixNet
 
 echo **** Move all necessary files to the game root.
 REM set "zu_kopierende_files[x]=config.ini"     REM less stay old version
