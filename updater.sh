@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V5.1    #
+#  GALAXIS electronic V5.4    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -52,6 +52,7 @@ cd ltspicer-GALAXIS.electronic*
 mv * ../
 cd ..
 rm -rf ../data
+rm -rf ../PodSixNet
 
 # Move files
 movables=(Anleitung.txt README.md galaxis.py)   #Insert config.ini if you want
@@ -62,7 +63,7 @@ mv updater.sh ../updater_tmp.sh
 
 # Move required files (binary or Python)
 if [[ $compiled -ne 1 ]] ; then
-#    mv starter.sh ../
+    mv starter.sh ../
     mv updater.bat ../
 fi
 
@@ -71,21 +72,24 @@ if [[ $compiled -eq 1 ]] ; then
     mv galaxis ../
 fi
 
-# Move data directory
+# Move data and PodSixNet directory
 mv data ../
+mv PodSixNet ../
 
 cd ..
 rm -rf new_release
-if [[ $compiled -eq 1 ]] ; then         # wenn Linux Binary vorhanden,
-    rm galaxis.py                       # lösche die .py
-    chmod +x galaxis                    # und setzte die Binary auf ausfuehrbar
+if [[ $compiled -eq 1 ]] ; then
+    rm galaxis.py
+    chmod +x galaxis
 else
-    chmod +x galaxis.py                 # sonst die .py ausfuehrbar machen
+    chmod +x galaxis.py
 fi
 
-#chmod +x starter.sh
+# Make executable
+chmod +x starter.sh
 chmod +x updater_tmp.sh
 chmod +x updater.bat
+chmod +x PodSixNet/*
 
 echo
 echo "Press RETURN if this window doesn't close!"
