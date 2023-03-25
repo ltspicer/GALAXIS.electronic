@@ -17,7 +17,7 @@ It's important to set mark „Add Python 3.x to PATH“ there.
 Reboot after installation!
 Or start galaxis.exe (no Python needed) for Windows.
 Or start galaxis for Linux (no Python needed).
-Just start ./galaxis in a terminal or double it.
+Just start ./galaxis in a terminal or double click it.
 Possible error message with the Linux variant (e.g. with Fedora):
 "libGL error: MESA-LOADER: failed to open swrast". Solution: Enter the following in the terminal: export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 
