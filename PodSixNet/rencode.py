@@ -349,8 +349,8 @@ def encode_int(x, r):
         r.extend((CHR_INT8, struct.pack('!q', x)))
     else:
         s = str(x)
-        if py3:
-            s = bytes(s, "ascii")
+#        if py3:
+        s = bytes(s, "ascii")
 
         if len(s) >= MAX_INT_LENGTH:
             raise ValueError('overflow')
@@ -378,8 +378,8 @@ def encode_string(x, r):
         r.extend((int2byte(STR_FIXED_START + len(x)), x))
     else:
         s = str(len(x))
-        if py3:
-            s = bytes(s, "ascii")
+#        if py3:
+        s = bytes(s, "ascii")
         r.extend((s, b':', x))
 
 
