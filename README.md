@@ -36,6 +36,7 @@ Select an opponent by entering their nickname in the text field below.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed. A chat is running on the right side. Here you can enter messages, which will then be sent to all players present.
 Enter your text with the keyboard and confirm with ENTER.
+Write the opponents name into the field concerned.
 Now the "found" sound is played to alert both players.
 In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
@@ -72,6 +73,7 @@ Wähle einen Gegner aus, indem Du dessen Nickname ins Textfeld unten eingibst.
 Nach dem ersten Zug hast Du jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
 Verfügbare Gegner im Netz werden angezeigt. Auf der rechten Seite läuft ein Chat. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
 Gib dazu Deinen Text mit der Tastatur ein und bestätige mit ENTER.
+Gib den Namen des Gegners in das betreffende Feld ein.
 Nun wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
