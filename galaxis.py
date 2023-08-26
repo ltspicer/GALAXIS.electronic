@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.4   #
+#   GALAXIS electronic V5.5   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -55,8 +55,10 @@ if winexe == 0:
                 print()
                 if language == "de":
                     print("python3-pip ist nicht installiert!")
+                    print("Installieren mit:")
                 else:
                     print("python3-pip is not installed!")
+                    print("Install with:")
                 print()
                 print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
                 print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
@@ -1317,7 +1319,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.4
+        self.version = 5.5
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
