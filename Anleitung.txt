@@ -15,11 +15,15 @@ Installation:
 Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
 It's important to set mark „Add Python 3.x to PATH“ there.
 Reboot after installation!
-Or start galaxis.exe (no Python needed) for Windows.
-Or start galaxis for Linux (no Python needed).
-Just start ./galaxis in a terminal or double click it.
+
+Windows: Start galaxis.exe (no Python needed) for Windows.
+Linux binary: ./starter.sh or click and "run in terminal" (no Python needed).
+
 Possible error message with the Linux variant (e.g. with Fedora):
-"libGL error: MESA-LOADER: failed to open swrast". Solution: Enter the following in the terminal: export LD_PRELOAD=/usr/lib64/libstdc++.so.6
+"libGL error: MESA-LOADER: failed to open swrast". Solution: Enter the following in the terminal:
+export LD_PRELOAD=/usr/lib64/libstdc++.so.6
+or
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
 On the Raspberry use the Python3 variant.
 
@@ -93,11 +97,15 @@ Installation:
 Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/ ).
 Es ist wichtig, ein Häkchen bei „Add Python 3.x to PATH“ zu setzen.
 Nach der Installation einen Reboot machen!
-Oder galaxis.exe starten (keine Python Installation notwendig) für Windows.
-Oder galaxis starten (keine Python Installation notwendig) für Linux.
-Einfach ./galaxis in einem Terminal oder Doppelklick darauf.
+
+Windows: galaxis.exe starten (keine Python Installation notwendig).
+Linux binary: ./starter.sh oder anklicken und "In Terminal ausführen" (keine Python Installation notwendig).
+
 Mögliche Fehlermeldung bei der Linux Variante (zBsp bei Fedora):
-"libGL error: MESA-LOADER: failed to open swrast". Lösung: Gib folgendes im Terminal ein:  export LD_PRELOAD=/usr/lib64/libstdc++.so.6
+"libGL error: MESA-LOADER: failed to open swrast". Lösung: Gib folgendes im Terminal ein:
+export LD_PRELOAD=/usr/lib64/libstdc++.so.6
+oder
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
 Auf dem Raspberry benutze die Python3 Variante.
 
