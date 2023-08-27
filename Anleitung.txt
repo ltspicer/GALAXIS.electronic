@@ -16,8 +16,8 @@ Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/
 It's important to set mark „Add Python 3.x to PATH“ there.
 Reboot after installation!
 
-Windows: Start galaxis.exe (no Python needed).
-Linux binary: ./starter.sh or click and "run in terminal" (no Python needed).
+Windows exe: Start galaxis.exe (no Python needed).
+Linux binary: Type ./starter.sh in game folder or double-click it and select "run in terminal" (no Python needed).
 
 Possible error message with the Linux variant (e.g. with Fedora):
 "libGL error: MESA-LOADER: failed to open swrast". Solution: Enter the following in the terminal:
@@ -98,8 +98,8 @@ Windows-User müssen Python 3.7 oder höher installieren (siehe https://bodo-sch
 Es ist wichtig, ein Häkchen bei „Add Python 3.x to PATH“ zu setzen.
 Nach der Installation einen Reboot machen!
 
-Windows: galaxis.exe starten (keine Python Installation notwendig).
-Linux binary: ./starter.sh oder anklicken und "In Terminal ausführen" (keine Python Installation notwendig).
+Windows exe: galaxis.exe starten (keine Python Installation notwendig).
+Linux binary: Gebe ./starter.sh im Spielverzeichnis ein oder doppelklicke es an und wähle "In Terminal ausführen" (keine Python Installation notwendig).
 
 Mögliche Fehlermeldung bei der Linux Variante (zBsp bei Fedora):
 "libGL error: MESA-LOADER: failed to open swrast". Lösung: Gib folgendes im Terminal ein:
