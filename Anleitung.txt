@@ -16,7 +16,7 @@ Windows users must install Python 3.7 or higher (see https://bodo-schoenfeld.de/
 It's important to set mark „Add Python 3.x to PATH“ there.
 Reboot after installation!
 
-Windows: Start galaxis.exe (no Python needed) for Windows.
+Windows: Start galaxis.exe (no Python needed).
 Linux binary: ./starter.sh or click and "run in terminal" (no Python needed).
 
 Possible error message with the Linux variant (e.g. with Fedora):
