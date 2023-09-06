@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.5   #
+#   GALAXIS electronic V5.6   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -135,6 +135,9 @@ from sys import stdin, exit
 from re import sub
 
 print()
+
+# Hintergrundbild zufällig bestimmen
+bg_image = "space" + str(random.randint(1,9)) + ".jpg"
 
 # Zeichensatz initialisieren
 pygame.font.init()
@@ -366,9 +369,9 @@ def chatfensterposition(x,y):
     return x, y
 
 # Spielfeld zeichnen
-def spielfeld_zeichnen():
+def spielfeld_zeichnen(bg_image):
     # Hintergrundbild holen
-    bg = pygame.image.load(pfad + "space5.jpg")
+    bg = pygame.image.load(pfad + bg_image)
 
     # Hintergrundfarbe/Bild Fenster
     fenster.fill(SCHWARZ)
@@ -559,7 +562,7 @@ if spielmodus == 1:
             galaxis[y][x] = 5
             n=n+1
 
-    spielfeld_zeichnen()
+    spielfeld_zeichnen(bg_image)
 
     gefunden = 0
     spielzuege = 0
@@ -1052,7 +1055,7 @@ class GalaxisGame(ConnectionListener):
         print(data['who'] + ": " + data['message'] )
         self.chatausgabe(data['who'] + ": " + data['message'])
 
-        if self.running == False:
+        if self.running == False and data['who'] != "robot" and data['who'] != "roboteasy":
             sound_message()
         if (data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") or data["message"].startswith("Your chosen opponent is not ready yet!")) and data["who"] == self.mein_name:
             self.gegner_verbunden = False
@@ -1151,7 +1154,7 @@ class GalaxisGame(ConnectionListener):
 ##### Spielbezogene Funktionen
 
     def raumschiff_loeschen(self):
-        spielfeld_zeichnen()
+        spielfeld_zeichnen(self.bg_image)
         for ypos in range(7):
             for xpos in range(9):
                 if self.galaxis[ypos][xpos] == 5:
@@ -1284,7 +1287,7 @@ class GalaxisGame(ConnectionListener):
             self.antwort = wert
             self.empfangen = True
 
-    def __init__(self, mein_name):
+    def __init__(self, mein_name, bg_image):
         self.mein_name = mein_name
         self.restarted = False
 
@@ -1319,12 +1322,13 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.5
+        self.version = 5.6
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
         self.spiel_fertig = False
 
+        self.bg_image = bg_image
 
         #initialize pygame clock
         self.clock=pygame.time.Clock()
@@ -1383,6 +1387,9 @@ class GalaxisGame(ConnectionListener):
         self.old_string2 = ""
         self.spiel_fertig = False
 
+        # Hintergrundbild zufällig bestimmen
+        self.bg_image = "space" + str(random.randint(1,9)) + ".jpg"
+
         #initialize pygame clock
         self.clock=pygame.time.Clock()
 
@@ -1398,6 +1405,7 @@ class GalaxisGame(ConnectionListener):
             print("Serververbindung fehlgeschlagen! / Server connection failed!")
             time.sleep(5)
             sys.exit()
+        return self.bg_image
 
     def Warten(self):       # 2 Sekunden warten, dabei "Gegner verbunden" Status abfragen
         i = 0
@@ -1762,12 +1770,12 @@ class GalaxisGame(ConnectionListener):
 
 ##### Grundsätzliche Aufrufe
 
-galax=GalaxisGame(nickname) # __init__ wird hier aufgerufen
+galax=GalaxisGame(nickname, bg_image) # __init__ wird hier aufgerufen
 
 while True:
 
     if restarted == True:
-        galax.Neustart()
+        bg_image = galax.Neustart()
 
     # Spielfeld erzeugen über Berechnung
 
@@ -1779,7 +1787,7 @@ while True:
     else:
         fenstertitel = "GALAXIS electronic   (ESC to exit)"
     pygame.display.set_caption(fenstertitel)
-    spielfeld_zeichnen()
+    spielfeld_zeichnen(bg_image)
 
     connection.Pump()
     galax.Pump()
