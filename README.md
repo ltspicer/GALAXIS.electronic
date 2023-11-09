@@ -108,3 +108,6 @@ On Raspberry (Raspbian/Raspi-OS) works the Python3 variant fine.
 
 The PodSixNet directory is necessary for Python 3.12 or higher.
 Just copy this into the game directory (parallel to galaxis.py & data Directory).
+
+Weitere download Möglichkeit / Further download option:
+https://ltspicer.itch.io/galaxis-electronic
