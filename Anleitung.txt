@@ -35,7 +35,11 @@ Unzip the zip and start galaxy.py in the resulting directory.
 Missing libraries can be installed automatically on first start (the user will be asked).
 
 
-You can adjust the language in the config.ini (language = en).
+The language can be set in the config.ini (language = en) as well as the playing field size (multiplikator).
+multiplikator = 20 corresponds to a playing field of  720 x  560 pixels
+multiplikator = 30 corresponds to a playing field of 1080 x  840 pixels
+multiplikator = 40 corresponds to a playing field of 1440 x 1120 pixels
+
 The config.ini file and the data directory are always necessary.
 
 The automatic update may not work with older versions. In this case, get the current version directly from one of the links provided.
@@ -117,7 +121,12 @@ Zip entpacken und galaxis.py im entstandenen Verzeichnis starten.
 Fehlende Bibliotheken können beim Erststart automatisch installiert werden (der User wird danach gefragt).
 
 
-Die Sprache kann in der config.ini eingestellt werden (language = de).
+Die Sprache kann in der config.ini eingestellt werden (language = de) wie auch die Spielfeldgrösse (multiplikator).
+multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel
+multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel
+multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel
+
+
 Die config.ini Datei und das Verzeichnis data sind immer notwendig.
 
 Bei älteren Versionen funktioniert der automatische Update unter Umständen nicht. In diesem Fall hole die aktuelle Version selbst direkt bei einem der angegebenen Links.
