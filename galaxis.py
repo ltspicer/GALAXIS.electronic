@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.6   #
+#   GALAXIS electronic V5.7   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -15,7 +15,6 @@ from __future__ import print_function
 import os, sys, time, configparser, hashlib, subprocess
 from time import sleep
 
-
 # config.ini lesen
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -23,6 +22,17 @@ nick = config.get("DEFAULT", "nick")
 language = config.get("DEFAULT", "language")
 HOST_ADDR = config.get("DEFAULT", "hostaddr")
 HOST_PORT = int(config.get("DEFAULT", "hostport"))
+try:
+    MULTIPLIKATOR = int(config.get("DEFAULT", "multiplikator"))
+except:
+    MULTIPLIKATOR = int(20)
+    destFile = r"config.ini"
+    with open(destFile, "a") as f:
+        f.write("multiplikator = 20\r\n")
+        f.write("# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel\r\n")
+        f.write("# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel\r\n")
+        f.write("# multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel\r\n")
+
 my_os=sys.platform      # Betriebssystem in my_os speichern
 winexe = 0
 if sys.argv[0].endswith("galaxis.exe") == True:     # wenn Windows exe
@@ -141,8 +151,8 @@ bg_image = "space" + str(random.randint(1,9)) + ".jpg"
 
 # Zeichensatz initialisieren
 pygame.font.init()
-font = pygame.font.SysFont(None, 27)
-font2 = pygame.font.SysFont(None, 21)
+font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
+font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
 
 # Pfad zu mp3 und jpg holen
 
@@ -371,7 +381,8 @@ def chatfensterposition(x,y):
 # Spielfeld zeichnen
 def spielfeld_zeichnen(bg_image):
     # Hintergrundbild holen
-    bg = pygame.image.load(pfad + bg_image)
+    bild = pygame.image.load(pfad + bg_image)
+    bg = pygame.transform.scale(bild, (40 * MULTIPLIKATOR, 28 * MULTIPLIKATOR))
 
     # Hintergrundfarbe/Bild Fenster
     fenster.fill(SCHWARZ)
@@ -402,7 +413,7 @@ class InputBox:
         self.rect = pg.Rect(x, y, w, h)
         self.color = COLOR_INACTIVE
         self.text = text
-        self.txt_surface = FONT.render(text, True, self.color)
+        self.txt_surface = FONT.render(text+"_", True, self.color)
         self.active = False
         if language == "de":
             self.beschreibung1 = FONT2.render("Für online Spiel, gib Deinen Nicknamen ein (mind 3 Buchstaben)", True, ROT)
@@ -421,7 +432,7 @@ class InputBox:
             else:
                 self.text += event.unicode
             # Re-render the text.
-            self.txt_surface = FONT.render(self.text, True, self.color)
+            self.txt_surface = FONT.render(self.text+"_", True, self.color)
 
     def update(self):
         # Resize the box if the text is too long.
@@ -474,7 +485,6 @@ if nick == "-":
         clock = pg.time.Clock()
         input_box = InputBox(220, 100, 140, 32)
         done = False
-
         while not done:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -512,7 +522,7 @@ mixer.init()
 mixer.music.set_volume(0.7)
 
 # Multiplikator
-MULTIPLIKATOR = 20
+#MULTIPLIKATOR = 20
 
 
 # Bildschirm Aktualisierungen einstellen
@@ -1322,7 +1332,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.6
+        self.version = 5.7
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
