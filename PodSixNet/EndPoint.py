@@ -16,7 +16,7 @@ class EndPoint(Channel):
             self._map = {}
         else:
             self._map = map
-    
+
     def DoConnect(self, address=None):
         if address:
             self.address = address
@@ -29,35 +29,35 @@ class EndPoint(Channel):
             self.queue.append({"action": "error", "error": e.args})
         except socket.error as e:
             self.queue.append({"action": "error", "error": e.args})
-    
+
     def GetQueue(self):
         return self.queue
-    
+
     def Pump(self):
         Channel.Pump(self)
         self.queue = []
         poll(map=self._map)
-    
+
     # methods to add network data to the queue depending on network events
-    
+
     def Close(self):
         self.isConnected = False
         self.close()
         self.queue.append({"action": "disconnected"})
-    
+
     def Connected(self):
         self.queue.append({"action": "socketConnect"})
-    
+
     def Network_connected(self, data):
         self.isConnected = True
-    
+
     def Network(self, data):
         self.queue.append(data)
-    
+
     def Error(self, error):
         self.queue.append({"action": "error", "error": error})
-    
+
     def ConnectionError(self):
         self.isConnected = False
         self.queue.append({"action": "error", "error": (-1, "Connection error")})
- 
+

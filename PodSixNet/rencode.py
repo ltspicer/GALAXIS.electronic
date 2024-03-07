@@ -1,7 +1,7 @@
 # https://github.com/aresch/rencode
 #
 # This is tweaked to add native tuple type
-# 
+#
 # Original bencode module by Petru Paler, et al.
 #
 # Modifications by Connelly Barnes:

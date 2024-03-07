@@ -25,11 +25,11 @@ class ConnectionListener:
         connection.DoConnect(*args, **kwargs)
         # check for connection errors:
         self.Pump()
-    
+
     def Pump(self):
         for data in connection.GetQueue():
             [getattr(self, n)(data) for n in ("Network_" + data['action'], "Network") if hasattr(self, n)]
-                
+
     def Send(self, data):
         """ Convenience method to allow this listener to appear to send network data, whilst actually using connection. """
         connection.Send(data)
@@ -40,17 +40,17 @@ if __name__ == "__main__":
     class ConnectionTest(ConnectionListener):
         def Network(self, data):
             print("Network:", data)
-        
+
         def Network_error(self, error):
             print("error:", error['error'])
             print("Did you start a server?")
             exit(-1)
-        
+
         def Network_connected(self, data):
             print("connection test Connected")
-    
+
     c = ConnectionTest()
-    
+
     c.Connect()
     while 1:
         connection.Pump()

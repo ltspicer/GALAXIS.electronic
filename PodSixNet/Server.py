@@ -6,7 +6,7 @@ from PodSixNet.Channel import Channel
 
 class Server(asyncore.dispatcher):
     channelClass = Channel
-    
+
     def __init__(self, channelClass=None, localaddr=("127.0.0.1", 5071), listeners=5):
         if channelClass:
             self.channelClass = channelClass
@@ -18,7 +18,7 @@ class Server(asyncore.dispatcher):
         self.set_reuse_addr()
         self.bind(localaddr)
         self.listen(listeners)
-    
+
     def handle_accept(self):
         try:
             conn, addr = self.accept()
@@ -33,8 +33,7 @@ class Server(asyncore.dispatcher):
         self.channels[-1].Send({"action": "connected"})
         if hasattr(self, "Connected"):
             self.Connected(self.channels[-1], addr)
-    
+
     def Pump(self):
         [c.Pump() for c in self.channels]
         poll(map=self._map)
-
