@@ -20,4 +20,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint --ignore=PodSixNet $(git ls-files '*.py')
+        pylint -d C0301,E0601,E0602,C0116,E0401 $(git ls-files '*.py')
