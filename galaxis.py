@@ -12,7 +12,12 @@
 
 
 from __future__ import print_function
-import os, sys, time, configparser, hashlib, subprocess
+import os
+import sys
+import time
+import configparser
+import hashlib
+import subprocess
 from time import sleep
 
 # config.ini lesen
@@ -24,10 +29,10 @@ HOST_ADDR = config.get("DEFAULT", "hostaddr")
 HOST_PORT = int(config.get("DEFAULT", "hostport"))
 try:
     MULTIPLIKATOR = int(config.get("DEFAULT", "multiplikator"))
-except:
+except KeyError:
     MULTIPLIKATOR = int(20)
     destFile = r"config.ini"
-    with open(destFile, "a") as f:
+    with open(destFile, "a", encoding="utf-8") as f:
         f.write("multiplikator = 20\r\n")
         f.write("# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel\r\n")
         f.write("# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel\r\n")
@@ -35,9 +40,9 @@ except:
 
 my_os=sys.platform      # Betriebssystem in my_os speichern
 winexe = 0
-if sys.argv[0].endswith("galaxis.exe") == True:     # wenn Windows exe
+if sys.argv[0].endswith("galaxis.exe") is True:     # wenn Windows exe
     winexe = 1
-if sys.argv[0].endswith("galaxis") == True:         # wenn Linux bin
+if sys.argv[0].endswith("galaxis") is True:         # wenn Linux bin
     winexe = 2
 
 install = 0
@@ -61,7 +66,7 @@ if winexe == 0:
 
             try:
                 subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
-            except:
+            except subprocess.CalledProcessError:
                 print()
                 if language == "de":
                     print("python3-pip ist nicht installiert!")
@@ -137,11 +142,14 @@ else:
 # Importieren der Bibliotheken
 
 import pygame as pg
-import random, math, json, threading, socket
+import random
+import json
+import threading
+import socket
 from pygame.locals import *
 pygame.init()
 from pygame import mixer
-from sys import stdin, exit
+from sys import stdin
 from re import sub
 
 print()
@@ -809,14 +817,14 @@ class GalaxisGame(ConnectionListener):
 
     def timer_starten(self):
         aktive_threads = threading.active_count()
-        if aktive_threads < 2 and self.spielaktiv == True:
+        if aktive_threads < 2 and self.spielaktiv is True:
             self.timer = threading.Timer(54.0, self.timer54)
             self.timer.daemon = True
             self.timer.start()
 
     def timer_stoppen(self):
         try:
-            if self.timer.is_alive() == True:
+            if self.timer.is_alive() is True:
                 self.timer.cancel()
                 self.umschalt_warnung = False
         except:
@@ -826,7 +834,7 @@ class GalaxisGame(ConnectionListener):
         self.timer_stoppen()
         self.timer = threading.Timer(6.0, self.timer6)
         self.timer.daemon = True
-        if self.timer.is_alive() == False and self.spielaktiv == True:
+        if self.timer.is_alive() is False and self.spielaktiv is True:
             self.timer.start()
             # Hier Warnung auf Bildschirm
             self.umschalt_warnung = True
@@ -950,7 +958,7 @@ class GalaxisGame(ConnectionListener):
 
     def Network_checksum(self, data):
         status=data["status"]
-        if status == False:
+        if status is False:
             if language == "de":
                 print("Der Quellcode wurde verändert. Bitte aktuelle Version runterladen!")
                 print("Download bei")
@@ -1110,7 +1118,7 @@ class GalaxisGame(ConnectionListener):
             sys.exit()
             quit()
 
-        if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-" and self.restarted == False:
+        if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-" and self.restarted is False:
             if language == "de":
                 print("Dein gewählter Nickname ist bereits vergeben!")
                 self.mein_name = self.mein_name + str(self.userid)
@@ -1125,14 +1133,14 @@ class GalaxisGame(ConnectionListener):
                 self.chatausgabe("Your new nickname is " + self.mein_name)
 
         restarted = False
-        if self.gegner_bereit == True and self.spielerbereit == True:
+        if self.gegner_bereit and self.spielerbereit:
             self.spielaktiv = True
             self.running = True
         if self.num == 0:
             self.turn = True
         else:
             self.turn = False
-        if self.gegner_bereit == True:
+        if self.gegner_bereit:
             print("Gameid:", self.gameid, ", Userid:", self.userid)
             if language == "de":
                 print("Spieler 0 beginnt. Du bist Spieler", self.num)
@@ -1150,7 +1158,7 @@ class GalaxisGame(ConnectionListener):
         num=data["num"]
         gegnerbereit = False
 
-        if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit == True:
+        if anzahl_spieler == 2 and gameid == self.gameid and self.spielerbereit:
             self.spielaktiv = True
             self.running = True
             if self.num != 0:
@@ -1171,7 +1179,7 @@ class GalaxisGame(ConnectionListener):
                     raumschiff_zeichnen(xpos,ypos,WEISS)
 
     def wer_ist_am_zug(self):
-        if self.turn==True:
+        if self.turn:
             if language == "de":
                 info = self.mein_name + ", Du bist am Zug. Dein Gegner: " + str(self.gegner)
             else:
@@ -1184,7 +1192,7 @@ class GalaxisGame(ConnectionListener):
 
         userinfo(info)
 
-        if self.turn == True and self.spielzuege > 0:
+        if self.turn and self.spielzuege > 0:
             self.timer_starten()
 
     def mein_name_retour(self):
@@ -1227,12 +1235,12 @@ class GalaxisGame(ConnectionListener):
                 self.turn = False
                 raumschiff_zeichnen(xpos,ypos,SCHWARZ)  # Raumschiff aus galaxis Array löschen
 
-            if gesehn < 5 and verraten == False:
+            if gesehn < 5 and verraten is False:
                 sounds(gesehn)
                 self.turn = True
                 #time.sleep(1)
 
-            if gesehn == 5 and verraten == False:
+            if gesehn == 5 and verraten is False:
                 sound_gefunden()
                 self.turn = False
 
@@ -1244,7 +1252,7 @@ class GalaxisGame(ConnectionListener):
                 self.timer_stoppen()
                 verloren(self.gegner)
 
-            if verraten == True:
+            if verraten:
                 self.gefunden+=1
                 raumschiff_zeichnen(xpos,ypos,ROT)
                 self.angepeilt[ypos][xpos] = 1
@@ -1497,7 +1505,7 @@ class GalaxisGame(ConnectionListener):
                             elif mouse_presses[0] and self.angepeilt[ypos][xpos]==2:
                                 element_zeichnen(xpos,ypos,GRAU)
                                 self.angepeilt[ypos][xpos] = 0
-                            if mouse_presses[2] and self.angepeilt[ypos][xpos]==0 and self.turn == True:
+                            if mouse_presses[2] and self.angepeilt[ypos][xpos]==0 and self.turn:
                                 self.turn = False
                                 self.timer_stoppen()
                                 self.spielzuege+=1
@@ -1507,7 +1515,7 @@ class GalaxisGame(ConnectionListener):
                                 self.empfangen = False
                                 self.ping_remote(xpos,ypos, 6, self.num, self.gameid)
                                 self.timer_stoppen()
-                                while self.empfangen == False:
+                                while self.empfangen is False:
                                     self.Pump()
                                     connection.Pump()
                                     sleep(0.01)
@@ -1543,11 +1551,11 @@ class GalaxisGame(ConnectionListener):
                                     sound_gewonnen()
                                     userinfo(info)
 
-                                if self.verraten == True:
+                                if self.verraten:
                                     time.sleep(3.7)
                                     sound_verraten()
                                 #time.sleep(4.9)
-                
+
             self.Pump()
             connection.Pump()
             sleep(0.01)
@@ -1574,8 +1582,8 @@ class GalaxisGame(ConnectionListener):
                 #time.sleep(6.7)
 
             # Ausgabe, wer am Zug ist
-            elif self.spielaktiv == True:
-                if self.umschalt_warnung == False:
+            elif self.spielaktiv:
+                if self.umschalt_warnung is False:
                     self.wer_ist_am_zug()
                 else:
                     if language == "de":
@@ -1584,7 +1592,7 @@ class GalaxisGame(ConnectionListener):
                         info = "6 seconds left, then it's "+self.gegner+"'s turn!"
                     userinfo(info)
 
-            if self.spiel_fertig == True:
+            if self.spiel_fertig:
                 self.spielaktiv = False
 
         return self.spiel_fertig
@@ -1595,7 +1603,7 @@ class GalaxisGame(ConnectionListener):
         pg.key.set_repeat()
         text_surf = font.render(text+"_", True, BLAU)
         fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
-        if gegner_auswahl == False:
+        if gegner_auswahl is False:
             if language == "de":
                 chatanleitung = "Chat Eingabe.              Senden mit ENTER"
             else:
@@ -1771,7 +1779,7 @@ class GalaxisGame(ConnectionListener):
                     connection.Pump()
                     self.Pump()
                     pygame.display.flip()
-                    if self.running == True:
+                    if self.running:
                         return False, True
             pygame.draw.rect(fenster, SCHWARZ, [kor(17.5), kor(29.25),kor(30),kor(1.2)], 0)
             pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
@@ -1784,7 +1792,7 @@ galax=GalaxisGame(nickname, bg_image) # __init__ wird hier aufgerufen
 
 while True:
 
-    if restarted == True:
+    if restarted:
         bg_image = galax.Neustart()
 
     # Spielfeld erzeugen über Berechnung
@@ -1817,37 +1825,37 @@ while True:
         info = mein_name + ", hide your 4 spaceships"
     userinfo(info)
 
-    if galax.Verstecken(info) == False:
+    if galax.Verstecken(info) is False:
         pygame.quit()
         sys.exit()
 
     erfolg = False                                                          # Info:
     gegner_verbunden = True                                                 # - False   False = Abgebrochen
     while gegner_verbunden:                                                 # - False   True  = Von anderem Spieler aufgerufen
-        while erfolg == False:                                              # - !=False True  = selber Gegner ausgewählt
+        while erfolg is False:                                              # - !=False True  = selber Gegner ausgewählt
             gegner, erfolg = galax.GegnerWaehlen()
-            if erfolg == False:                                             # False   False = Gegnerwahl abgebrochen:
+            if erfolg is False:                                             # False   False = Gegnerwahl abgebrochen:
                 if language == "de":
                     print("Spiel abgebrochen")
                 else:
                     print("Game aborted")
                 gegner_verbunden = False
                 break
-            if gegner == False and erfolg == True:                          # False   True  = Von anderem Spieler aufgerufen
+            if gegner is False and erfolg:                          # False   True  = Von anderem Spieler aufgerufen
                 break
-            if gegner != False and erfolg == True:                          # !=False True  = selber Gegner ausgewählt
+            if gegner is not False and erfolg:                          # !=False True  = selber Gegner ausgewählt
                 connection.Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
             erfolg = galax.Warten()
 
-        if gegner_verbunden == True:
+        if gegner_verbunden:
             spiel_fertig = galax.Galaxis()                                  #### Spiel starten
-            if spiel_fertig == False:                                       # Wenn Spiel abgebrochen:
+            if spiel_fertig is False:                                       # Wenn Spiel abgebrochen:
                 if language == "de":
                     print("Spiel abgebrochen")
                 else:
                     print("Game aborted")
                 break
-            if spiel_fertig == True:                                        # Wenn Spiel fertig:
+            if spiel_fertig is True:                                        # Wenn Spiel fertig:
                 if language == "de":
                     print("Spiel fertig")
                 else:
@@ -1893,3 +1901,4 @@ time.sleep(1)
 connection.Close()
 pygame.quit()
 sys.exit()
+
