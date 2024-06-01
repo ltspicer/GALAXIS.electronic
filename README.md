@@ -111,3 +111,9 @@ Just copy this into the game directory (parallel to galaxis.py & data Directory)
 
 Weitere download Möglichkeit / Further download option:
 https://ltspicer.itch.io/galaxis-electronic
+
+Youtube:
+
+https://www.youtube.com/watch?v=YeL0KNHmOos
+
+https://www.youtube.com/watch?v=pswF-UIdfz8
