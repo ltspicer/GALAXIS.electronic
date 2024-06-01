@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.7   #
+#   GALAXIS electronic V5.9   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -192,7 +192,7 @@ def spielzuge(wert):
     else:
         stand = "  Moves:      " + str(wert)
     imag = font.render(stand, True, BLAU)
-    pygame.draw.rect(fenster, SCHWARZ, [kor(4.53)*4+2.66*MULTIPLIKATOR, kor(5.46)*4+2.17*MULTIPLIKATOR,kor(1.4),kor(1)], 0)
+    pygame.draw.rect(fenster, SCHWARZ, [kor(4.45)*4+2.66*MULTIPLIKATOR, kor(5.46)*4+2.17*MULTIPLIKATOR,kor(1.8),kor(1)], 0)
     fenster.blit(imag, ([kor(3.4)*4+2.25*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
 
 # Spiel gewonnen
@@ -1340,7 +1340,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.7
+        self.version = 5.9
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
