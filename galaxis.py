@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V5.9   #
+#   GALAXIS electronic V6.0   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -89,6 +89,11 @@ if winexe == 0:
                 sleep(20)
                 return 2
 
+            if wert-4 > -1:
+                wert-=4
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyasynchat'])
+                print("pyasynchat is installed / ist installiert")
+
             if wert-2 > -1:
                 wert-=2
                 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
@@ -120,6 +125,15 @@ if winexe == 0:
             print("PodSixNet ist nicht installiert!")
         else:
             print("PodSixNet is not installed!")
+
+    try:
+        import asynchat
+    except ImportError as e:
+        install+=4
+        if language == "de":
+            print("asynchat ist nicht installiert!")
+        else:
+            print("asynchat is not installed!")
 
     antwort = InstallFrage(install)
     if antwort == 2:
@@ -1340,7 +1354,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 5.9
+        self.version = 6.00
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
