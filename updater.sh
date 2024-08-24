@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V5.4    #
+#  GALAXIS electronic V5.5    #
 #  von Daniel Luginbuehl      #
 #        (C) 2022             #
 # webmaster@ltspiceusers.ch   #
@@ -92,6 +92,10 @@ chmod +x updater.bat
 #chmod +x PodSixNet/*
 
 echo
+echo "If pip returns the error 'externally-managed-environment', see:"
+echo "https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/"
+echo
+sleep 5
 echo "Press RETURN if this window doesn't close!"
 mv updater_tmp.sh updater.sh 2> /dev/null & exit 0
 
