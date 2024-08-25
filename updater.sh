@@ -92,7 +92,15 @@ chmod +x updater.bat
 #chmod +x PodSixNet/*
 
 echo
-echo "If pip returns the error 'externally-managed-environment', see:"
+
+vers=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
+echo
+echo "To fix the pip error 'externally-managed-environment' do in console:"
+echo
+echo "cd /usr/lib/python3.$vers"
+echo "sudo rm EXTERNALLY-MANAGED"
+echo
+echo "See:"
 echo "https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/"
 echo
 sleep 5
