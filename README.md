@@ -109,6 +109,10 @@ On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 The PodSixNet directory is necessary for Python 3.12 or higher.
 Just copy this into the game directory (parallel to galaxis.py & data Directory).
 
+The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
+
+---------------------
+
 How to Fix the pip **externally-managed-environment** error on Linux:
 
 
