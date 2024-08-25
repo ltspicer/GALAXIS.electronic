@@ -111,6 +111,9 @@ Just copy this into the game directory (parallel to galaxis.py & data Directory)
 
 How to Fix the pip **externally-managed-environment** error on Linux:
 
+cd /usr/lib/python3.12         # Enter the correct Python version here!
+sudo rm EXTERNALLY-MANAGED
+
 https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/
 
 ---------------------
