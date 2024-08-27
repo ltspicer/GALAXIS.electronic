@@ -63,6 +63,8 @@ git clone https://github.com/ltspicer/GALAXIS.electronic.git new_release
 echo **** Move data and PodSixNet, asyncore and asynchat directory to the game root.
 rmdir /S /Q "data"
 rmdir /S /Q "PodSixNet"
+rmdir /S /Q "asyncore"
+rmdir /S /Q "asynchat"
 move /Y new_release\data data
 move /Y new_release\PodSixNet PodSixNet
 move /Y new_release\asyncore asyncore
