@@ -32,6 +32,8 @@ if %OSVersion% gtr 99 (
 	del main.zip
 	cd..
 	move /Y new_release\GALAXIS.electronic-main\data new_release\data
+	move /Y new_release\GALAXIS.electronic-main\asyncore new_release\asyncore
+	move /Y new_release\GALAXIS.electronic-main\asynchat new_release\asynchat
 	move new_release\GALAXIS.electronic-main\*.* new_release
 	rmdir /S /Q "new_release\GALAXIS.electronic-main"
 	goto VERTEILEN
