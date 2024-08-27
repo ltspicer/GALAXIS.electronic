@@ -111,6 +111,8 @@ Just copy this into the game directory (parallel to galaxis.py & data Directory)
 
 The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
 
+This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
+
 ---------------------
 
 How to Fix the pip **externally-managed-environment** error on Linux:
