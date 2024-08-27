@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V5.5    #
+#  GALAXIS electronic V5.6    #
 #  von Daniel Luginbuehl      #
-#        (C) 2022             #
+#        (C) 2024             #
 # webmaster@ltspiceusers.ch   #
 #       unix updater.sh       #
 ###############################
@@ -72,9 +72,11 @@ if [[ $compiled -eq 1 ]] ; then
     mv galaxis ../
 fi
 
-# Move data and PodSixNet directory
+# Move data, PodSixNet, asyncore and asynchat to game root folder
 mv data ../
 mv PodSixNet ../
+mv asyncore ../
+mv asynchat ../
 
 cd ..
 rm -rf new_release
@@ -92,15 +94,7 @@ chmod +x updater.bat
 #chmod +x PodSixNet/*
 
 echo
-
-vers=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
-echo
-echo "To fix the pip error 'externally-managed-environment' do in console:"
-echo
-echo "cd /usr/lib/python3.$vers"
-echo "sudo rm EXTERNALLY-MANAGED"
-echo
-echo "See:"
+echo "If pip returns the error 'externally-managed-environment', see:"
 echo "https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/"
 echo
 sleep 5
