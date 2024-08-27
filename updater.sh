@@ -53,6 +53,8 @@ mv * ../
 cd ..
 rm -rf ../data
 rm -rf ../PodSixNet
+rm -rf ../asyncore
+rm -rf ../asynchat
 
 # Move files
 movables=(Anleitung.txt README.md galaxis.py)   #Insert config.ini if you want
