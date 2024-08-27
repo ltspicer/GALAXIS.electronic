@@ -97,6 +97,8 @@ Required files/directories for the Python3 variant:
 - **updater.sh** file
 - **galaxis.py** file
 - **PodSixNet** directory (only for Python 3.12+ needed)
+- **asyncore** directory (only for Python 3.12+ needed)
+- **asynchat** directory (only for Python 3.12+ needed)
 
 Required files/directories for the Linux binary:
 - **data** directory
@@ -106,7 +108,7 @@ Required files/directories for the Linux binary:
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-The PodSixNet directory is necessary for Python 3.12 or higher.
+The PodSixNet, asyncore and asynchat directory is necessary for Python 3.12 or higher.
 Just copy this into the game directory (parallel to galaxis.py & data Directory).
 
 The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
