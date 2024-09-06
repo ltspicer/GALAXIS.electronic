@@ -99,7 +99,7 @@ Required files/directories for the Python3 variant:
 - **PodSixNet** directory
 - **asyncore** directory
 - **asynchat** directory
-- **pygame** directory
+- **pygame** directory (unzip pygame.zip and copy the content in the directory pygame)
 - **pygame.libs** directory
 - **pygame-2.6.0.data** directory
 
