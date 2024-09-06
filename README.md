@@ -99,7 +99,7 @@ Required files/directories for the Python3 variant:
 - **PodSixNet** directory
 - **asyncore** directory
 - **asynchat** directory
-- **pygame** directory (unzip pygame.zip and copy the content in the directory pygame)
+- **pygame** directory (ONLY for Python3.12+ ! unzip pygame.zip and copy the content in the directory pygame)
 - **pygame.libs** directory
 - **pygame-2.6.0.data** directory
 
@@ -111,7 +111,8 @@ Required files/directories for the Linux binary:
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-The PodSixNet, asyncore and asynchat directory is necessary for Python 3.12 or higher.
+For older Python versions than 3.12 you have to delete the **pygame** directory!
+
 Just copy this into the game directory (parallel to galaxis.py & data Directory).
 
 The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
