@@ -96,9 +96,12 @@ Required files/directories for the Python3 variant:
 - **updater.bat** file
 - **updater.sh** file
 - **galaxis.py** file
-- **PodSixNet** directory (only for Python 3.12+ needed)
-- **asyncore** directory (only for Python 3.12+ needed)
-- **asynchat** directory (only for Python 3.12+ needed)
+- **PodSixNet** directory
+- **asyncore** directory
+- **asynchat** directory
+- **pygame** directory
+- **pygame.libs** directory
+- **pygame-2.6.0.data** directory
 
 Required files/directories for the Linux binary:
 - **data** directory
@@ -114,18 +117,6 @@ Just copy this into the game directory (parallel to galaxis.py & data Directory)
 The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
 
 This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
-
----------------------
-
-How to Fix the pip **externally-managed-environment** error on Linux:
-
-
-cd /usr/lib/python3.12         # Enter the correct Python version here!
-
-sudo rm EXTERNALLY-MANAGED
-
-
-https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/
 
 ---------------------
 
