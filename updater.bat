@@ -2,7 +2,7 @@
 
 echo:
 echo ###############################
-echo #  GALAXIS electronic V5.5    #
+echo #  GALAXIS electronic V5.6    #
 echo #  von Daniel Luginbuehl      #
 echo #        (C) 2024             #
 echo # webmaster@ltspiceusers.ch   #
@@ -63,11 +63,16 @@ rmdir /S /Q "new_release"
 git clone https://github.com/ltspicer/GALAXIS.electronic.git new_release
 
 :VERTEILEN
+
+set /A python_vorhanden=0
+if exist galaxis.py set /A python_vorhanden=1
+
 echo **** Move data and PodSixNet, asyncore and asynchat directory to the game root.
 rmdir /S /Q "data"
 rmdir /S /Q "PodSixNet"
 rmdir /S /Q "asyncore"
 rmdir /S /Q "asynchat"
+del "updater.sh"
 move /Y new_release\data data
 move /Y new_release\PodSixNet PodSixNet
 move /Y new_release\asyncore asyncore
@@ -79,16 +84,23 @@ set "zu_kopierende_files[0]=Anleitung.txt"
 set "zu_kopierende_files[1]=README.md"
 set "zu_kopierende_files[2]=galaxis.exe"
 set "zu_kopierende_files[3]=galaxis.py"
-set "zu_kopierende_files[4]=updater.sh"
 REM set "zu_kopierende_files[5]=updater.bat"
 
 setlocal enabledelayedexpansion
-for /l %%n in (0,1,4) do (
+for /l %%n in (0,1,3) do (
 	echo !zu_kopierende_files[%%n]!
 	move "new_release\!zu_kopierende_files[%%n]!"
 )
 
 move new_release\updater.bat updater_tmp.bat
+
+if %python_vorhanden%==0 (
+    echo **** No Python version used. Delete unnecessary files/directories
+    rmdir /S /Q "PodSixNet"
+    rmdir /S /Q "asyncore"
+    rmdir /S /Q "asynchat"
+    del "galaxis.py"
+)
 
 echo **** Remove temporary directory.
 rmdir /S /Q "new_release"
