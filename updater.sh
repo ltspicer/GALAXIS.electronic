@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V5.6    #
+#  GALAXIS electronic V5.7    #
 #  von Daniel Luginbuehl      #
 #        (C) 2024             #
 # webmaster@ltspiceusers.ch   #
@@ -20,6 +20,11 @@ if [ -f "galaxis" ] ; then
     compiled=1
 else
     compiled=0
+fi
+if [ -f "config.ini" ] ; then
+    config=1
+else
+    config=0
 fi
 
 # use curl or wget, depending on which one we find
@@ -55,9 +60,17 @@ rm -rf ../data
 rm -rf ../PodSixNet
 rm -rf ../asyncore
 rm -rf ../asynchat
+#rm -rf ../pygame
+rm -rf ../pygame.libs
+rm -rf ../pygame-2.6.0.data
 
 # Move files
-movables=(Anleitung.txt README.md galaxis.py)   #Insert config.ini if you want
+if [[ $config -eq 1 ]] ; then
+    movables=(Anleitung.txt README.md galaxis.py)
+else
+    movables=(Anleitung.txt README.md galaxis.py config.ini)
+fi
+
 for move in "${movables[@]}" ; do
     mv $move ../
 done
@@ -79,11 +92,20 @@ mv data ../
 mv PodSixNet ../
 mv asyncore ../
 mv asynchat ../
+#mv pygame ../
+mv pygame.libs ../
+mv pygame-2.6.0.data ../
 
 cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
-    rm galaxis.py
+    rm -rf galaxis.py
+    rm -rf PodSixNet
+    rm -rf asyncore
+    rm -rf asynchat
+    rm -rf pygame
+    rm -rf pygame.libs
+    rm -rf pygame-2.6.0.data
     chmod +x galaxis
 else
     chmod +x galaxis.py
