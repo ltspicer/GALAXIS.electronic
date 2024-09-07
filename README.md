@@ -111,10 +111,6 @@ Required files/directories for the Linux binary:
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-For older Python versions than 3.12 you have to delete the **pygame** directory!
-
-Just copy this into the game directory (parallel to galaxis.py & data Directory).
-
 The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
 
 This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
