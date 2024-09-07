@@ -26,6 +26,11 @@ if [ -f "config.ini" ] ; then
 else
     config=0
 fi
+if [ -d "pygame" ] ; then
+    pygame=1
+else
+    pygame=0
+fi
 
 # use curl or wget, depending on which one we find
 if hash curl 2>/dev/null
@@ -60,9 +65,11 @@ rm -rf ../data
 rm -rf ../PodSixNet
 rm -rf ../asyncore
 rm -rf ../asynchat
-#rm -rf ../pygame
 rm -rf ../pygame.libs
 rm -rf ../pygame-2.6.0.data
+if [[ $pygame -eq 1 ]] ; then
+    rm -rf ../pygame
+fi
 
 # Move files
 if [[ $config -eq 1 ]] ; then
@@ -80,10 +87,9 @@ mv updater.sh ../updater_tmp.sh
 if [[ $compiled -ne 1 ]] ; then
     mv starter.sh ../
     mv updater.bat ../
-fi
-
+    unzip pygame/pygame.zip -d ../pygame    # unzip pygame.zip to pygame directory
+else
 # Move compiled file
-if [[ $compiled -eq 1 ]] ; then
     mv galaxis ../
 fi
 
