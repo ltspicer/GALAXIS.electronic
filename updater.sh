@@ -61,6 +61,7 @@ tar -xvf main.tgz
 cd ltspicer-GALAXIS.electronic*
 mv * ../
 cd ..
+rm ../updater.bat
 rm -rf ../data
 rm -rf ../PodSixNet
 rm -rf ../asyncore
@@ -86,7 +87,6 @@ mv updater.sh ../updater_tmp.sh
 # Move required files (binary or Python)
 if [[ $compiled -ne 1 ]] ; then
     mv starter.sh ../
-    mv updater.bat ../
     unzip pygame/pygame.zip -d ../pygame    # unzip pygame.zip to pygame directory
 else
 # Move compiled file
@@ -120,8 +120,6 @@ fi
 # Make executable
 chmod +x starter.sh
 chmod +x updater_tmp.sh
-chmod +x updater.bat
-#chmod +x PodSixNet/*
 
 echo
 echo "If pip returns the error 'externally-managed-environment', see:"
