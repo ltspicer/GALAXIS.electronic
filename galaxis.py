@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.0   #
+#   GALAXIS electronic V6.1   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -18,6 +18,7 @@ import time
 import configparser
 import hashlib
 import subprocess
+import shutil
 from time import sleep
 
 # config.ini lesen
@@ -111,11 +112,16 @@ if winexe == 0:
     try:
         import pygame
     except ImportError as e:
-        install+=1
-        if language == "de":
-            print("pygame ist nicht installiert!")
-        else:
-            print("pygame is not installed!")
+        if os.path.isdir(r"pygame"):
+            shutil.rmtree("pygame")
+        try:
+            import pygame
+        except ImportError as e:
+            install+=1
+            if language == "de":
+                print("pygame ist nicht installiert!")
+            else:
+                print("pygame is not installed!")
 
     try:
         import PodSixNet
@@ -1354,7 +1360,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.00
+        self.version = 6.10
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
