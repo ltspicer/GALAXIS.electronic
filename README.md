@@ -117,7 +117,7 @@ This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
 
 Best idea for downloaders from github: Run first the updater (.sh for Linux, .bat for Win). This will remove excess files/directories.
 
-If you are not using galaxis.py, delete it first.
+If you do not need the Python variant, remove galaxis.py before starting the updater.
 
 ---------------------
 
