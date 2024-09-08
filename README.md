@@ -115,6 +115,8 @@ The update can also be initiated manually. To do this, simply start the updater 
 
 This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
 
+Best idea for downloaders from github: Run first the updater (.sh for Linux, .bat for Win). This will remove excess files/directories.
+
 ---------------------
 
 Weitere download Möglichkeit / Further download option:
