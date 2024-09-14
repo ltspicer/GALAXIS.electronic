@@ -79,7 +79,7 @@ move /Y new_release\asyncore asyncore
 move /Y new_release\asynchat asynchat
 
 echo **** Move all necessary files to the game root.
-REM set "zu_kopierende_files[x]=config.ini"     REM less stay old version
+
 set "zu_kopierende_files[0]=Anleitung.txt"
 set "zu_kopierende_files[1]=README.md"
 set "zu_kopierende_files[2]=galaxis.exe"

@@ -21,11 +21,7 @@ if [ -f "galaxis" ] && [ ! -f "galaxis.py" ] ; then
 else
     compiled=0
 fi
-if [ -f "config.ini" ] ; then
-    config=1
-else
-    config=0
-fi
+
 if [ -d "pygame" ] ; then
     pygame=1
 else
@@ -73,11 +69,8 @@ if [[ $pygame -eq 1 ]] ; then
 fi
 
 # Move files
-if [[ $config -eq 1 ]] ; then
-    movables=(Anleitung.txt README.md galaxis.py)
-else
-    movables=(Anleitung.txt README.md galaxis.py config.ini)
-fi
+
+movables=(Anleitung.txt README.md galaxis.py)
 
 for move in "${movables[@]}" ; do
     mv $move ../

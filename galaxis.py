@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.1   #
+#   GALAXIS electronic V6.2   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -21,8 +21,35 @@ import subprocess
 import shutil
 from time import sleep
 
+# Remarks für config.ini
+REMARKS = """
+# language: 'de' für deutsch, 'en' for english
+# nick: '-' = Standard Start. 'nickname' = Startet die in spielmodus gewählte Variante mit diesem Nickname
+# spielmodus: Spielmodus wenn Nickname ungleich '-'. 1 = offline, 2 = online
+#
+#  Beispiel:
+#    nick = aaaa
+#    spielmodus = 1
+#
+#  So startet das Spiel immer direkt in der offline Variante
+#
+# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel
+# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel
+# multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel
+"""
+
+def write_config():
+    config.set('DEFAULT', REMARKS, None)
+    config.write(open('config.ini', 'w'))
+
+# config.ini vorhanden? Wenn nicht, dann erstellen
+config = configparser.ConfigParser(allow_no_value=True)
+config.optionxform = str
+if not os.path.isfile("config.ini"):
+    config["DEFAULT"] = {"language": "de", "nick": "-", "spielmodus": "2", "hostaddr": "galaxis.game-host.org", "hostport": "10002", "multiplikator": "25", "local_hiscore": "0", "spielmodus": "2"}
+    write_config()
+
 # config.ini lesen
-config = configparser.ConfigParser()
 config.read("config.ini")
 nick = config.get("DEFAULT", "nick")
 language = config.get("DEFAULT", "language")
@@ -30,7 +57,7 @@ HOST_ADDR = config.get("DEFAULT", "hostaddr")
 HOST_PORT = int(config.get("DEFAULT", "hostport"))
 try:
     MULTIPLIKATOR = int(config.get("DEFAULT", "multiplikator"))
-except KeyError:
+except configparser.Error:
     MULTIPLIKATOR = int(20)
     destFile = r"config.ini"
     with open(destFile, "a", encoding="utf-8") as f:
@@ -38,6 +65,13 @@ except KeyError:
         f.write("# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel\r\n")
         f.write("# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel\r\n")
         f.write("# multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel\r\n")
+try:
+    LOCAL_HISCORE = 63-int(int(config.get("DEFAULT", "local_hiscore"))**(1/2))
+except configparser.Error:
+    LOCAL_HISCORE = int(63)
+    destFile = r"config.ini"
+    with open(destFile, "a", encoding="utf-8") as f:
+        f.write("local_hiscore = 0\r\n")
 
 my_os=sys.platform      # Betriebssystem in my_os speichern
 winexe = 0
@@ -223,12 +257,9 @@ def gewonnen():
         imag = font.render("Won the game :)", True, ROT)
     fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
 
-def gewonnen_offline():
-    if language == "de":
-        imag = font.render("Spiel gewonnen. ESC zum Verlassen.", True, ROT)
-    else:
-        imag = font.render("    Won the game. ESC to exit.", True, ROT)
-    fenster.blit(imag, ([kor(2.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+def gewonnen_offline(info):
+    imag = font.render(info, True, ROT)
+    fenster.blit(imag, ([kor(1.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
 
 # Spiel verloren
 def verloren(gegner_name):
@@ -580,7 +611,7 @@ angepeilt=[
 [0,0,0,0,0,0,0,0,0],
 ]
 
-if spielmodus == 1:
+if spielmodus == 1:         # Offline Spiel
 
     # Spielfeld erzeugen über Berechnung
     fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 28 * MULTIPLIKATOR))
@@ -652,11 +683,23 @@ if spielmodus == 1:
 
         if gefunden == 4 and alarm==0:
             alarm = 1
-            gewonnen_offline()
-            pygame.display.flip()
-            #print("Spiel gewonnen mit", spielzuege, "Spielzügen.")
             mixer.music.load(pfad + "gewonnen.mp3")
             mixer.music.play()
+            if LOCAL_HISCORE > spielzuege:
+                if language == "en":
+                    info = "          New hi-score! " + str(spielzuege) + " moves. ESC to exit."
+                else:
+                    info = "      Neue Hiscore! " + str(spielzuege) + " Spielzüge. ESC zum Verlassen."
+
+                config['DEFAULT']['local_hiscore'] = str(int(63-spielzuege)**2)    # update
+                write_config()
+            else:
+                if language == "en":
+                    info = "       Game won with " + str(spielzuege) + " moves. ESC to exit."
+                else:
+                    info = "Spiel gewonnen mit " + str(spielzuege) + " Spielzügen. ESC zum Verlassen."
+            gewonnen_offline(info)
+            pygame.display.flip()
             time.sleep(6.7)
 
     pygame.quit()
@@ -1360,7 +1403,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.10
+        self.version = 6.20
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
