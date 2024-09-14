@@ -66,7 +66,7 @@ HOST_PORT = int(config.get("DEFAULT", "hostport"))
 try:
     MULTIPLIKATOR = int(config.get("DEFAULT", "multiplikator"))
 except configparser.Error:
-    config.set("DEFAULT", "MULTIPLIKATOR", "25")
+    config.set("DEFAULT", "multiplikator", "25")
     MULTIPLIKATOR = int(25)
 try:
     LOCAL_HISCORE = 63-int(int(config.get("DEFAULT", "local_hiscore"))**(1/2))
