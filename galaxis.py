@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.2   #
+#   GALAXIS electronic V6.3   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -21,23 +21,31 @@ import subprocess
 import shutil
 from time import sleep
 
-# Remarks für config.ini
+
+#### Alles zur config.ini ####
+
+# Bemerkungen für config.ini
 REMARKS = """
-# language: 'de' für deutsch, 'en' for english
-# nick: '-' = Standard Start. 'nickname' = Startet die in spielmodus gewählte Variante mit diesem Nickname
-# spielmodus: Spielmodus wenn Nickname ungleich '-'. 1 = offline, 2 = online
-#
-#  Beispiel:
-#    nick = aaaa
-#    spielmodus = 1
-#
-#  So startet das Spiel immer direkt in der offline Variante
-#
-# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel
-# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel
-# multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel
+# multiplikator = 20  --> entspricht einem Spielfeld von  720 x  560 Pixel / corresponds to a field of  720 x  560 pixels
+# multiplikator = 30  --> entspricht einem Spielfeld von 1080 x  840 Pixel / corresponds to a field of 1080 x  840 pixels
+# multiplikator = 40  --> entspricht einem Spielfeld von 1440 x 1120 Pixel / corresponds to a field of 1440 x 1120 pixels
+# ...
+
+# language = de  --> für deutsch / language = en  --> for english
+# nick = -  --> Standard Start. nick = MyNickname  --> Startet die in spielmodus gewählte Variante mit diesem Nickname
+#                                                      Starts the variant selected in 'spielmodus' with this nickname
+# spielmodus = 1  --> offline | spielmodus = 2  --> online | Wenn nick ungleich '-'
+#                                                          | If nick is not equal to '-'
+
+#    Beispiel / Example:
+#      nick = aaaa
+#      spielmodus = 1
+
+#    So startet das Spiel immer direkt in der offline Variante
+#    So the game always starts directly in the offline version
 """
 
+# config.ini schreiben
 def write_config():
     config.set('DEFAULT', REMARKS, None)
     config.write(open('config.ini', 'w'))
@@ -46,7 +54,7 @@ def write_config():
 config = configparser.ConfigParser(allow_no_value=True)
 config.optionxform = str
 if not os.path.isfile("config.ini"):
-    config["DEFAULT"] = {"language": "de", "nick": "-", "spielmodus": "2", "hostaddr": "galaxis.game-host.org", "hostport": "10002", "multiplikator": "25", "local_hiscore": "0", "spielmodus": "2"}
+    config["DEFAULT"] = {"multiplikator": "25", "language": "de", "nick": "-", "spielmodus": "2", "hostaddr": "galaxis.game-host.org", "hostport": "10002", "local_hiscore": "0"}
     write_config()
 
 # config.ini lesen
@@ -58,20 +66,14 @@ HOST_PORT = int(config.get("DEFAULT", "hostport"))
 try:
     MULTIPLIKATOR = int(config.get("DEFAULT", "multiplikator"))
 except configparser.Error:
-    MULTIPLIKATOR = int(20)
-    destFile = r"config.ini"
-    with open(destFile, "a", encoding="utf-8") as f:
-        f.write("multiplikator = 20\r\n")
-        f.write("# multiplikator = 20 entspricht einem Spielfeld von  720 x  560 Pixel\r\n")
-        f.write("# multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel\r\n")
-        f.write("# multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel\r\n")
+    config.set("DEFAULT", "MULTIPLIKATOR", "25")
+    MULTIPLIKATOR = int(25)
 try:
     LOCAL_HISCORE = 63-int(int(config.get("DEFAULT", "local_hiscore"))**(1/2))
 except configparser.Error:
-    LOCAL_HISCORE = int(63)
-    destFile = r"config.ini"
-    with open(destFile, "a", encoding="utf-8") as f:
-        f.write("local_hiscore = 0\r\n")
+    config.set("DEFAULT", "local_hiscore", "0")
+
+write_config()
 
 my_os=sys.platform      # Betriebssystem in my_os speichern
 winexe = 0
@@ -83,7 +85,8 @@ if sys.argv[0].endswith("galaxis") is True:         # wenn Linux bin
 install = 0
 restarted = False
 
-# Import-Versuche
+
+#### Import-Versuche ####
 
 if winexe == 0:
 
@@ -208,10 +211,10 @@ from re import sub
 
 print()
 
-# Hintergrundbild zufällig bestimmen
+## Hintergrundbild zufällig bestimmen
 bg_image = "space" + str(random.randint(1,9)) + ".jpg"
 
-# Zeichensatz initialisieren
+## Zeichensatz initialisieren
 pygame.font.init()
 font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
 font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
@@ -248,6 +251,11 @@ def spielzuge(wert):
     imag = font.render(stand, True, BLAU)
     pygame.draw.rect(fenster, SCHWARZ, [kor(4.45)*4+2.66*MULTIPLIKATOR, kor(5.46)*4+2.17*MULTIPLIKATOR,kor(1.8),kor(1)], 0)
     fenster.blit(imag, ([kor(3.4)*4+2.25*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+
+# Hiscore zeichnen
+def hiscore():
+    imag = font2.render("Hiscore: " + str(LOCAL_HISCORE), True, ROT)
+    fenster.blit(imag, ([kor(0.4)*4+2.25*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
 
 # Spiel gewonnen
 def gewonnen():
@@ -632,6 +640,7 @@ if spielmodus == 1:         # Offline Spiel
             n=n+1
 
     spielfeld_zeichnen(bg_image)
+    hiscore()
 
     gefunden = 0
     spielzuege = 0
@@ -1403,7 +1412,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.20
+        self.version = 6.30
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
