@@ -120,7 +120,7 @@ If you do not need the Python variant, remove galaxis.py before starting the upd
 
 Weitere download Möglichkeit / Further download option:
 
-https://ltspicer.itch.io/galaxis-electronic
+- https://ltspicer.itch.io/galaxis-electronic
 
 - ftp://galaxis:electronic@galaxis.istmein.de:4321
 
