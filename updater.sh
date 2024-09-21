@@ -1,11 +1,11 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V5.8    #
-#  von Daniel Luginbuehl      #
-#        (C) 2024             #
+#  GALAXIS electronic V6.0    #
+#   von Daniel Luginbuehl     #
+#         (C) 2024            #
 # webmaster@ltspiceusers.ch   #
-#       unix updater.sh       #
+#      unix updater.sh        #
 ###############################
 
 
@@ -15,13 +15,51 @@
 url="https://github.com/ltspicer/GALAXIS.electronic/tarball/master"
 #url_rls="https://github.com/ltspicer/GALAXIS.electronic/releases/download/V4.7/galaxis"
 
+if [ -f "galaxis" ] && [ -f "galaxis.py" ] ; then
+    echo -e "Es ist die Linux Binary und Python Variante installiert. Welche soll ich behalten?"
+    echo -e "\033[44mb\033[0m = beide, \033[44ml\033[0m = nur Linux Binary, \033[44mp\033[0m = nur Python Variante"
+    echo
+    echo "The Linux binary and the Python version are installed. Which one should I keep?"
+    echo -e "\033[44mb\033[0m = both, \033[44ml\033[0m = Linux binary only, \033[44mp\033[0m = Python variant only"
+    while true; do
+        read  -t 15 -r -p "In 15 Sekunden wird fortgefahren / The process will continue in 15 seconds " answer
+        if echo "$answer" | grep -iq "^b" ;then
+	        break
+        fi
+        if echo "$answer" | grep -iq "^l" ;then
+			rm galaxis.py
+	        break
+        fi
+        if echo "$answer" | grep -iq "^p" ;then
+			rm galaxis
+	        break
+        fi
+        if echo "$answer" == "" ;then
+	        break
+        fi
+    done
+fi
+
 # Exist compiled galaxis file? 
 if [ -f "galaxis" ] && [ ! -f "galaxis.py" ] ; then
+    # Wright the starter.sh for Linux binary start
     compiled=1
+    echo "#!/bin/sh" > starter.sh
+    echo "" >> starter.sh
+    echo "export LD_PRELOAD=/usr/lib64/libstdc++.so.6" >> starter.sh
+    echo "export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6" >> starter.sh
+    echo "" >> starter.sh
+    echo "HOME=\"\$(getent passwd \$USER | awk -F ':' '{print \$6}')\"" >> starter.sh
+    echo 'cd ${HOME}/galaxis.electronic.linux ; ./galaxis # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen!' >> starter.sh
 else
     compiled=0
 fi
 
+if [ -f "config.ini" ] ; then
+    config=1
+else
+    config=0
+fi
 if [ -d "pygame" ] ; then
     pygame=1
 else
@@ -62,15 +100,18 @@ rm -rf ../data
 rm -rf ../PodSixNet
 rm -rf ../asyncore
 rm -rf ../asynchat
-rm -rf ../pygame.libs
-rm -rf ../pygame-2.6.0.data
 if [[ $pygame -eq 1 ]] ; then
     rm -rf ../pygame
+    rm -rf ../pygame.libs
+    rm -rf ../pygame-2.6.0.data
 fi
 
 # Move files
-
-movables=(Anleitung.txt README.md galaxis.py)
+if [[ $config -eq 1 ]] ; then
+    movables=(Anleitung.txt README.md galaxis.py)
+else
+    movables=(Anleitung.txt README.md galaxis.py config.ini)
+fi
 
 for move in "${movables[@]}" ; do
     mv $move ../
@@ -98,7 +139,7 @@ mv pygame-2.6.0.data ../
 cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
-    rm -rf galaxis.py
+    rm galaxis.py
     rm -rf PodSixNet
     rm -rf asyncore
     rm -rf asynchat
