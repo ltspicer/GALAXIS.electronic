@@ -121,7 +121,9 @@ mv updater.sh ../updater_tmp.sh
 # Move required files (binary or Python)
 if [[ $compiled -ne 1 ]] ; then
     mv starter.sh ../
-    unzip pygame/pygame.zip -d ../pygame    # unzip pygame.zip to pygame directory
+    if [[ $pygame -eq 1 ]] ; then
+        unzip pygame/pygame.zip -d ../pygame    # unzip pygame.zip to pygame directory
+    fi
 else
 # Move compiled file
     mv galaxis ../
@@ -129,20 +131,21 @@ fi
 
 # Move data, PodSixNet, asyncore and asynchat to game root folder
 mv data ../
-mv PodSixNet ../
-mv asyncore ../
-mv asynchat ../
-#mv pygame ../
-mv pygame.libs ../
-mv pygame-2.6.0.data ../
+if [[ $compiled -eq 0 ]] ; then
+    mv PodSixNet ../
+    mv asyncore ../
+    mv asynchat ../
+fi
+if [[ $pygame -eq 1 ]] ; then
+    #mv pygame ../
+    mv pygame.libs ../
+    mv pygame-2.6.0.data ../
+fi
 
 cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
     rm galaxis.py
-    rm -rf PodSixNet
-    rm -rf asyncore
-    rm -rf asynchat
     rm -rf pygame
     rm -rf pygame.libs
     rm -rf pygame-2.6.0.data
