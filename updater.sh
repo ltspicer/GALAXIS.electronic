@@ -83,7 +83,7 @@ if [ -z "$curl_or_wget" ]; then
 fi
 
 # Download repo
-rm -rf new_release
+rm -rf new_release 2>/dev/null
 mkdir new_release
 cd new_release
 $($curl_or_wget)
@@ -95,15 +95,15 @@ tar -xvf main.tgz
 cd ltspicer-GALAXIS.electronic*
 mv * ../
 cd ..
-rm ../updater.bat
-rm -rf ../data
-rm -rf ../PodSixNet
-rm -rf ../asyncore
-rm -rf ../asynchat
+rm ../updater.bat 2>/dev/null
+rm -rf ../data 2>/dev/null
+rm -rf ../PodSixNet 2>/dev/null
+rm -rf ../asyncore 2>/dev/null
+rm -rf ../asynchat 2>/dev/null
 if [[ $pygame -eq 1 ]] ; then
-    rm -rf ../pygame
-    rm -rf ../pygame.libs
-    rm -rf ../pygame-2.6.0.data
+    rm -rf ../pygame 2>/dev/null
+    rm -rf ../pygame.libs 2>/dev/null
+    rm -rf ../pygame-2.6.0.data 2>/dev/null
 fi
 
 # Move files
@@ -114,7 +114,7 @@ else
 fi
 
 for move in "${movables[@]}" ; do
-    mv $move ../
+    mv $move ../ 2>/dev/null
 done
 mv updater.sh ../updater_tmp.sh
 
@@ -145,10 +145,10 @@ fi
 cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
-    rm galaxis.py
-    rm -rf pygame
-    rm -rf pygame.libs
-    rm -rf pygame-2.6.0.data
+    rm galaxis.py 2>/dev/null
+    rm -rf pygame 2>/dev/null
+    rm -rf pygame.libs 2>/dev/null
+    rm -rf pygame-2.6.0.data 2>/dev/null
     chmod +x galaxis
 else
     chmod +x galaxis.py
