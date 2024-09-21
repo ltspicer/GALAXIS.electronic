@@ -68,11 +68,11 @@ setlocal enabledelayedexpansion
 
 if exist "galaxis.exe" if exist "galaxis.py" (
     echo:
-    echo Es ist die Linux Binary und Python Variante installiert. Welche soll ich behalten?
+    echo Es ist die Windows.exe und Python Variante installiert. Welche soll ich behalten?
     echo b = beide, w = nur Windows exe, p = nur Python Variante
     echo.
-    echo The Linux binary and the Python version are installed. Which one should I keep?
-    echo b = both, w = Windows exe only, p = Python variant only
+    echo The Windows.exe and the Python version are installed. Which one should I keep?
+    echo b = both, w = Windows.exe only, p = Python variant only
     echo.
 
     set "answer="
