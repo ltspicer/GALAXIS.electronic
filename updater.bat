@@ -74,12 +74,11 @@ if exist "galaxis.exe" if exist "galaxis.py" (
     echo The Linux binary and the Python version are installed. Which one should I keep?
     echo b = both, w = Windows exe only, p = Python variant only
     echo.
-    echo In 15 Sekunden wird fortgefahren / The process will continue in 15 seconds
 
     set "answer="
 
     :input_loop
-    set /p answer="Eingabe/Input:"
+    set /p answer="Wähle/Choose:"
 
     if /i "!answer!"=="b" (
         set compiled=2
