@@ -78,7 +78,7 @@ if exist "galaxis.exe" if exist "galaxis.py" (
     set "answer="
 
     :input_loop
-    set /p answer="Wähle/Choose:"
+    set /p answer="Waehle/Choose:"
 
     if /i "!answer!"=="b" (
         set compiled=2
