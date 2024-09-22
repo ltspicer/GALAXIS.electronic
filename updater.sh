@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################
-#  GALAXIS electronic V6.0    #
+#  GALAXIS electronic V6.1    #
 #   von Daniel Luginbuehl     #
 #         (C) 2024            #
 # webmaster@ltspiceusers.ch   #
@@ -15,6 +15,8 @@
 url="https://github.com/ltspicer/GALAXIS.electronic/tarball/master"
 #url_rls="https://github.com/ltspicer/GALAXIS.electronic/releases/download/V4.7/galaxis"
 
+
+# Exists Binary and Python file?
 if [ -f "galaxis" ] && [ -f "galaxis.py" ] ; then
     echo -e "Es ist die Linux Binary und Python Variante installiert. Welche soll ich behalten?"
     echo -e "\033[44mb\033[0m = beide, \033[44ml\033[0m = nur Linux Binary, \033[44mp\033[0m = nur Python Variante"
@@ -54,7 +56,6 @@ if [ -f "galaxis" ] && [ ! -f "galaxis.py" ] ; then
 else
     compiled=0
 fi
-
 if [ -f "config.ini" ] ; then
     config=1
 else
@@ -66,7 +67,7 @@ else
     pygame=0
 fi
 
-# use curl or wget, depending on which one we find
+# Use curl or wget, depending on which one we find
 if hash curl 2>/dev/null
 then
     curl_or_wget="curl -L $url -o main.tgz"
@@ -82,16 +83,14 @@ if [ -z "$curl_or_wget" ]; then
         exit 1
 fi
 
-# Download repo
+# Download repo and unpack
 rm -rf new_release 2>/dev/null
 mkdir new_release
 cd new_release
 $($curl_or_wget)
-#if [[ $compiled -eq 1 ]] ; then     # if compiled galaxis exists then download
-#    $($curl_wget_rls)
-#fi
-
 tar -xvf main.tgz
+
+# Move directories
 cd ltspicer-GALAXIS.electronic*
 mv * ../
 cd ..
@@ -125,6 +124,7 @@ if [[ $compiled -ne 1 ]] ; then
         unzip pygame/pygame.zip -d ../pygame    # unzip pygame.zip to pygame directory
     fi
 else
+
 # Move compiled file
     mv galaxis ../
 fi
@@ -142,6 +142,7 @@ if [[ $pygame -eq 1 ]] ; then
     mv pygame-2.6.0.data ../
 fi
 
+# Remove temp directories and make the game file executable
 cd ..
 rm -rf new_release
 if [[ $compiled -eq 1 ]] ; then
@@ -158,6 +159,7 @@ fi
 chmod +x starter.sh
 chmod +x updater_tmp.sh
 
+# Finish
 echo
 echo "If pip returns the error 'externally-managed-environment', see:"
 echo "https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/"
