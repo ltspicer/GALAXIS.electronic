@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.3   #
+#   GALAXIS electronic V6.4   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -151,6 +151,10 @@ if winexe == 0:
     except ImportError as e:
         if os.path.isdir(r"pygame"):
             shutil.rmtree("pygame")
+        if os.path.isdir(r"pygame.libs"):
+            shutil.rmtree("pygame.libs")
+        if os.path.isdir(r"pygame-2.6.0.data"):
+            shutil.rmtree("pygame-2.6.0.data")
         try:
             import pygame
         except ImportError as e:
@@ -1412,7 +1416,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.30
+        self.version = 6.40
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
