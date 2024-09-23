@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.4   #
+#   GALAXIS electronic V6.5   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -222,6 +222,7 @@ bg_image = "space" + str(random.randint(1,9)) + ".jpg"
 pygame.font.init()
 font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
 font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
+font3 = pygame.font.SysFont(None, int(14 * MULTIPLIKATOR / 20))
 
 # Pfad zu mp3 und jpg holen
 
@@ -1416,7 +1417,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.40
+        self.version = 6.50
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1514,17 +1515,17 @@ class GalaxisGame(ConnectionListener):
     def chatausgabe(self, text):
         if text != "":
             self.chattext.append(text)
-        if len(self.chattext) > 40:
+        if len(self.chattext) > 62:
             del self.chattext[0]
         pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.9),kor(29.1)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
         pygame.display.flip()
         zeile = 0
         for line in self.chattext:
-            text = font2.render(line, True, BLAU)
+            text = font3.render(line, True, BLAU)
             screen.blit(text, (kor(37.6), kor(0.3+zeile)))
             pygame.display.update()
-            zeile+=0.7
+            zeile+=0.46
         pygame.display.flip()
 
 ##### Spiel Hauptschleife
@@ -1674,10 +1675,10 @@ class GalaxisGame(ConnectionListener):
         return self.spiel_fertig
 
     def inputbox_zeichnen(self, text, gegner_auswahl):
-        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(19.5),kor(3)], 0)
-        pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(29.25),kor(18.3),kor(1.2)], 1)
+        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(29.25),kor(19.5),kor(2.9)], 0)
+        pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(29.25),kor(18.3),kor(1.1)], 1)
         pg.key.set_repeat()
-        text_surf = font.render(text+"_", True, BLAU)
+        text_surf = font2.render(text+"_", True, BLAU)
         fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
         if gegner_auswahl is False:
             if language == "de":
@@ -1716,8 +1717,8 @@ class GalaxisGame(ConnectionListener):
                         text =  text[:-1]
                     else:
                         text += event.unicode[:1]
-                    text_surf = font.render(text+"_", True, BLAU)
-                    pygame.draw.rect(fenster, SCHWARZ, [kor(37.6), kor(29.35),kor(17.7),kor(1)], 0)
+                    text_surf = font2.render(text+"_", True, BLAU)
+                    pygame.draw.rect(fenster, SCHWARZ, [kor(37.6), kor(29.35),kor(17.7),kor(0.9)], 0)
                     fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
                 connection.Pump()
                 self.Pump()
