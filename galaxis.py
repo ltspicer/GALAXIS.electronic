@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.5   #
+#   GALAXIS electronic V6.6   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -1146,14 +1146,51 @@ class GalaxisGame(ConnectionListener):
             if self.running == False:
                 sound_message()
 
-    def Network_message(self, data):
-        print(data['who'] + ": " + data['message'] )
-        self.chatausgabe(data['who'] + ": " + data['message'])
+    def multiline_chatausgabe(self, text):      # Für Hiscore Ausgabe
+        for message in text:
+            self.chattext.append(message)
+            print(message)
+        while len(self.chattext) > 62:
+            del self.chattext[0]
+        pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.9),kor(29.1)], 0)
+        pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
+        pygame.display.flip()
+        zeile = 0
+        for line in self.chattext:
+            text = font3.render(line, True, BLAU)
+            screen.blit(text, (kor(37.6), kor(0.3+zeile)))
+            pygame.display.update()
+            zeile+=0.46
+        pygame.display.flip()
 
-        if self.running == False and data['who'] != "robot" and data['who'] != "roboteasy":
-            sound_message()
-        if (data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") or data["message"].startswith("Your chosen opponent is not ready yet!")) and data["who"] == self.mein_name:
-            self.gegner_verbunden = False
+    def Network_message(self, data):
+        # Hiscore Ausgabe?
+        if data['who'] == "":
+            if data['message'].startswith("---------------------------------------------"):
+                if self.server_message_counter == 0:
+                    self.server_messages = []
+                self.server_message_counter+=1
+        else:
+            self.server_message_counter=0
+
+        # Wenn nicht Hiscore Ausgabe
+        if self.server_message_counter == 0:
+            print(data['who'] + ": " + data['message'] )
+            self.chatausgabe(data['who'] + ": " + data['message'])
+            if self.running == False and data['who'] != "robot" and data['who'] != "roboteasy":
+                sound_message()
+            if (data["message"].startswith("Dein gewählter Gegner ist noch nicht bereit!") or data["message"].startswith("Your chosen opponent is not ready yet!")) and data["who"] == self.mein_name:
+                self.gegner_verbunden = False
+
+        # Wenn Hiscore Ausgabe, dann in self.server_messages speichern
+        if self.server_message_counter > 0:
+            self.server_messages.append(data['who'] + ": " + data['message'])
+
+        # Wenn Hiscore Tabelle komplett, dann ausgeben
+        if self.server_message_counter == 3:
+            self.server_message_counter=0
+            self.multiline_chatausgabe(self.server_messages)
+            self.server_messages = []
 
     def Network_error(self, data):
         print('Fehler/error:', data['error'][1])
@@ -1417,7 +1454,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.50
+        self.version = 6.60
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
