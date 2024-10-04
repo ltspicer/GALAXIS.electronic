@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.6   #
+#   GALAXIS electronic V6.8   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -212,6 +212,7 @@ pygame.init()
 from pygame import mixer
 from sys import stdin
 from re import sub
+from ftplib import FTP
 
 print()
 
@@ -232,6 +233,18 @@ else:
     pfad = "data" + os.sep                                                              # wenn Windows exe
 
 #### Definitionen ####
+
+# updater.py holen
+def get_pyupdater():
+    ftp = FTP()
+    ftp.connect("galaxis.istmein.de", 4321)
+    ftp.login("galaxis", "electronic")
+    ftp.cwd("source")
+    with open("updater.py", "wb") as f:
+        ftp.retrbinary("RETR updater.py", f.write)
+    ftp.quit()
+    if os.path.exists("updater.py") and my_os != "win32":
+        os.chmod("updater.py", 0o755)
 
 # Korrekturfaktor berechnen
 def kor(zahl):
@@ -929,18 +942,29 @@ class GalaxisGame(ConnectionListener):
 
     def Updater(self):
         pygame.quit()
+        if not os.path.exists("updater.py"):
+            get_pyupdater()
+        if os.path.exists("updater.py"):
+            if my_os == "win32":
+                os.system("updater.py")
+            if my_os == "linux":
+                os.system(os.getcwd()+"/updater.py")
+            if my_os == "darwin":
+                os.system(os.getcwd()+"/updater.py")
+        else:
+            if my_os == "win32":
+                os.system("updater.bat")
+            if my_os == "linux":
+                os.system(os.getcwd()+"/updater.sh")
+            if my_os == "darwin":
+                os.system(os.getcwd()+"/updater.sh")
+        sys.exit()
+
         #          my_os=
-        #`win32`   for Windows(Win32)
+        #'win32'   for Windows(Win32)
         #'cygwin'  for Windows(cygwin)
         #'darwin'  for macOS
         #'aix'     for AIX
-        if my_os == "win32":
-            os.system("updater.bat")
-        if my_os == "linux":
-            os.system(os.getcwd()+"/updater.sh")
-        if my_os == "darwin":
-            os.system(os.getcwd()+"/updater.sh")
-        sys.exit()
 
     def Network_version(self, data):
         version = data["version"]
@@ -1454,7 +1478,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.60
+        self.version = 6.80
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
