@@ -193,6 +193,7 @@ shutil.rmtree("new_release", ignore_errors=True)
 
 # Download new release
 print()
+print("Starting download...")
 mainupdater(win, unix, pyt, pygame_installed)
 
 # Remove directories in game root
@@ -201,9 +202,12 @@ for f in dirs_to_remove:
     shutil.rmtree(f, ignore_errors=True)
 
 # Move all directories and files
+print("Move directories and files to game root")
 move_all_files('new_release', '.')
 
-# Create starter.sh for Linux binary
+# Build starter.sh for Linux binary
+if unix:
+    print("Build starter.sh")
 if unix and not pyt:
     with open("starter.sh", "w") as f:
         f.write("#!/bin/sh\n\n")
@@ -224,6 +228,7 @@ if unix and pyt:
         f.write('#cd ${HOME}/galaxis.electronic ; ./galaxis.py # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!\n')
 
 # Remove excess files and directories
+print("Remove excess files and directories")
 if win and not unix:
     if os.path.exists("galaxis"):
         os.remove("galaxis")
@@ -275,6 +280,7 @@ if os.path.exists("updater.sh"):
     os.remove("updater.sh")
 
 # Remove temp directory
+print("Remove temp directory")
 shutil.rmtree("new_release", ignore_errors=True)
 
 # Finish
