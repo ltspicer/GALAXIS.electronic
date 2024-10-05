@@ -25,6 +25,9 @@ export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 or
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
+But this is done automatically by starter.sh
+
+
 On the Raspberry use the Python3 variant.
 
 The PodSixNet directory is required for Python 3.12+
@@ -110,6 +113,9 @@ Mögliche Fehlermeldung bei der Linux Variante (zBsp bei Fedora):
 export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 oder
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+
+Aber das erledigt die starter.sh automatisch
+
 
 Auf dem Raspberry benutze die Python3 Variante.
 

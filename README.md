@@ -86,13 +86,12 @@ Der roboteasy ist etwas einfacher zu besiegen.
 
 Required files/directories for the Windows exe:
 - **data** directory
-- **updater.bat** file
+- **updater.py** file
 - **galaxis.exe** file
 
 Required files/directories for the Python3 variant:
 - **data** directory
-- **updater.bat** file
-- **updater.sh** file
+- **updater.py** file
 - **galaxis.py** file
 - **PodSixNet** directory
 - **asyncore** directory
@@ -103,18 +102,17 @@ Required files/directories for the Python3 variant:
 
 Required files/directories for the Linux binary:
 - **data** directory
-- **updater.sh** file
+- **updater.py** file
 - **galaxis** file
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-The update can also be initiated manually. To do this, simply start the updater (Linux: **./updater.sh** , Windows: **updater.bat**).
+The update can also be initiated manually. To do this, simply start the updater.py.
 
 This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
 
-Best idea for downloaders from github: Run first the updater (.sh for Linux, .bat for Win). This will remove excess files/directories.
+The updater.py will remove excess files/directories.
 
-If you do not need the Python variant, remove galaxis.py before starting the updater.
 
 ---------------------
 
