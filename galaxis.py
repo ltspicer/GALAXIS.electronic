@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V6.8   #
+#   GALAXIS electronic V6.9   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -236,6 +236,8 @@ else:
 
 # updater.py holen
 def get_pyupdater():
+    if os.path.exists("updater.py"):
+        return
     ftp = FTP()
     ftp.connect("galaxis.istmein.de", 4321)
     ftp.login("galaxis", "electronic")
@@ -736,6 +738,7 @@ if spielmodus == 1:         # Offline Spiel
 #### Netzwerk Spiel
 
 from PodSixNet.Connection import connection, ConnectionListener
+get_pyupdater()
 
 # Anfrage auswerten
 
@@ -942,8 +945,6 @@ class GalaxisGame(ConnectionListener):
 
     def Updater(self):
         pygame.quit()
-        if not os.path.exists("updater.py"):
-            get_pyupdater()
         if os.path.exists("updater.py"):
             if my_os == "win32":
                 os.system("updater.py")
@@ -1478,7 +1479,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 6.80
+        self.version = 6.90
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
