@@ -16,7 +16,7 @@ import shutil
 
 my_os=sys.platform
 print()
-print("Your OS:", my_os)
+print("Your OS is", my_os)
 print()
 
 def move_all_files(src_dir, dest_dir):
@@ -71,17 +71,17 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
 
         # Bedingung: Überspringe Verzeichnisse, die mit 'pygame' beginnen, falls compiled oder pygame_installed nicht vorhanden
         if item.startswith("pygame") and ((pyt and not pygame_installed) or not pyt):
-            print(f"Skipping download of {item} while is compiled or pygame is not installed")
+            print(f"Skipping download of {item} while the game is compiled or pygame subdirectory is not present")
             continue
 
         # Bedingung: Überspringe Verzeichnisse, die mit 'async' beginnen, falls Python Variante nicht installiert
         if item.startswith("async") and not pyt:
-            print(f"Skipping download of {item} while Python variant is not installed")
+            print(f"Skipping download of {item} while Python variant is not present")
             continue
 
         # Bedingung: Überspringe Verzeichnis 'PodSixNet', falls Python Variante nicht installiert
         if item == "PodSixNet" and not pyt:
-            print("Skipping download of 'PodSixNet' while Python variant is not installed")
+            print("Skipping download of 'PodSixNet' while Python variant is not present")
             continue
 
 
@@ -94,15 +94,15 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
         else:
             # Überspringe den Download von 'galaxis.exe', wenn 'win' False ist
             if item == "galaxis.exe" and not win:
-                print(f"Skipping download of {item} because win == {win}")
+                print(f"Skipping download of {item} because Windows == {win}")
                 continue
             # Überspringe den Download von 'galaxis', wenn 'unix' False ist
             if item == "galaxis" and not unix:
-                print(f"Skipping download of {item} because unix == {unix}")
+                print(f"Skipping download of {item} because Unix == {unix}")
                 continue
             # Überspringe den Download von 'galaxis.py', wenn 'pyt' False ist
             if item == "galaxis.py" and not pyt:
-                print(f"Skipping download of {item} because pyt == {pyt}")
+                print(f"Skipping download of {item} because Python == {pyt}")
                 continue
             # Wenn es eine Datei ist, herunterladen
             try:
@@ -192,6 +192,7 @@ pygame_installed = os.path.isdir("pygame")
 shutil.rmtree("new_release", ignore_errors=True)
 
 # Download new release
+print()
 mainupdater(win, unix, pyt, pygame_installed)
 
 # Remove directories in game root
