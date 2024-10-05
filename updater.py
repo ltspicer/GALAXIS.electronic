@@ -158,8 +158,8 @@ if pyt1 and (win1 or unix1):
     print()
     print("Welche soll ich behalten?")
     print("Which ones should I keep?")
-    print("A = Alle, L = nur Linux Binary, W = nur Windows exe, P = nur Python Variante, Q = Abbruch")
-    print("A = All, L = Linux binary only, W = Windows exe only, P = Python variant only, Q = Quit")
+    print("A = Alle, L = nur Linux Binary,  W = nur Windows exe,  P = nur Python Variante, Q = Abbruch")
+    print("A = All,  L = Linux binary only, W = Windows exe only, P = Python variant only, Q = Quit")
     print()
     
     while True:
