@@ -163,11 +163,7 @@ if pyt1 and (win1 or unix1):
     print()
     
     while True:
-        try:
-            answer = input("Wähle/Select: ").strip()
-        except:
-            time.sleep(15)
-            break
+        answer = input("Wähle/Select: ").strip()
         if answer.lower().startswith('a'):
             if unix1: unix = True
             if win1: win = True
