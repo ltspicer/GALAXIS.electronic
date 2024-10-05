@@ -208,16 +208,19 @@ if unix and not pyt:
         f.write("#!/bin/sh\n\n")
         f.write("export LD_PRELOAD=/usr/lib64/libstdc++.so.6\n")
         f.write("export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6\n\n")
-        f.write('./galaxis\n')
+        f.write('HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
+        f.write('cd ${HOME}/galaxis.electronic.linux ; ./galaxis # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!\n')
 
 if unix and pyt:
     with open("starter.sh", "w") as f:
         f.write("#!/bin/sh\n\n")
         f.write("export LD_PRELOAD=/usr/lib64/libstdc++.so.6\n")
         f.write("export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6\n\n")
-        f.write('./galaxis\n\n')
+        f.write('HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
+        f.write('cd ${HOME}/galaxis.electronic.linux ; ./galaxis\n\n')
         f.write('#### starter for Python variant is different!!:\n\n')
-        f.write('#./galaxis.py\n')
+        f.write('#HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
+        f.write('#cd ${HOME}/galaxis.electronic ; ./galaxis.py # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!\n')
 
 # Remove excess files and directories
 if win and not unix:
