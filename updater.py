@@ -195,6 +195,8 @@ shutil.rmtree("new_release", ignore_errors=True)
 print()
 print("Starting download...")
 mainupdater(win, unix, pyt, pygame_installed)
+print("Download completed")
+print()
 
 # Remove directories in game root
 dirs_to_remove = ["data", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
