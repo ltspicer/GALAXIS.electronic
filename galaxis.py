@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V7.0   #
+#   GALAXIS electronic V7.1   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -235,6 +235,8 @@ else:
 
 #### Definitionen ####
 
+# Alles für den Update
+
 def move_all_files(src_dir, dest_dir):
     # Stelle sicher, dass das Quell- und Zielverzeichnis existieren
     if not os.path.exists(src_dir):
@@ -380,20 +382,28 @@ def updateme():
         pyt1 = True
 
     if pyt1 and (win1 or unix1):
-        print("Nebst der Python Variante ist auch installiert:")
-        print("In addition to the Python variant is also installed:")
+        if language == "de":
+            print("Nebst der Python Variante ist auch installiert:")
+        else:
+            print("In addition to the Python variant is also installed:")
         print()
         if win1: print("Windows exe")
         if unix1: print("Linux Binary")
         print()
-        print("Welche soll ich behalten?")
-        print("Which ones should I keep?")
-        print("A = Alle, L = nur Linux Binary,  W = nur Windows exe,  P = nur Python Variante, Q = Abbruch")
-        print("A = All,  L = Linux binary only, W = Windows exe only, P = Python variant only, Q = Quit")
+        if language == "de":
+            print("Welche soll ich behalten?")
+            print("A = Alle, L = nur Linux Binary,  W = nur Windows exe,  P = nur Python Variante, Q = Abbruch")
+        else:
+            print("Which ones should I keep?")
+            print("A = All,  L = Linux binary only, W = Windows exe only, P = Python variant only, Q = Quit")
         print()
         
         while True:
-            answer = input("Wähle/Select: ").strip()
+            if language == "de":
+                eingabe = "Wähle: "
+            else:
+                eingabe = "Select: "
+            answer = input(eingabe).strip()
             if answer.lower().startswith('a'):
                 if unix1: unix = True
                 if win1: win = True
@@ -409,7 +419,7 @@ def updateme():
                 pyt = True
                 break
             if answer.lower().startswith('q'):
-                sys.exit()
+                return
     else:
         unix = unix1
         win = win1
@@ -448,19 +458,19 @@ def updateme():
             f.write("#!/bin/sh\n\n")
             f.write("export LD_PRELOAD=/usr/lib64/libstdc++.so.6\n")
             f.write("export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6\n\n")
-            f.write('HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
-            f.write('cd ${HOME}/galaxis.electronic.linux ; ./galaxis # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!\n')
+            f.write('HOME="$(cd -- "$(dirname -- "$0")" && pwd)"\n')
+            f.write('cd ${HOME} ; ./galaxis\n')
 
     if unix and pyt:
         with open("starter.sh", "w") as f:
             f.write("#!/bin/sh\n\n")
             f.write("export LD_PRELOAD=/usr/lib64/libstdc++.so.6\n")
             f.write("export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6\n\n")
-            f.write('HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
-            f.write('cd ${HOME}/galaxis.electronic.linux ; ./galaxis\n\n')
+            f.write('HOME="$(cd -- "$(dirname -- "$0")" && pwd)"\n')
+            f.write('cd ${HOME} ; ./galaxis\n\n')
             f.write('#### starter for Python variant is different!!:\n\n')
-            f.write('#HOME="$(getent passwd $USER | awk -F \':\' \'{print $6}\')"\n')
-            f.write('#cd ${HOME}/galaxis.electronic ; ./galaxis.py # Hier ggf. Pfad innerhalb des home Verzeichnisses anpassen !!!\n')
+            f.write('#HOME="$(cd -- "$(dirname -- "$0")" && pwd)"\n')
+            f.write('#cd ${HOME} ; ./galaxis.py\n')
 
     # Remove excess files and directories
     print("Remove excess files and directories")
@@ -526,13 +536,18 @@ def updateme():
     # Finish
     print()
     print("Info:")
-    print("If pip returns the error 'externally-managed-environment', see:")
+    if language == "de":
+        print("Wenn pip den Fehler 'externally-managed-environment' zurück gibt, siehe:")
+    else:
+        print("If pip returns the error 'externally-managed-environment', see:")
     print("https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/")
     print()
-    print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es von Vorteil sein, den updater.py nochmal zu starten!")
-    print("In the case of major version jumps (no update for a long time) it can be advantageous to start the updater.py again!")
-    print()
-    print("Please restart the game.")
+    if language == "de":
+        print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es von Vorteil sein, den updater.py nochmal zu starten!")
+    else:
+        print("In the case of major version jumps (no update for a long time) it can be advantageous to start the updater.py again!")
+
+# Weitere Funktionen für das Spiel
 
 # Korrekturfaktor berechnen
 def kor(zahl):
@@ -790,10 +805,12 @@ class InputBox:
         self.active = False
         if language == "de":
             self.beschreibung1 = FONT2.render("Für online Spiel, gib Deinen Nicknamen ein (mind 3 Buchstaben)", True, ROT)
-            self.beschreibung2 = FONT2.render("Für offline Spiel, gib ENTER ein", True, ROT)
+            self.beschreibung2 = FONT2.render("Für offline Spiel, ENTER drücken", True, ROT)
+            self.beschreibung3 = FONT3.render("Für Update, #update eingeben", True, ROT)
         else:
             self.beschreibung1 = FONT2.render("For online game, enter your nickname (at least 3 letters)", True, ROT)
-            self.beschreibung2 = FONT2.render("For offline play, type ENTER", True, ROT)
+            self.beschreibung2 = FONT2.render("For offline game, press ENTER", True, ROT)
+            self.beschreibung3 = FONT3.render("For Update, enter #update", True, ROT)
 
     def handle_event(self, event):
         if event.type == pg.KEYDOWN:
@@ -820,6 +837,7 @@ class InputBox:
 
         screen.blit(self.beschreibung1, (25, 5))
         screen.blit(self.beschreibung2, (25, 31))
+        screen.blit(self.beschreibung3, (25, 59))
 
 
 # genutzte Farben
@@ -854,6 +872,7 @@ if nick == "-":
         COLOR_ACTIVE = pg.Color('dodgerblue2')
         FONT = pg.font.Font(None, 32)
         FONT2 = pg.font.Font(None, 27)
+        FONT3 = pg.font.Font(None, 22)
         pygame.display.flip()
         clock = pg.time.Clock()
         input_box = InputBox(220, 100, 140, 32)
@@ -887,6 +906,15 @@ else:
     else:
         spielmodus = 1
 
+if nickname == "#update":
+    pygame.quit()
+    updateme()
+    print()
+    if language == "de":
+        print("Starte das Spiel neu.")
+    else:
+        print("Please restart the game.")
+    sys.exit()
 nickname = edit_nick(nickname)          # Nicht erlaubte Zeichen löschen
 nickname = nickname[:10]                # Nickname auf 10 Zeichen kürzen
 
@@ -1232,27 +1260,12 @@ class GalaxisGame(ConnectionListener):
     def Updater(self):
         pygame.quit()
         updateme()
-#        if os.path.exists("updater.py"):
-#            if my_os == "win32":
-#                os.system("updater.py")
-#            if my_os == "linux":
-#                os.system(os.getcwd()+"/updater.py")
-#            if my_os == "darwin":
-#                os.system(os.getcwd()+"/updater.py")
-#        else:
-#            if my_os == "win32":
-#                os.system("updater.bat")
-#            if my_os == "linux":
-#                os.system(os.getcwd()+"/updater.sh")
-#            if my_os == "darwin":
-#                os.system(os.getcwd()+"/updater.sh")
+        print()
+        if language == "de":
+            print("Starte das Spiel neu.")
+        else:
+            print("Please restart the game.")
         sys.exit()
-
-        #          my_os=
-        #'win32'   for Windows(Win32)
-        #'cygwin'  for Windows(cygwin)
-        #'darwin'  for macOS
-        #'aix'     for AIX
 
     def Network_version(self, data):
         version = data["version"]
@@ -1766,7 +1779,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 7.00
+        self.version = 7.10
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
