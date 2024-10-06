@@ -94,9 +94,9 @@ Required files/directories for the Python3 variant:
 - **PodSixNet** directory
 - **asyncore** directory
 - **asynchat** directory
-- **pygame** directory (ONLY for Python3.12+ ! unzip pygame.zip and copy the content in the directory pygame)
-- **pygame.libs** directory
-- **pygame-2.6.0.data** directory
+- **pygame** directory (ONLY for Python3.12+ !)
+- **pygame.libs** directory (ONLY for Python3.12+ !)
+- **pygame-2.6.0.data** directory (ONLY for Python3.12+ !)
 
 Required files/directories for the Linux binary:
 - **data** directory
