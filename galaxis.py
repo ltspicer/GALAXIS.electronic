@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V7.1   #
+#   GALAXIS electronic V7.2   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -130,17 +130,21 @@ if winexe == 0:
 
             if wert-4 > -1:
                 wert-=4
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyasynchat'])
-                print("pyasynchat is installed / ist installiert")
+                try:
+                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'asynchat', '--break-system-packages'])
+                except subprocess.CalledProcessError:
+                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyasynchat', '--break-system-packages'])
+                print("asynchat is installed / ist installiert")
 
             if wert-2 > -1:
                 wert-=2
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet'])
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet', '--break-system-packages'])
                 print("PodSixNet is installed / ist installiert")
 
             if wert-1 > -1:
                 wert-=1
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame'])
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame', '--break-system-packages'])
+
                 print("Pygame is installed / ist installiert")
 
             return 1
@@ -1779,7 +1783,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 7.10
+        self.version = 7.20
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
