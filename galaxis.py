@@ -513,6 +513,8 @@ def updateme():
         os.remove("updater.bat")
     if os.path.exists("updater.sh"):
         os.remove("updater.sh")
+    if os.path.exists("updater.py"):
+        os.remove("updater.py")
 
     # Restore config.ini
 #    if os.path.exists("new_release/config.ini"):
