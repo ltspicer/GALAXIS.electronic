@@ -96,6 +96,14 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
             if item == "galaxis.exe" and not win:
                 print(f"Skipping download of {item} because Windows is {win}")
                 continue
+            # Überspringe den Download von 'updater.exe', wenn 'win' False ist
+            if item == "updater.exe" and not win:
+                print(f"Skipping download of {item} because Windows is {win}")
+                continue
+            # Überspringe den Download von 'wincopier.exe', wenn 'win' False ist
+            if item == "wincopier.exe" and not win:
+                print(f"Skipping download of {item} because Windows is {win}")
+                continue
             # Überspringe den Download von 'galaxis', wenn 'unix' False ist
             if item == "galaxis" and not unix:
                 print(f"Skipping download of {item} because Unix is {unix}")
