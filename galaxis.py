@@ -318,6 +318,14 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
             if item == "galaxis.exe" and not win:
                 print(f"Skipping download of {item} because Windows is {win}")
                 continue
+            # Überspringe den Download von 'updater.exe', wenn 'win' False ist
+            if item == "updater.exe" and not win:
+                print(f"Skipping download of {item} because Windows is {win}")
+                continue
+            # Überspringe den Download von 'wincopier.exe', wenn 'win' False ist
+            if item == "wincopier.exe" and not win:
+                print(f"Skipping download of {item} because Windows is {win}")
+                continue
             # Überspringe den Download von 'galaxis', wenn 'unix' False ist
             if item == "galaxis" and not unix:
                 print(f"Skipping download of {item} because Unix is {unix}")
@@ -477,6 +485,11 @@ def updateme():
     if unix and not win:
         if os.path.exists("galaxis.exe"):
             os.remove("galaxis.exe")
+        if os.path.exists("updater.exe"):
+            os.remove("updater.exe")
+        if os.path.exists("wincopier.exe"):
+            os.remove("wincopier.exe")
+
 
     if not pyt:
         shutil.rmtree("PodSixNet", ignore_errors=True)
@@ -511,6 +524,10 @@ def updateme():
     if pyt and not win:
         if os.path.exists("galaxis.exe"):
             os.remove("galaxis.exe")
+        if os.path.exists("updater.exe"):
+            os.remove("updater.exe")
+        if os.path.exists("wincopier.exe"):
+            os.remove("wincopier.exe")
     if os.path.exists("updater.bat"):
         os.remove("updater.bat")
     if os.path.exists("updater.sh"):
