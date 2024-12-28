@@ -242,6 +242,10 @@ if win and not unix and not pyt:
 if unix and not win:
     if os.path.exists("galaxis.exe"):
         os.remove("galaxis.exe")
+    if os.path.exists("updater.exe"):
+        os.remove("updater.exe")
+    if os.path.exists("wincopier.exe"):
+        os.remove("wincopier.exe")
 
 if not pyt:
     shutil.rmtree("PodSixNet", ignore_errors=True)
@@ -276,6 +280,10 @@ if pyt and not unix:
 if pyt and not win:
     if os.path.exists("galaxis.exe"):
         os.remove("galaxis.exe")
+    if os.path.exists("updater.exe"):
+        os.remove("updater.exe")
+    if os.path.exists("wincopier.exe"):
+        os.remove("wincopier.exe")
 if os.path.exists("updater.bat"):
     os.remove("updater.bat")
 if os.path.exists("updater.sh"):
