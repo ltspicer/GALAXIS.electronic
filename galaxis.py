@@ -527,7 +527,26 @@ def updateme():
     print("Remove temp directory")
     shutil.rmtree("new_release", ignore_errors=True)
 
+    # Finish
+    print()
+    print("Info:")
+    if winexe == 0:
+        if language == "de":
+            print("Wenn pip den Fehler 'externally-managed-environment' zurück gibt, siehe:")
+        else:
+            print("If pip returns the error 'externally-managed-environment', see:")
+        print("https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/")
+        print()
+        if language == "de":
+            print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es notwendig sein, updater.py direkt zu starten!")
+        else:
+            print("In the case of major version jumps (no update for a long time) it may be necessary to start updater.py directly!")
+
     if winexe == 1:
+        if language == "de":
+            print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es notwendig sein, updater.exe direkt zu starten!")
+        else:
+            print("In the case of major version jumps (no update for a long time) it may be necessary to start updater.exe directly!")
         # Starte wincopier.exe
         try:
             subprocess.Popen(["wincopier.exe"])
@@ -536,19 +555,6 @@ def updateme():
             print(f"Error when starting wincopier.exe: {e}")
             sys.exit(1)
 
-    # Finish
-    print()
-    print("Info:")
-    if language == "de":
-        print("Wenn pip den Fehler 'externally-managed-environment' zurück gibt, siehe:")
-    else:
-        print("If pip returns the error 'externally-managed-environment', see:")
-    print("https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/")
-    print()
-    if language == "de":
-        print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es von Vorteil sein, den updater.py nochmal zu starten!")
-    else:
-        print("In the case of major version jumps (no update for a long time) it can be advantageous to start the updater.py again!")
 
 # Weitere Funktionen für das Spiel
 
