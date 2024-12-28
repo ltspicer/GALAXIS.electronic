@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V7.3   #
+#   GALAXIS electronic V7.4   #
 #    von Daniel Luginbuehl    #
 #         (C) 2022            #
 #  webmaster@ltspiceusers.ch  #
@@ -435,7 +435,9 @@ def updateme():
 
     # Move all directories and files
     print("Move directories and files to game root")
-    move_all_files('new_release', '.')
+    if winexe == 1:
+        os.rename("new_release/galaxis.exe", "new_release/galaxis1.exe")
+    move_all_files("new_release", ".")
 #    if os.path.exists("config.ini"):
 #        print("Backup config.ini")
 #        shutil.move("config.ini", "new_release/config.ini")
@@ -524,6 +526,15 @@ def updateme():
     # Remove temp directory
     print("Remove temp directory")
     shutil.rmtree("new_release", ignore_errors=True)
+
+    if winexe == 1:
+        # Starte wincopier.exe
+        try:
+            subprocess.Popen(["wincopier.exe"])
+            sys.exit()
+        except Exception as e:
+            print(f"Error when starting wincopier.exe: {e}")
+            sys.exit(1)
 
     # Finish
     print()
@@ -1770,7 +1781,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 7.30
+        self.version = 7.40
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
