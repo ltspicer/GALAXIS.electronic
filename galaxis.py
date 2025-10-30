@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V7.4   #
+#   GALAXIS electronic V7.5   #
 #    von Daniel Luginbuehl    #
-#         (C) 2022            #
+#         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
 #                             #
 #        Serveradresse        #
@@ -580,14 +580,41 @@ def kor(zahl):
     zahl = zahl * MULTIPLIKATOR
     return zahl
 
+# Kreuz zeichnen (Koordinaten sind links oben)
+def kreuz_zeichnen(spalte,reihe):
+    spalte = spalte * 4
+    reihe  = reihe * 4
+    start_punkt = (kor(spalte)+kor(3.3),kor(reihe)+kor(3.3))
+    end_punkt   = (kor(spalte)+kor(5.7),kor(reihe)+kor(5.7))
+    pygame.draw.line(fenster, GRAU, start_punkt, end_punkt, 2)
+    start_punkt = (kor(spalte)+kor(3.3),kor(reihe)+kor(5.7))
+    end_punkt   = (kor(spalte)+kor(5.7),kor(reihe)+kor(3.3))
+    pygame.draw.line(fenster, GRAU, start_punkt, end_punkt, 2)
+
+# Horizontallinie zeichnen
+def horizontal_linie_zeichnen(spalte,reihe):
+    spalte = spalte * 4
+    reihe  = reihe * 4 + 2.5
+    start_punkt = (kor(spalte)+kor(3.6),kor(reihe))
+    end_punkt   = (kor(spalte)+kor(5.4),kor(reihe))
+    pygame.draw.line(fenster, GRAU, start_punkt, end_punkt, 1)
+
+# Vertikallinie zeichnen
+def vertikal_linie_zeichnen(spalte,reihe):
+    spalte = spalte * 4 + 2.5
+    reihe  = reihe * 4
+    start_punkt = (kor(spalte),kor(reihe)+kor(3.6))
+    end_punkt   = (kor(spalte),kor(reihe)+kor(5.4))
+    pygame.draw.line(fenster, GRAU, start_punkt, end_punkt, 1)
+
 # Punkt zeichnen
 def element_zeichnen(spalte,reihe,farbe):
-    pygame.draw.ellipse(fenster, farbe, [kor(spalte)*4+2*MULTIPLIKATOR, kor(reihe)*4+2*MULTIPLIKATOR,kor(1),kor(1)], 0)
+    pygame.draw.ellipse(fenster, farbe, [kor(spalte)*4+kor(2), kor(reihe)*4+kor(2),kor(1),kor(1)], 0)
 
 # Wert im Punkt zeichnen
 def element_wert(spalte,reihe,wert):
     img = font.render(str(wert), True, SCHWARZ)
-    fenster.blit(img, ([kor(spalte)*4+2.25*MULTIPLIKATOR, kor(reihe)*4+2.05*MULTIPLIKATOR]))
+    fenster.blit(img, ([kor(spalte)*4+kor(2.25), kor(reihe)*4+kor(2.05)]))
 
 # Spielzüge zeichnen
 def spielzuge(wert):
@@ -596,13 +623,13 @@ def spielzuge(wert):
     else:
         stand = "  Moves:      " + str(wert)
     imag = font.render(stand, True, BLAU)
-    pygame.draw.rect(fenster, SCHWARZ, [kor(4.45)*4+2.66*MULTIPLIKATOR, kor(5.46)*4+2.17*MULTIPLIKATOR,kor(1.8),kor(1)], 0)
-    fenster.blit(imag, ([kor(3.4)*4+2.25*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+    pygame.draw.rect(fenster, SCHWARZ, [kor(20.55), kor(23.93),kor(1.8),kor(1.1)], 0)
+    fenster.blit(imag, ([kor(15.85), kor(24.05)]))
 
 # Hiscore zeichnen
 def hiscore():
     imag = font2.render("Hiscore: " + str(LOCAL_HISCORE), True, ROT)
-    fenster.blit(imag, ([kor(0.4)*4+2.25*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+    fenster.blit(imag, ([kor(3.85), kor(24.05)]))
 
 # Spiel gewonnen
 def gewonnen():
@@ -610,23 +637,23 @@ def gewonnen():
         imag = font.render("Spiel gewonnen :)", True, ROT)
     else:
         imag = font.render("Won the game :)", True, ROT)
-    fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+    fenster.blit(imag, ([kor(14.25), kor(16.05)]))
 
 def gewonnen_offline(info):
     imag = font.render(info, True, ROT)
-    fenster.blit(imag, ([kor(1.0)*4+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+    fenster.blit(imag, ([kor(6.25), kor(16.05)]))
 
 # Spiel verloren
 def verloren(gegner_name):
     if language == "de":
         imag = font.render("Spiel verloren :(", True, ROT)
-        fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(imag, ([kor(14.25), kor(16.05)]))
         print("Gegner hat gewonnen!!!")
         #time.sleep(6.7)
         info = "Dein Gegner " + gegner_name + " hat gewonnen."
     else:
         imag = font.render("Lost the game :(", True, ROT)
-        fenster.blit(imag, ([kor(2.0)*6+2.25*MULTIPLIKATOR, kor(3.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(imag, ([kor(14.25), kor(16.05)]))
         print("Opponent won!!!")
         #time.sleep(6.7)
         info = "Your opponent " + gegner_name + " won."
@@ -644,12 +671,12 @@ def ja_nein_zeichnen(grund):            # 0 noch eine Runde, 1 auto Update
         else:
             imag = font.render("Neue Version verfügbar. Soll ich automatisch updaten?", True, ROT)
             fenster.blit(imag, ([kor(6.0), kor(20.05)]))
-        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
-        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(13), kor(23),kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(21), kor(23),kor(3),kor(3)], 0)
         img = font.render(str("Ja"), True, SCHWARZ)
-        fenster.blit(img, ([kor(3)*4+2.00*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(img, ([kor(14), kor(24.05)]))
         img = font.render(str("Nein"), True, SCHWARZ)
-        fenster.blit(img, ([kor(5)*4+1.50*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(img, ([kor(21.5), kor(24.05)]))
     else:
         if grund == 0:
             imag = font.render("Would you like to play another round?", True, ROT)
@@ -657,17 +684,17 @@ def ja_nein_zeichnen(grund):            # 0 noch eine Runde, 1 auto Update
         else:
             imag = font.render("New version available. Should I update automatically?", True, ROT)
             fenster.blit(imag, ([kor(6.0), kor(20.05)]))
-        pygame.draw.ellipse(fenster, GELB, [kor(3)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
-        pygame.draw.ellipse(fenster, GELB, [kor(5)*4+MULTIPLIKATOR, kor(5.5)*4+MULTIPLIKATOR,kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(13), kor(23),kor(3),kor(3)], 0)
+        pygame.draw.ellipse(fenster, GELB, [kor(21), kor(23),kor(3),kor(3)], 0)
         img = font.render(str("Yes"), True, SCHWARZ)
-        fenster.blit(img, ([kor(3)*4+1.75*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(img, ([kor(13.75), kor(24.05)]))
         img = font.render(str("No"), True, SCHWARZ)
-        fenster.blit(img, ([kor(5)*4+2.00*MULTIPLIKATOR, kor(5.5)*4+2.05*MULTIPLIKATOR]))
+        fenster.blit(img, ([kor(22), kor(24.05)]))
 
 
 # Raumschiff zeichnen
 def raumschiff_zeichnen(spalte,reihe,farbe):
-    pygame.draw.ellipse(fenster, farbe, [kor(spalte)*4+1.5*MULTIPLIKATOR, kor(reihe)*4+1.5*MULTIPLIKATOR,kor(2),kor(2)], 0)
+    pygame.draw.ellipse(fenster, farbe, [kor(spalte)*4+kor(1.5), kor(reihe)*4+kor(1.5),kor(2),kor(2)], 0)
 
 # Anfrage auswerten > return 5 = Raumschiff gefunden
 def ping(spalte, reihe):
@@ -771,8 +798,8 @@ def ping(spalte, reihe):
 
 # Mauszeiger-Position berechnen
 def fensterposition(x,y):
-    x = abs((x - 0.6 * MULTIPLIKATOR)/(4 * MULTIPLIKATOR))
-    y = abs((y - 0.6 * MULTIPLIKATOR)/(4 * MULTIPLIKATOR))
+    x = abs((x - kor(0.6))/(kor(4)))
+    y = abs((y - kor(0.6))/(kor(4)))
     if x < 0:
         x = 0
     if y < 0:
@@ -784,8 +811,8 @@ def fensterposition(x,y):
     return x, y
 
 def chatfensterposition(x,y):
-    x = abs((x - 0.6 * MULTIPLIKATOR)/(4 * MULTIPLIKATOR))
-    y = abs((y - 0.6 * MULTIPLIKATOR)/(4 * MULTIPLIKATOR))
+    x = abs((x - kor(0.6))/(kor(4)))
+    y = abs((y - kor(0.6))/(kor(4)))
     if x < 0:
         x = 0
     if y < 0:
@@ -796,7 +823,7 @@ def chatfensterposition(x,y):
 def spielfeld_zeichnen(bg_image):
     # Hintergrundbild holen
     bild = pygame.image.load(pfad + bg_image)
-    bg = pygame.transform.scale(bild, (40 * MULTIPLIKATOR, 28 * MULTIPLIKATOR))
+    bg = pygame.transform.scale(bild, (kor(40), kor(28)))
 
     # Hintergrundfarbe/Bild Fenster
     fenster.fill(SCHWARZ)
@@ -805,19 +832,33 @@ def spielfeld_zeichnen(bg_image):
     # X Koordinaten zeichnen 1-9
     for x in range(0,9):
         img = font.render(str(x+1), True, WEISS)
-        fenster.blit(img, (kor(x)*4+2.3*MULTIPLIKATOR, 12))
+        fenster.blit(img, (kor(x)*4+kor(2.3), 12))
 
     # Y Koordinaten zeichnen A-G
     Ybuchstaben='GFEDCBA'
     for x in range(0,7):
         img = font.render(Ybuchstaben[x], True, WEISS)
-        fenster.blit(img, (12, kor(x)*4+2.1*MULTIPLIKATOR))
+        fenster.blit(img, (12, kor(x)*4+kor(2.1)))
 
     # Zeichnen der Punkte im Spielfenster
     for x in range(0,9):
         for y in range(0,7):
             element_zeichnen(x,y,GRAU)
 
+    # Zeichnen der Kreuze im Spielfenster
+    for x in range(0,8):
+        for y in range(0,6):
+            kreuz_zeichnen(x,y)
+
+    # Zeichnen der horizontalen Linien im Spielfenster
+    for x in range(0,8):
+        for y in range(0,7):
+            horizontal_linie_zeichnen(x,y)
+
+    # Zeichnen der vertikalen Linien im Spielfenster
+    for x in range(0,9):
+        for y in range(0,6):
+            vertikal_linie_zeichnen(x,y)
 
 # Offline oder Netzwerk Spiel und/oder Neu gestartet?
 
@@ -948,9 +989,6 @@ nickname = nickname[:10]                # Nickname auf 10 Zeichen kürzen
 mixer.init()
 mixer.music.set_volume(0.7)
 
-# Multiplikator
-#MULTIPLIKATOR = 20
-
 
 # Bildschirm Aktualisierungen einstellen
 clock = pygame.time.Clock()
@@ -982,7 +1020,7 @@ angepeilt=[
 if spielmodus == 1:         # Offline Spiel
 
     # Spielfeld erzeugen über Berechnung
-    fenster = pygame.display.set_mode((36 * MULTIPLIKATOR, 28 * MULTIPLIKATOR))
+    fenster = pygame.display.set_mode((kor(36), kor(28)))
 
     # Titel für Fensterkopf
     if language == "de":
@@ -1234,10 +1272,10 @@ def userinfotext(verfugbar, besetzt):
         bese = font2.render("Occupied players: " + besetzt, True, farbe)
     if verfugbar != "-":
         pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(30.7),kor(34),kor(1.2)], 0)
-        fenster.blit(verf, ([kor(2.6)*1, kor(5.74)*5.4]))
+        fenster.blit(verf, ([kor(2.6), kor(5.74)*5.4]))
     if besetzt != "-":
         pygame.draw.rect(fenster, SCHWARZ, [kor(2.5), kor(31.822),kor(34),kor(1.2)], 0)
-        fenster.blit(bese, ([kor(2.6)*1, kor(5.92)*5.4]))
+        fenster.blit(bese, ([kor(2.6), kor(5.92)*5.4]))
     pygame.display.flip()
 
 
@@ -1804,7 +1842,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 7.40
+        self.version = 7.50
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -2078,7 +2116,7 @@ class GalaxisGame(ConnectionListener):
             else:
                 chatanleitung = "Click here to enter a chat message"
         text_surf = font2.render(chatanleitung, True, BLAU)
-        fenster.blit(text_surf, ([kor(37.9), kor(29.376+1.5)]))
+        fenster.blit(text_surf, ([kor(37.9), kor(30.876)]))
         pygame.display.flip()
 
 
@@ -2261,7 +2299,7 @@ while True:
 
     # Spielfeld erzeugen über Berechnung
 
-    fenster = pygame.display.set_mode((56 * MULTIPLIKATOR, 33 * MULTIPLIKATOR))
+    fenster = pygame.display.set_mode((kor(56), kor(33)))
 
     # Titel für Fensterkopf
     if language == "de":
