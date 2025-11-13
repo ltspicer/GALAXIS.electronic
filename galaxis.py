@@ -290,13 +290,14 @@ def updateMe():
     for f in dirs_to_remove:
         if os.path.exists(f):
             print(f"Try to delete directory {f}")
-        shutil.rmtree(f, ignore_errors=True)
-        if os.path.exists(f):
-            print(f"❌ Directory '{f}' could not be deleted.")
-        else:
-            print(f"✅ Directory '{f}' successfully removed.")
+            shutil.rmtree(f, ignore_errors=True)
+            if os.path.exists(f):
+                print(f"❌ Directory '{f}' could not be deleted.")
+            else:
+                print(f"✅ Directory '{f}' successfully removed.")
 
     # Move all directories and files
+    print()
     print("Move new directories and files to game root")
     if winexe == 1:
         os.rename("new_release/galaxis.exe", "new_release/galaxis1.exe")
