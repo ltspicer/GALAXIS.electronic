@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V7.5   #
+#   GALAXIS electronic V8.0   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -20,7 +20,7 @@ import hashlib
 import subprocess
 import shutil
 from time import sleep
-
+from ftplib import FTP, error_perm
 
 #### Alles zur config.ini ####
 
@@ -76,7 +76,8 @@ except configparser.Error:
 
 write_config()
 
-my_os=sys.platform      # Betriebssystem in my_os speichern
+# Betriebssystem in my_os speichern
+my_os=sys.platform
 winexe = 0
 if sys.argv[0].endswith("galaxis.exe") is True:     # wenn Windows exe
     winexe = 1
@@ -86,163 +87,10 @@ if sys.argv[0].endswith("galaxis") is True:         # wenn Linux bin
 install = 0
 restarted = False
 
-
-#### Import-Versuche ####
-
-if winexe == 0:
-
-    def InstallFrage(wert):
-        if install > 0:
-            if language == "de":
-                print("Ich kann versuchen, die fehlenden Pakete automatisch zu installieren.")
-                print("q = Abbruch, o = Ok, automatisch installieren")
-            else:
-                print("I can try to install the missing packages automatically.")
-                print("q = Abort, o = Ok, install automatically")
-            antwort = input('[q/o]: ')
-            if antwort == "q":
-                return 2
-
-            try:
-                subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
-            except subprocess.CalledProcessError:
-                print()
-                if language == "de":
-                    print("python3-pip ist nicht installiert!")
-                    print("Installieren mit:")
-                else:
-                    print("python3-pip is not installed!")
-                    print("Install with:")
-                print()
-                print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
-                print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
-                print("MacOS:                 sudo easy_install pip")
-                print("Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/")
-                print()
-
-                if language == "de":
-                    print("Fenster schliesst in 20 Sekunden.")
-                else:
-                    print("Window closes in 20 seconds.")
-
-                sleep(20)
-                return 2
-
-            if wert-4 > -1:
-                wert-=4
-                try:
-                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'asynchat', '--break-system-packages'])
-                except subprocess.CalledProcessError:
-                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyasynchat', '--break-system-packages'])
-                print("asynchat is installed / ist installiert")
-
-            if wert-2 > -1:
-                wert-=2
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'PodSixNet', '--break-system-packages'])
-                print("PodSixNet is installed / ist installiert")
-
-            if wert-1 > -1:
-                wert-=1
-                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pygame', '--break-system-packages'])
-
-                print("Pygame is installed / ist installiert")
-
-            return 1
-        else:
-            return 0
-
-    try:
-        import pygame
-    except ImportError as e:
-        if os.path.isdir(r"pygame"):
-            shutil.rmtree("pygame")
-        if os.path.isdir(r"pygame.libs"):
-            shutil.rmtree("pygame.libs")
-        if os.path.isdir(r"pygame-2.6.0.data"):
-            shutil.rmtree("pygame-2.6.0.data")
-        try:
-            import pygame
-        except ImportError as e:
-            install+=1
-            if language == "de":
-                print("pygame ist nicht installiert!")
-            else:
-                print("pygame is not installed!")
-
-    try:
-        import PodSixNet
-    except ImportError as e:
-        install+=2
-        if language == "de":
-            print("PodSixNet ist nicht installiert!")
-        else:
-            print("PodSixNet is not installed!")
-
-    try:
-        import asynchat
-    except ImportError as e:
-        install+=4
-        if language == "de":
-            print("asynchat ist nicht installiert!")
-        else:
-            print("asynchat is not installed!")
-
-    antwort = InstallFrage(install)
-    if antwort == 2:
-        sys.exit()
-        quit()
-    if antwort == 1:
-        if language == "de":
-            print("Ich starte neu!")
-        else:
-            print("I'm restarting!")
-        time.sleep(2)
-        sys.stdout.flush()
-        os.system('"' + sys.argv[0] + '"')
-        sys.exit()
-        quit()
-else:
-    import pygame
-    import PodSixNet
-
-# Importieren der Bibliotheken
-
-import pygame as pg
-import random
-import json
-import threading
-import socket
-from pygame.locals import *
-pygame.init()
-from pygame import mixer
-from sys import stdin
-from re import sub
-from ftplib import FTP, error_perm
-
-print()
-
-## Hintergrundbild zufällig bestimmen
-bg_image = "space" + str(random.randint(1,9)) + ".jpg"
-
-## Zeichensatz initialisieren
-pygame.font.init()
-font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
-font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
-font3 = pygame.font.SysFont(None, int(14 * MULTIPLIKATOR / 20))
-
-# Pfad zu mp3 und jpg holen
-
-if winexe == 0:
-    pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep        # wenn Linux bin
-else:
-    pfad = "data" + os.sep                                                              # wenn Windows exe
-
-#### Definitionen ####
-
-# Alles für den Update
+#### Alles für den Update ####
 
 def move_all_files(src_dir, dest_dir):
-    # Stelle sicher, dass das Quell- und Zielverzeichnis existieren
+    # Quell- und Zielverzeichnis existieren?
     if not os.path.exists(src_dir):
         raise FileNotFoundError(f"Source directory {src_dir} does not exist.")
     if not os.path.exists(dest_dir):
@@ -261,7 +109,7 @@ def move_all_files(src_dir, dest_dir):
                 elif os.path.isdir(dest_path):
                     shutil.rmtree(dest_path)
             
-            # Jetzt verschiebe die Datei oder das Verzeichnis
+            # Verschiebe die Datei oder das Verzeichnis
             shutil.move(src_path, dest_dir)
 
         except Exception as e:
@@ -301,9 +149,9 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
             print(f"Skipping download of {item} while Python variant is not present")
             continue
 
-        # Bedingung: Überspringe Verzeichnis 'PodSixNet', falls Python Variante nicht installiert
-        if item == "PodSixNet" and not pyt:
-            print("Skipping download of 'PodSixNet' while Python variant is not present")
+        # Bedingung: Überspringe Verzeichnis 'AsyncioNet', falls Python Variante nicht installiert
+        if item == "AsyncioNet" and not pyt:
+            print("Skipping download of 'AsyncioNet' while Python variant is not present")
             continue
 
 
@@ -368,15 +216,16 @@ def mainupdater(win, unix, pyt, pygame_installed):
     # Verbindung schließen
     ftp.quit()
 
-def updateme():
+def updateMe():
     # Exists Binary and/or Python file?
+    import glob
     unix, win, pyt = False, False, False
     unix1, win1, pyt1 = False, False, False
     if os.path.isfile("galaxis"):
         unix1 = True
     if os.path.isfile("galaxis.exe"):
         win1 = True
-    if os.path.isfile("galaxis.py"):
+    if glob.glob("*.py"):
         pyt1 = True
 
     if pyt1 and (win1 or unix1):
@@ -437,12 +286,18 @@ def updateme():
     print()
 
     # Remove directories in game root
-    dirs_to_remove = ["data", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
+    dirs_to_remove = ["data", "AsyncioNet", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
     for f in dirs_to_remove:
+        if os.path.exists(f):
+            print(f"Try to delete directory {f}")
         shutil.rmtree(f, ignore_errors=True)
+        if os.path.exists(f):
+            print(f"❌ Directory '{f}' could not be deleted.")
+        else:
+            print(f"✅ Directory '{f}' successfully removed.")
 
     # Move all directories and files
-    print("Move directories and files to game root")
+    print("Move new directories and files to game root")
     if winexe == 1:
         os.rename("new_release/galaxis.exe", "new_release/galaxis1.exe")
     move_all_files("new_release", ".")
@@ -492,6 +347,8 @@ def updateme():
 
 
     if not pyt:
+        print("No Python version detected")
+        shutil.rmtree("AsyncioNet", ignore_errors=True)
         shutil.rmtree("PodSixNet", ignore_errors=True)
         shutil.rmtree("asyncore", ignore_errors=True)
         shutil.rmtree("asynchat", ignore_errors=True)
@@ -549,10 +406,10 @@ def updateme():
     print("Info:")
     if winexe == 0:
         if language == "de":
-            print("Wenn pip den Fehler 'externally-managed-environment' zurück gibt, siehe:")
+            print("Wenn pip den Fehler 'externally-managed-environment' zurück gibt, füge hinzu:")
         else:
-            print("If pip returns the error 'externally-managed-environment', see:")
-        print("https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/")
+            print("If pip returns the error 'externally-managed-environment', add:")
+        print("--break-system-packages")
         print()
         if language == "de":
             print("Bei grösseren Versionssprüngen (längere Zeit kein Update gemacht) kann es notwendig sein, updater.py direkt zu starten!")
@@ -572,8 +429,137 @@ def updateme():
             print(f"Error when starting wincopier.exe: {e}")
             sys.exit(1)
 
+#### Import-Versuche ####
 
-# Weitere Funktionen für das Spiel
+if winexe == 0:                                                                         # Wenn Python Variante
+    pfad = os.path.dirname(os.path.abspath(__file__)) + os.sep + "data" + os.sep        # Pfad zu mp3 und jpg, wenn Linux bin oder Python
+
+    def InstallFrage(wert):
+        if install > 0:
+            if language == "de":
+                print("Ich kann versuchen, die fehlenden Pakete automatisch zu installieren.")
+                print("q = Abbruch, o = Ok, automatisch installieren")
+            else:
+                print("I can try to install the missing packages automatically.")
+                print("q = Abort, o = Ok, install automatically")
+            antwort = input('[q/o]: ')
+            if antwort == "q":
+                return 2
+
+            try:
+                subprocess.check_call([sys.executable, '-m', 'pip', '-V'])
+            except subprocess.CalledProcessError:
+                print()
+                if language == "de":
+                    print("python3-pip ist nicht installiert!")
+                    print("Installieren mit:")
+                else:
+                    print("python3-pip is not installed!")
+                    print("Install with:")
+                print()
+                print("Debian/Ubuntu/Mint:    sudo apt install python3-pip")
+                print("CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip")
+                print("MacOS:                 sudo easy_install pip")
+                print("Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/")
+                print()
+
+                if language == "de":
+                    print("Fenster schliesst in 20 Sekunden.")
+                else:
+                    print("Window closes in 20 seconds.")
+
+                sleep(20)
+                return 2
+
+            if wert-2 > -1:
+                wert-=2
+                updateMe()
+                print("AsyncioNet is installed / ist installiert")
+
+            if wert-1 > -1:
+                wert-=1
+                pipOption = []
+                if my_os == "linux":
+                    pipOption = ["--break-system-packages"]
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "pygame"] + pipOption)
+
+                print("Pygame is installed / ist installiert")
+
+            return 1
+        else:
+            return 0
+
+    try:
+        import pygame
+    except ImportError as e:
+        if os.path.isdir(r"pygame"):
+            shutil.rmtree("pygame")
+        if os.path.isdir(r"pygame.libs"):
+            shutil.rmtree("pygame.libs")
+        if os.path.isdir(r"pygame-2.6.0.data"):
+            shutil.rmtree("pygame-2.6.0.data")
+        try:
+            import pygame
+        except ImportError as e:
+            install+=1
+            if language == "de":
+                print("pygame ist nicht installiert!")
+            else:
+                print("pygame is not installed!")
+
+    try:
+        import AsyncioNet
+    except ImportError as e:
+        install+=2
+        if language == "de":
+            print("AsyncioNet ist nicht installiert!")
+        else:
+            print("AsyncioNet is not installed!")
+
+    antwort = InstallFrage(install)
+    if antwort == 2:
+        sys.exit()
+        quit()
+    if antwort == 1:
+        if language == "de":
+            print("Ich starte neu!")
+        else:
+            print("I'm restarting!")
+        time.sleep(2)
+        sys.stdout.flush()
+        os.system('"' + sys.argv[0] + '"')
+        sys.exit()
+        quit()
+
+else:
+    pfad = "data" + os.sep                              # Pfad zu mp3 und jpg, wenn Windows exe
+
+# Importieren der Bibliotheken
+
+import pygame
+import pygame as pg
+import random
+import json
+import threading
+import socket
+from pygame.locals import *
+pygame.init()
+from pygame import mixer
+from sys import stdin
+from re import sub
+
+print()
+
+## Hintergrundbild zufällig bestimmen
+bg_image = "space" + str(random.randint(1,9)) + ".jpg"
+
+## Zeichensatz initialisieren
+pygame.font.init()
+font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
+font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
+font3 = pygame.font.SysFont(None, int(14 * MULTIPLIKATOR / 20))
+
+#### Definitionen ####
 
 # Korrekturfaktor berechnen
 def kor(zahl):
@@ -975,7 +961,7 @@ else:
 
 if nickname == "#update":
     pygame.quit()
-    updateme()
+    updateMe()
     print()
     if language == "de":
         print("Starte das Spiel neu.")
@@ -1115,7 +1101,11 @@ if spielmodus == 1:         # Offline Spiel
 
 #### Netzwerk Spiel
 
-from PodSixNet.Connection import connection, ConnectionListener
+from AsyncioNet.Connection import connection, ConnectionListener
+from AsyncioNet.Connection import Pump
+from AsyncioNet.Connection import Send
+import asyncio
+import AsyncioNet
 
 # Anfrage auswerten
 
@@ -1283,18 +1273,142 @@ def userinfotext(verfugbar, besetzt):
 
 class GalaxisGame(ConnectionListener):
 
+    def __init__(self, mein_name, bg_image):
+        self.mein_name = mein_name
+        self.restarted = False
+
+        # Spielfeld Vorgabewerte: 0-4 Rückgabewerte , 5 = Raumschiff , 6 = noch nicht angepeilt
+        self.galaxis=[
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        ]
+
+        # Spielfeld: 1 = wenn bereits angepeilt , 0 = noch nicht angepeilt , 2 = schwarz markiert
+        self.angepeilt=[
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        ]
+
+        self.players = []
+        self.xpos = []
+        self.ypos = []
+        self.verraten = False
+        self.wert = 6
+        self.gefunden = 0
+        self.antwort = 0
+        self.spielerbereit = False
+        self.gegner = "---"
+        self.version = 8.00
+        self.spielaktiv = False
+        self.old_string = ""
+        self.old_string2 = ""
+        self.spiel_fertig = False
+
+        self.bg_image = bg_image
+
+        #initialize pygame clock
+        self.clock=pygame.time.Clock()
+
+        self.timer = None
+
+        #self.initSound()
+        self.turn = False
+        self.running=False
+        self.text = ""
+        self.chattext = []
+
+        try:
+            self.Connect((HOST_ADDR, HOST_PORT))
+
+        except:
+            print("Serververbindung fehlgeschlagen! / Server connection failed!")
+            time.sleep(5)
+            sys.exit()
+        print("Galaxis Client Version", self.version, "gestartet / started")
+
+    def Neustart(self):
+        self.restarted = True
+        # Spielfeld Vorgabewerte: 0-4 Rückgabewerte , 5 = Raumschiff , 6 = noch nicht angepeilt
+        self.galaxis=[
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        [6,6,6,6,6,6,6,6,6],
+        ]
+
+        # Spielfeld: 1 = wenn bereits angepeilt , 0 = noch nicht angepeilt , 2 = schwarz markiert
+        self.angepeilt=[
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0],
+        ]
+
+        self.players = []
+        self.xpos = []
+        self.ypos = []
+        self.verraten = False
+        self.wert = 6
+        self.gefunden = 0
+        self.antwort = 0
+        self.spielerbereit = False
+        self.gegner = "---"
+        self.spielaktiv = False
+        self.old_string = ""
+        self.old_string2 = ""
+        self.spiel_fertig = False
+
+        # Hintergrundbild zufällig bestimmen
+        self.bg_image = "space" + str(random.randint(1,9)) + ".jpg"
+
+        #initialize pygame clock
+        self.clock=pygame.time.Clock()
+
+        #self.initSound()
+        self.turn = False
+        self.running=False
+        self.text = ""
+
+        try:
+            self.Connect((HOST_ADDR, HOST_PORT))
+
+        except:
+            print("Serververbindung fehlgeschlagen! / Server connection failed!")
+            time.sleep(5)
+            sys.exit()
+        return self.bg_image
+
 ##### Warn-Timer #####
 
     def timer_starten(self):
-        aktive_threads = threading.active_count()
-        if aktive_threads < 2 and self.spielaktiv is True:
+        # Prüfen, ob Timer schon existiert und noch aktiv ist
+        if getattr(self, "timer", None) and self.timer.is_alive():
+            return
+
+        if self.spielaktiv:
             self.timer = threading.Timer(54.0, self.timer54)
             self.timer.daemon = True
             self.timer.start()
 
     def timer_stoppen(self):
         try:
-            if self.timer.is_alive() is True:
+            if self.timer and self.timer.is_alive():
                 self.timer.cancel()
                 self.umschalt_warnung = False
         except:
@@ -1304,16 +1418,15 @@ class GalaxisGame(ConnectionListener):
         self.timer_stoppen()
         self.timer = threading.Timer(6.0, self.timer6)
         self.timer.daemon = True
-        if self.timer.is_alive() is False and self.spielaktiv is True:
+        if self.spielaktiv:
             self.timer.start()
-            # Hier Warnung auf Bildschirm
             self.umschalt_warnung = True
             if language == "de":
                 print("noch 6 Sekunden!!!")
             else:
                 print("6 seconds left!!!")
 
-    def timer6(self):        # Hier self.turn auf false setzen und an Gegner senden
+    def timer6(self):
         self.turn = False
         self.umschalt_warnung = False
         self.ping_remote(0, 0, 8, self.num, self.gameid)
@@ -1322,7 +1435,7 @@ class GalaxisGame(ConnectionListener):
 
     def Updater(self):
         pygame.quit()
-        updateme()
+        updateMe()
         print()
         if language == "de":
             print("Starte das Spiel neu.")
@@ -1386,7 +1499,13 @@ class GalaxisGame(ConnectionListener):
                 self.chatausgabe("https://ltspicer.itch.io/galaxis-electronic")
                 self.chatausgabe(" ")
                 self.chatausgabe("Should I update automatically (y/n)?")
-            connection.Close()
+
+            try:
+                if connection:
+                    connection.Close()
+            except Exception as e:
+                print(f"[WARN] Unable to close connection: {e}")
+
             ja_nein_zeichnen(1)
             antwort_jn = "-"
             while antwort_jn == "-":
@@ -1419,7 +1538,7 @@ class GalaxisGame(ConnectionListener):
         self.Send({"action": "checksumme", "summe": checksumme, "gameid": self.gameid, "userid": self.userid})
 
 
-##### Diverses für PodSixNet
+##### Diverses für AsyncioNet
 
     def Network_checksum(self, data):
         status=data["status"]
@@ -1474,7 +1593,13 @@ class GalaxisGame(ConnectionListener):
                 self.chatausgabe("https://ltspicer.itch.io/galaxis-electronic")
                 self.chatausgabe(" ")
                 self.chatausgabe("Should I fetch them automatically (y/n)?")
-            connection.Close()
+
+            try:
+                if connection:
+                    connection.Close()
+            except Exception as e:
+                print(f"[WARN] Unable to close connection: {e}")
+
             ja_nein_zeichnen(1)
             antwort_jn = "-"
             while antwort_jn == "-":
@@ -1582,7 +1707,11 @@ class GalaxisGame(ConnectionListener):
 
     def Network_error(self, data):
         print('Fehler/error:', data['error'][1])
-        connection.Close()
+        try:
+            if connection:
+                connection.Close()
+        except Exception as e:
+            print(f"[WARN] Unable to close connection: {e}")
 
     def Network_connected(self, data):
         if language == "de":
@@ -1651,7 +1780,7 @@ class GalaxisGame(ConnectionListener):
                 print("Player 0 begins. You are player", self.num)
                 self.chatausgabe("Player 0 begins. You are player " + str(self.num))
 
-        connection.Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid, "sprache": language})
+        Send({"action": "nickname", "nickname": self.mein_name, "num": self.num, "gameid": self.gameid, "userid": self.userid, "sprache": language})
 
     def Network_startgame(self, data):
         anzahl_spieler=data["players"]
@@ -1807,131 +1936,11 @@ class GalaxisGame(ConnectionListener):
             self.antwort = wert
             self.empfangen = True
 
-    def __init__(self, mein_name, bg_image):
-        self.mein_name = mein_name
-        self.restarted = False
-
-        # Spielfeld Vorgabewerte: 0-4 Rückgabewerte , 5 = Raumschiff , 6 = noch nicht angepeilt
-        self.galaxis=[
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        ]
-
-        # Spielfeld: 1 = wenn bereits angepeilt , 0 = noch nicht angepeilt , 2 = schwarz markiert
-        self.angepeilt=[
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        ]
-
-        self.players = []
-        self.xpos = []
-        self.ypos = []
-        self.verraten = False
-        self.wert = 6
-        self.gefunden = 0
-        self.antwort = 0
-        self.spielerbereit = False
-        self.gegner = "---"
-        self.version = 7.50
-        self.spielaktiv = False
-        self.old_string = ""
-        self.old_string2 = ""
-        self.spiel_fertig = False
-
-        self.bg_image = bg_image
-
-        #initialize pygame clock
-        self.clock=pygame.time.Clock()
-
-
-        #self.initSound()
-        self.turn = False
-        self.running=False
-        self.text = ""
-        self.chattext = []
-
-        try:
-            self.Connect((HOST_ADDR, HOST_PORT))
-
-        except:
-            print("Serververbindung fehlgeschlagen! / Server connection failed!")
-            time.sleep(5)
-            sys.exit()
-        print("Galaxis Client Version", self.version, "gestartet / started")
-
-    def Neustart(self):
-        self.restarted = True
-        # Spielfeld Vorgabewerte: 0-4 Rückgabewerte , 5 = Raumschiff , 6 = noch nicht angepeilt
-        self.galaxis=[
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6,6,6],
-        ]
-
-        # Spielfeld: 1 = wenn bereits angepeilt , 0 = noch nicht angepeilt , 2 = schwarz markiert
-        self.angepeilt=[
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        ]
-
-        self.players = []
-        self.xpos = []
-        self.ypos = []
-        self.verraten = False
-        self.wert = 6
-        self.gefunden = 0
-        self.antwort = 0
-        self.spielerbereit = False
-        self.gegner = "---"
-        self.spielaktiv = False
-        self.old_string = ""
-        self.old_string2 = ""
-        self.spiel_fertig = False
-
-        # Hintergrundbild zufällig bestimmen
-        self.bg_image = "space" + str(random.randint(1,9)) + ".jpg"
-
-        #initialize pygame clock
-        self.clock=pygame.time.Clock()
-
-        #self.initSound()
-        self.turn = False
-        self.running=False
-        self.text = ""
-
-        try:
-            self.Connect((HOST_ADDR, HOST_PORT))
-
-        except:
-            print("Serververbindung fehlgeschlagen! / Server connection failed!")
-            time.sleep(5)
-            sys.exit()
-        return self.bg_image
-
     def Warten(self):       # 2 Sekunden warten, dabei "Gegner verbunden" Status abfragen
         i = 0
         while True:
             self.Pump()
-            connection.Pump()
+            Pump()
             time.sleep(0.01)
             i+=1
             if i == 200:
@@ -1964,7 +1973,7 @@ class GalaxisGame(ConnectionListener):
         i = 0
         while not self.running:
             self.Pump()
-            connection.Pump()
+            Pump()
             sleep(0.01)
             i+=1
             if i == 6000:
@@ -2019,7 +2028,7 @@ class GalaxisGame(ConnectionListener):
                                 self.timer_stoppen()
                                 while self.empfangen is False:
                                     self.Pump()
-                                    connection.Pump()
+                                    Pump()
                                     sleep(0.01)
                                 if self.antwort==10:
                                     self.alarm = 1
@@ -2059,7 +2068,7 @@ class GalaxisGame(ConnectionListener):
                                 #time.sleep(4.9)
 
             self.Pump()
-            connection.Pump()
+            Pump()
             sleep(0.01)
 
             # Fenster aktualisieren
@@ -2145,12 +2154,12 @@ class GalaxisGame(ConnectionListener):
                     text_surf = font2.render(text+"_", True, BLAU)
                     pygame.draw.rect(fenster, SCHWARZ, [kor(37.6), kor(29.35),kor(17.7),kor(0.9)], 0)
                     fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
-                connection.Pump()
+                Pump()
                 self.Pump()
                 pygame.display.flip()
-        connection.Send({"action": "message", "message": text, "gameid": self.gameid, "user": self.mein_name})
+        Send({"action": "message", "message": text, "gameid": self.gameid, "user": self.mein_name})
         self.Pump()
-        connection.Pump()
+        Pump()
         self.inputbox_zeichnen("", False)
 
 
@@ -2169,7 +2178,7 @@ class GalaxisGame(ConnectionListener):
             if i == 7000:
                 i = 0
                 self.ping_remote(0, 0, 7, self.num, self.gameid)   # Sag dem Gegner, dass er nichts machen soll. Timeout verhindern
-                connection.Pump()
+                Pump()
                 self.Pump()
             event1 = pygame.event.get()
             if len(event1) > 0:
@@ -2208,7 +2217,7 @@ class GalaxisGame(ConnectionListener):
                                     userinfo(info)
                                     userinfotext(self.old_string, self.old_string2)
 
-            connection.Pump()
+            Pump()
             self.Pump()
 
             # Fenster aktualisieren
@@ -2278,7 +2287,7 @@ class GalaxisGame(ConnectionListener):
                                 if mouse_presses[2] or mouse_presses[0]:
                                     self.chatinput("")
                                     self.inputbox_zeichnen("", True)
-                    connection.Pump()
+                    Pump()
                     self.Pump()
                     pygame.display.flip()
                     if self.running:
@@ -2309,7 +2318,7 @@ while True:
     pygame.display.set_caption(fenstertitel)
     spielfeld_zeichnen(bg_image)
 
-    connection.Pump()
+    Pump()
     galax.Pump()
 
     mein_name = str(galax.mein_name_retour())       # Nickname an Server senden und Server Antwort holen
@@ -2346,7 +2355,7 @@ while True:
             if gegner is False and erfolg:                          # False   True  = Von anderem Spieler aufgerufen
                 break
             if gegner is not False and erfolg:                          # !=False True  = selber Gegner ausgewählt
-                connection.Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
+                Send({"action": "message", "message": gegner, "gameid": -1, "user": mein_name})
             erfolg = galax.Warten()
 
         if gegner_verbunden:
@@ -2398,9 +2407,13 @@ while True:
     else:
         break
 
-connection.Send({"action": "UserSchliessen"})
+Send({"action": "UserSchliessen"})
 time.sleep(1)
-connection.Close()
+try:
+    if connection:
+        connection.Close()
+except Exception as e:
+    print(f"[WARN] Unable to close connection: {e}")
 pygame.quit()
 sys.exit()
 
