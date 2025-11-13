@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 ###############################
-#  GALAXIS electronic V7.4    #
+#  GALAXIS electronic V8.0    #
 #   von Daniel Luginbuehl     #
-#         (C) 2024            #
+#         (C) 2025            #
 # webmaster@ltspiceusers.ch   #
 #       Python updater        #
 ###############################
@@ -79,9 +79,9 @@ def download_ftp_directory(ftp, remote_dir, local_dir, win, unix, pyt, pygame_in
             print(f"Skipping download of {item} while Python variant is not present")
             continue
 
-        # Bedingung: Überspringe Verzeichnis 'PodSixNet', falls Python Variante nicht installiert
-        if item == "PodSixNet" and not pyt:
-            print("Skipping download of 'PodSixNet' while Python variant is not present")
+        # Bedingung: Überspringe Verzeichnis 'AsyncioNet', falls Python Variante nicht installiert
+        if item == "AsyncioNet" and not pyt:
+            print("Skipping download of 'AsyncioNet' while Python variant is not present")
             continue
 
 
@@ -207,12 +207,18 @@ print("Download completed")
 print()
 
 # Remove directories in game root
-dirs_to_remove = ["data", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
+dirs_to_remove = ["data", "AsyncioNet", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
 for f in dirs_to_remove:
-    shutil.rmtree(f, ignore_errors=True)
+    if os.path.exists(f):
+        print(f"Try to delete directory '{f}'")
+        shutil.rmtree(f, ignore_errors=True)
+        if os.path.exists(f):
+            print(f"❌ Directory '{f}' could not be deleted.")
+        else:
+            print(f"✅ Directory '{f}' successfully removed.")
 
 # Move all directories and files
-print("Move directories and files to game root")
+print("Move new directories and files to game root")
 move_all_files('new_release', '.')
 
 # Build starter.sh for Linux binary
@@ -256,6 +262,7 @@ if unix and not win:
         os.remove("wincopier.exe")
 
 if not pyt:
+    shutil.rmtree("AsyncioNet", ignore_errors=True)
     shutil.rmtree("PodSixNet", ignore_errors=True)
     shutil.rmtree("asyncore", ignore_errors=True)
     shutil.rmtree("asynchat", ignore_errors=True)
