@@ -92,9 +92,6 @@ Required files/directories for the Python3 variant:
 - **data** directory
 - **galaxis.py** file
 - **AsyncioNet** directory
-- **pygame** directory (ONLY for Python3.12+ !)
-- **pygame.libs** directory (ONLY for Python3.12+ !)
-- **pygame-2.6.0.data** directory (ONLY for Python3.12+ !)
 
 Required files/directories for the Linux binary:
 - **data** directory
