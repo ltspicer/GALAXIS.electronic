@@ -91,9 +91,7 @@ Required files/directories for the Windows exe:
 Required files/directories for the Python3 variant:
 - **data** directory
 - **galaxis.py** file
-- **PodSixNet** directory
-- **asyncore** directory
-- **asynchat** directory
+- **AsyncioNet** directory
 - **pygame** directory (ONLY for Python3.12+ !)
 - **pygame.libs** directory (ONLY for Python3.12+ !)
 - **pygame-2.6.0.data** directory (ONLY for Python3.12+ !)
