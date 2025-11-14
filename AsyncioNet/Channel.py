@@ -17,9 +17,18 @@ class Channel:
     async def listen_loop(self):
         try:
             while True:
-                data = await self.reader.readuntil(self.endchars.encode())
-                if not data:
+                try:
+                    # 600 Sekunden Timeout beim Lesen
+                    data = await asyncio.wait_for(self.reader.readuntil(self.endchars.encode()), timeout=600.0)
+                except asyncio.TimeoutError:
+                    # Server offline
+                    self._trigger_disconnected()
                     break
+
+                if not data:
+                    self._trigger_disconnected()
+                    break
+
                 msg = data[:-len(self.endchars)]
                 try:
                     obj = loads(msg)
@@ -30,10 +39,21 @@ class Channel:
                                 getattr(self, n)(obj)
                 except Exception as e:
                     print("[WARN] Ungültige Nachricht empfangen:", msg, e)
+
         except asyncio.IncompleteReadError:
-            pass
+            self._trigger_disconnected()
         except Exception as e:
             print("[ERROR] Listen-Loop:", e)
+            self._trigger_disconnected()
+
+
+    def _trigger_disconnected(self):
+        self.queue.append({"action": "disconnected"})
+        if hasattr(self, "Network_disconnected"):
+            try:
+                self.Network_disconnected()
+            except Exception as e:
+                print("[ERROR] Network_disconnected:", e)
 
     def get_queue(self):
         q = self.queue[:]

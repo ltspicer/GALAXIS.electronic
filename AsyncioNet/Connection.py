@@ -57,6 +57,16 @@ class AsyncioConnection:
     def Pump(self):
         pass
 
+    def Close(self):
+        try:
+            if self.writer:
+                self.writer.close()
+            self.connected = False
+            if self.channel:
+                self.channel.queue.append({"action": "disconnected"})
+        except Exception as e:
+            print("[ERROR] Close():", e)
+
 # --------------------------
 # Globale Hilfsfunktionen
 # --------------------------
