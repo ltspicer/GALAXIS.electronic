@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.0   #
+#   GALAXIS electronic V8.1   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -289,12 +289,12 @@ def updateMe():
     dirs_to_remove = ["data", "AsyncioNet", "PodSixNet", "asyncore", "asynchat", "pygame", "pygame.libs", "pygame-2.6.0.data"]
     for f in dirs_to_remove:
         if os.path.exists(f):
-            print(f"Try to delete directory {f}")
+            print(f"Try to delete directory '{f}'")
             shutil.rmtree(f, ignore_errors=True)
             if os.path.exists(f):
-                print(f"❌ Directory '{f}' could not be deleted.")
+                print(f"Directory '{f}' could not be deleted.")
             else:
-                print(f"✅ Directory '{f}' successfully removed.")
+                print(f"Directory '{f}' successfully removed.")
 
     # Move all directories and files
     print()
@@ -1309,7 +1309,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.00
+        self.version = 8.10
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1330,7 +1330,6 @@ class GalaxisGame(ConnectionListener):
 
         try:
             self.Connect((HOST_ADDR, HOST_PORT))
-
         except:
             print("Serververbindung fehlgeschlagen! / Server connection failed!")
             time.sleep(5)
@@ -1388,7 +1387,6 @@ class GalaxisGame(ConnectionListener):
 
         try:
             self.Connect((HOST_ADDR, HOST_PORT))
-
         except:
             print("Serververbindung fehlgeschlagen! / Server connection failed!")
             time.sleep(5)
@@ -1730,7 +1728,8 @@ class GalaxisGame(ConnectionListener):
             sys.exit()
 
     def Network_num_gameid(self, data):
-        #print("type data:", type(data))
+        #print("DEBUG [num_gameid] type data:", type(data))
+        #print("DEBUG [num_gameid] data:", data)
         users = data["users"]
         self.num=data["player"]
         self.gameid=data["gameid"]
@@ -1750,7 +1749,7 @@ class GalaxisGame(ConnectionListener):
             sys.exit()
             quit()
 
-        if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-" and self.restarted is False:
+        if len(list(filter(lambda x: self.mein_name in x, users))) > 0 and users != "-" and not self.restarted:
             if language == "de":
                 print("Dein gewählter Nickname ist bereits vergeben!")
                 self.mein_name = self.mein_name + str(self.userid)
@@ -1764,7 +1763,7 @@ class GalaxisGame(ConnectionListener):
                 self.chatausgabe("Your chosen nickname is already taken!")
                 self.chatausgabe("Your new nickname is " + self.mein_name)
 
-        restarted = False
+        self.restarted = False
         if self.gegner_bereit and self.spielerbereit:
             self.spielaktiv = True
             self.running = True
@@ -2297,13 +2296,11 @@ class GalaxisGame(ConnectionListener):
             pygame.draw.rect(fenster, SCHWARZ, [kor(25.4), kor(29.25),kor(30),kor(1.4)], 0)
             return "gegner=" + text, True
 
-
 ##### Grundsätzliche Aufrufe
 
 galax=GalaxisGame(nickname, bg_image) # __init__ wird hier aufgerufen
 
 while True:
-
     if restarted:
         bg_image = galax.Neustart()
 
@@ -2338,6 +2335,7 @@ while True:
     userinfo(info)
 
     if galax.Verstecken(info) is False:
+        Send({"action": "UserSchliessen"})
         pygame.quit()
         sys.exit()
 
@@ -2405,6 +2403,7 @@ while True:
                     break
     if antwort_jn == "j":
         restarted = True
+        Send({"action": "UserSchliessen"})
     else:
         break
 
