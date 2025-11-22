@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.3   #
+#   GALAXIS electronic V8.4   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -558,6 +558,7 @@ pygame.font.init()
 font = pygame.font.SysFont(None, int(27 * MULTIPLIKATOR / 20))
 font2 = pygame.font.SysFont(None, int(21 * MULTIPLIKATOR / 20))
 font3 = pygame.font.SysFont(None, int(14 * MULTIPLIKATOR / 20))
+font4 = pygame.font.SysFont("DejaVu Sans Mono", int(10 * MULTIPLIKATOR / 20))
 
 #### Definitionen ####
 
@@ -1302,7 +1303,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.30
+        self.version = 8.40
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1655,7 +1656,7 @@ class GalaxisGame(ConnectionListener):
         pygame.display.flip()
         zeile = 0
         for line in self.chattext:
-            text = font3.render(line, True, BLAU)
+            text = font4.render(line, True, BLAU)
             screen.blit(text, (kor(37.6), kor(0.3+zeile)))
             pygame.display.update()
             zeile+=0.46
@@ -1664,7 +1665,7 @@ class GalaxisGame(ConnectionListener):
     def Network_message(self, data):
         # Hiscore Ausgabe?
         if data['who'] == "":
-            if data['message'].startswith("---------------------------------------------"):
+            if data['message'].startswith("--------------------"):
                 if self.server_message_counter == 0:
                     self.server_messages = []
                 self.server_message_counter+=1
