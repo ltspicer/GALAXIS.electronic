@@ -99,7 +99,7 @@ Required files/directories for the Linux binary:
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-The game also runs well under WINE.
+The galaxis.exe also runs well under WINE.
 
 The update can also be initiated manually. To do this, simply enter **#update** in the nickname input field.
 
