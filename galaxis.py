@@ -1522,7 +1522,7 @@ class GalaxisGame(ConnectionListener):
 
             ja_nein_zeichnen(1)
 
-            antwort_jn = ja_nein_abfrage()
+            antwort_jn = self.ja_nein_abfrage()
 
             if antwort_jn == "j":
                 self.updater()
@@ -1601,7 +1601,7 @@ class GalaxisGame(ConnectionListener):
 
             ja_nein_zeichnen(1)
 
-            antwort_jn = ja_nein_abfrage()
+            antwort_jn = self.ja_nein_abfrage()
 
             if antwort_jn == "j":
                 self.updater()
