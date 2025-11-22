@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.2   #
+#   GALAXIS electronic V8.3   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -1302,7 +1302,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.20
+        self.version = 8.30
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1325,7 +1325,8 @@ class GalaxisGame(ConnectionListener):
             self.Connect((HOST_ADDR, HOST_PORT))
         except:
             print("Serververbindung fehlgeschlagen! / Server connection failed!")
-            time.sleep(5)
+            pygame.quit()
+            time.sleep(3)
             sys.exit()
         print("Galaxis Client Version", self.version, "gestartet / started")
 
@@ -1379,13 +1380,35 @@ class GalaxisGame(ConnectionListener):
         self.running=False
         self.text = ""
 
-        try:
-            self.Connect((HOST_ADDR, HOST_PORT))
-        except:
-            print("Serververbindung fehlgeschlagen! / Server connection failed!")
-            time.sleep(5)
-            sys.exit()
         return self.bg_image
+
+    def ja_nein_abfrage(self):
+        antwort_jn = "-"
+        clock = pygame.time.Clock()
+        while antwort_jn == "-":
+            self.Pump()
+            for event in pygame.event.get():
+                self.Pump()
+                if event.type == MOUSEBUTTONDOWN:
+                    x = pygame.mouse.get_pos()[0]
+                    y = pygame.mouse.get_pos()[1]
+                    xpos, ypos = fensterposition(x,y)
+                    xpos = int(xpos)
+                    ypos = int(ypos)
+                    mouse_presses = pygame.mouse.get_pressed()
+                    if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
+                        antwort_jn = "j"
+                        break
+                    if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
+                        antwort_jn = "n"
+                        break
+                elif event.type == KEYDOWN:
+                    self.chatinput(event.unicode[:1])
+
+            pygame.display.flip()
+            clock.tick(60)
+
+        return antwort_jn
 
     def updater(self):
         pygame.quit()
@@ -1498,23 +1521,9 @@ class GalaxisGame(ConnectionListener):
                 print(f"[WARN] Unable to close connection: {e}")
 
             ja_nein_zeichnen(1)
-            antwort_jn = "-"
-            while antwort_jn == "-":
-                for event in pygame.event.get():
-                    pygame.display.flip()
-                    if event.type == MOUSEBUTTONDOWN:
-                        x = pygame.mouse.get_pos()[0]
-                        y = pygame.mouse.get_pos()[1]
-                        xpos, ypos = fensterposition(x,y)
-                        xpos = int(xpos)
-                        ypos = int(ypos)
-                        mouse_presses = pygame.mouse.get_pressed()
-                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
-                            antwort_jn = "j"
-                            break
-                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
-                            antwort_jn = "n"
-                            break
+
+            antwort_jn = ja_nein_abfrage()
+
             if antwort_jn == "j":
                 self.updater()
             pygame.quit()
@@ -1591,23 +1600,9 @@ class GalaxisGame(ConnectionListener):
                 print(f"[WARN] Unable to close connection: {e}")
 
             ja_nein_zeichnen(1)
-            antwort_jn = "-"
-            while antwort_jn == "-":
-                for event in pygame.event.get():
-                    pygame.display.flip()
-                    if event.type == MOUSEBUTTONDOWN:
-                        x = pygame.mouse.get_pos()[0]
-                        y = pygame.mouse.get_pos()[1]
-                        xpos, ypos = fensterposition(x,y)
-                        xpos = int(xpos)
-                        ypos = int(ypos)
-                        mouse_presses = pygame.mouse.get_pressed()
-                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
-                            antwort_jn = "j"
-                            break
-                        if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
-                            antwort_jn = "n"
-                            break
+
+            antwort_jn = ja_nein_abfrage()
+
             if antwort_jn == "j":
                 self.updater()
             pygame.quit()
@@ -2124,6 +2119,8 @@ class GalaxisGame(ConnectionListener):
         run = True
         while run:
             clock.tick(60)
+            Pump()
+            self.Pump()
             for event in pygame.event.get():
                 mouse_presses = pygame.mouse.get_pressed()
                 if mouse_presses[2] or mouse_presses[0]:
@@ -2141,12 +2138,18 @@ class GalaxisGame(ConnectionListener):
                         text =  text[:-1]
                     else:
                         text += event.unicode[:1]
+
+                    Pump()
+                    self.Pump()
+
                     text_surf = font2.render(text+"_", True, BLAU)
                     pygame.draw.rect(fenster, SCHWARZ, [kor(37.6), kor(29.35),kor(17.7),kor(0.9)], 0)
                     fenster.blit(text_surf, ([kor(37.6), kor(29.376)]))
-                Pump()
-                self.Pump()
-                pygame.display.flip()
+
+            Pump()
+            self.Pump()
+            pygame.display.flip()
+
         Send({"action": "message", "message": text, "gameid": self.gameid, "user": self.mein_name})
         pygame.event.clear(pygame.KEYDOWN)
         self.Pump()
@@ -2325,6 +2328,7 @@ while True:
 
     if galax.verstecken(info) is False:
         Send({"action": "UserSchliessen"})
+        cooperative_sleep(galax, 1)
         pygame.quit()
         sys.exit()
 
@@ -2373,26 +2377,13 @@ while True:
     # Refresh-Zeit festlegen
     clock.tick(100)
 
-    antwort_jn = "-"
-    while antwort_jn == "-":
-        for event in pygame.event.get():
-            pygame.display.flip()
-            if event.type == MOUSEBUTTONDOWN:
-                x = pygame.mouse.get_pos()[0]
-                y = pygame.mouse.get_pos()[1]
-                xpos, ypos = fensterposition(x,y)
-                xpos = int(xpos)
-                ypos = int(ypos)
-                mouse_presses = pygame.mouse.get_pressed()
-                if (mouse_presses[2] or mouse_presses[0]) and xpos == 3 and (ypos == 5 or ypos == 6):
-                    antwort_jn = "j"
-                    break
-                if (mouse_presses[2] or mouse_presses[0]) and xpos == 5 and (ypos == 5 or ypos == 6):
-                    antwort_jn = "n"
-                    break
+    Send({"action": "UserReset"})
+
+    antwort_jn = galax.ja_nein_abfrage()
+
     if antwort_jn == "j":
         restarted = True
-        Send({"action": "UserSchliessen"})
+        Send({"action": "UserReset"})
     else:
         break
 
