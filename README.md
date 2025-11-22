@@ -8,6 +8,8 @@ Read the file Anleitung.txt
 
 Lies die Datei Anleitung.txt
 
+![](https://github.com/ltspicer/GALAXIS.electronic/blob/main/screenshots/online_game_start.png)
+
 ---------------------
 
 **Game Instructions:**
