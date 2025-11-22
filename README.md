@@ -10,9 +10,9 @@ Lies die Datei Anleitung.txt
 
 ---------------------
 
-Game Instructions:
+**Game Instructions:**
 
-Offline (1 player) starts if NO nickname is entered:
+**Offline (1 player) starts if NO nickname is entered:**
 
 There have been 4 starships lost in the galaxy.
 It is important to find them.
@@ -26,10 +26,10 @@ For example, with a 0 there are definitely no more spaceships to be found in all
 The game is over when all 4 spaceships have been found.
 
 PS:
-The high score is 9 moves. If you beat them, take a screenshot and post it here:
+The high score is 9 moves. If you beat it, take a screenshot and post it at:
 https://www.ltspiceusers.ch/threads/ravensburger-galaxis-electronic-1980-f%C3%BCr-pc-off-online.989/#post-2643
 
-Online (2 players) starts when a nickname is entered (at least 3 characters):
+**Online (2 players) starts when a nickname is entered (at least 3 characters):**
 
 Now you have to hide your 4 spaceships (clicking on it again removes the spaceship), which your opponent has to find.
 Select an opponent by entering their nickname in the text field below.
@@ -42,14 +42,13 @@ In rare cases, the message "Your opponent has disappeared from the network. Plea
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
 
-You can also play against the server. This opponent is called "robot" !
-The roboteasy is a bit easier to defeat.
+You can also play against the server. The two opponents are called **robot** and **roboteasy**. The latter is a little easier to defeat.
 
 ------------------
 
-Spiel Anleitung:
+**Spiel Anleitung:**
 
-Offline (1 Spieler) startet, wenn KEIN Nickname eingegeben wird:
+**Offline (1 Spieler) startet, wenn KEIN Nickname eingegeben wird:**
 
 Es sind 4 Raumschiffe in der Galaxis verloren gegangen.
 Diese gilt es zu finden.
@@ -63,10 +62,10 @@ ZBsp bei einer 0 sind in allen 8 Richtungen von diesem Punkt aus sicher keine Ra
 Das Spiel ist fertig, wenn alle 4 Raumschiffe gefunden wurden.
 
 PS:
-Die Hi-Score ist 9 Spielzüge. Falls Du diese unterbietest, mach doch einen Screenshot davon und poste den unter:
+Die Hiscore ist bei 9 Spielzügen. Falls Du diese unterbietest, mach doch einen Screenshot davon und poste den unter:
 https://www.ltspiceusers.ch/threads/ravensburger-galaxis-electronic-1980-f%C3%BCr-pc-off-online.989/#post-2643
 
-Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):
+**Online (2 Spieler) startet, wenn ein Nickname eingegeben wird (mind. 3 Zeichen):**
 
 Nun musst Du Deine 4 Raumschiffe verstecken (erneuter Klick darauf entfernt das Raumschiff wieder), welche Dein Gegner zufinden hat.
 Wähle einen Gegner aus, indem Du dessen Nickname ins Textfeld unten eingibst.
@@ -79,8 +78,7 @@ In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
 
-Du kannst auch gegen den Server spielen. Dieser Gegner heisst "robot" !
-Der roboteasy ist etwas einfacher zu besiegen.
+Du kannst auch gegen den Server spielen. Die zwei Gegner heissen **robot** und **roboteasy**. Letzterer ist etwas einfacher zu besiegen.
 
 ---------------------
 
@@ -99,9 +97,9 @@ Required files/directories for the Linux binary:
 
 On Raspberry (Raspbian/Raspi-OS) or macOS use the Python3 variant.
 
-The update can also be initiated manually. To do this, simply enter #update in the nickname input field.
+The game also runs well under WINE.
 
-This is necessary if, for example, Python3.11 has been upgraded to Python3.12.
+The update can also be initiated manually. To do this, simply enter **#update** in the nickname input field.
 
 The update will remove excess files/directories.
 
