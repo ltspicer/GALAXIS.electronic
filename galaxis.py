@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.4   #
+#   GALAXIS electronic V8.5   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -1303,7 +1303,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.40
+        self.version = 8.50
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1647,7 +1647,7 @@ class GalaxisGame(ConnectionListener):
     # Für Hiscore Ausgabe
     def multiline_chatausgabe(self, text):
         for message in text:
-            self.chattext.append(message)
+            self.chattext.append((font4, message))
             print(message)
         while len(self.chattext) > 62:
             del self.chattext[0]
@@ -1655,8 +1655,8 @@ class GalaxisGame(ConnectionListener):
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
         pygame.display.flip()
         zeile = 0
-        for line in self.chattext:
-            text = font4.render(line, True, BLAU)
+        for font, msg in self.chattext:
+            text = font.render(msg, True, BLAU)
             screen.blit(text, (kor(37.6), kor(0.3+zeile)))
             pygame.display.update()
             zeile+=0.46
@@ -1933,15 +1933,15 @@ class GalaxisGame(ConnectionListener):
 
     def chatausgabe(self, text):
         if text != "":
-            self.chattext.append(text)
+            self.chattext.append((font3, text))
         if len(self.chattext) > 62:
             del self.chattext[0]
         pygame.draw.rect(fenster, SCHWARZ, [kor(37.4), kor(0.1),kor(18.9),kor(29.1)], 0)
         pygame.draw.rect(fenster, BLAU, [kor(37.5), kor(0.2),kor(18.3),kor(28.9)], 1)
         pygame.display.flip()
         zeile = 0
-        for line in self.chattext:
-            text = font3.render(line, True, BLAU)
+        for font, msg in self.chattext:
+            text = font.render(msg, True, BLAU)
             screen.blit(text, (kor(37.6), kor(0.3+zeile)))
             pygame.display.update()
             zeile+=0.46
