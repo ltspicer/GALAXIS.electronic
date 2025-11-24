@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.5   #
+#   GALAXIS electronic V8.6   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -21,6 +21,26 @@ import subprocess
 import shutil
 from time import sleep
 from ftplib import FTP, error_perm
+
+# Betriebssystem in my_os speichern
+my_os=sys.platform
+
+if my_os.startswith("win"):   # Windows
+    import msvcrt
+    def getch():
+        return msvcrt.getch().decode("utf-8")
+
+else:   # Unix/Linux/macOS
+    import tty, termios
+    def getch():
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
 
 #### Alles zur config.ini ####
 
@@ -55,7 +75,36 @@ def write_config():
 config = configparser.ConfigParser(allow_no_value=True)
 config.optionxform = str
 if not os.path.isfile("config.ini"):
-    config["DEFAULT"] = {"multiplikator": "25", "language": "de", "nick": "-", "spielmodus": "2", "hostaddr": "galaxis.game-host.org", "hostport": "10002", "local_hiscore": "0"}
+    print()
+    print("Es scheint der Erste Spielstart zu sein.")
+    print("Bitte Sprache wählen (d für deutsch, e für englisch)")
+    print()
+    print("It seems to be the first game start.")
+    print("Please select language (d for German, e for English)")
+
+    while True:
+        taste = getch().lower()
+        if taste == "d":
+            language = "de"
+            break
+        elif taste == "e":
+            language = "en"
+            break
+        else:
+            print()
+            print("Ungültige Eingabe, bitte d oder e drücken.")
+            print("Invalid entry, please press d or e.")
+
+    config["DEFAULT"] = {
+        "multiplikator": "25",
+        "language": language,
+        "nick": "-",
+        "spielmodus": "2",
+        "hostaddr": "galaxis.game-host.org",
+        "hostport": "10002",
+        "local_hiscore": "0"
+    }
+
     write_config()
 
 # config.ini lesen
@@ -76,8 +125,6 @@ except configparser.Error:
 
 write_config()
 
-# Betriebssystem in my_os speichern
-my_os=sys.platform
 winexe = 0
 if sys.argv[0].endswith("galaxis.exe") is True:     # wenn Windows exe
     winexe = 1
@@ -218,6 +265,9 @@ def main_updater(win, unix, pyt, pygame_installed):
 def update_me():
     # Exists Binary and/or Python file?
     import glob
+
+    changelog_name = "changelog"
+
     unix, win, pyt = False, False, False
     unix1, win1, pyt1 = False, False, False
     if os.path.isfile("galaxis"):
@@ -428,6 +478,29 @@ def update_me():
         except Exception as e:
             print(f"Error when starting wincopier.exe: {e}")
             sys.exit(1)
+
+    # Changelog Ausgabe
+    if os.path.isfile(changelog_name):
+        # Alle Zeilen ausgeben
+        print()
+        print()
+        print("Changelog:")
+        print("==========")
+        print()
+        with open(changelog_name, "r", encoding="utf-8") as f:
+            for line in f:
+                print(line.strip())
+        print()
+
+        # changelog Datei löschen
+        os.remove(changelog_name)
+
+        if language == "de":
+            print("Beende in 5 Sekunden!")
+        else:
+            print("Finish in 5 seconds!")
+
+        time.sleep(5)
 
 #### Import-Versuche ####
 
@@ -1085,7 +1158,7 @@ if spielmodus == 1:         # Offline Spiel
                 else:
                     info = "      Neue Hiscore! " + str(spielzuege) + " Spielzüge. ESC zum Verlassen."
 
-                config['DEFAULT']['local_hiscore'] = str(int(63-spielzuege)**2)    # update
+                config['DEFAULT']['local_hiscore'] = str(int(63-spielzuege)**2)    # update local hiscore
                 write_config()
             else:
                 if language == "en":
@@ -1303,7 +1376,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.50
+        self.version = 8.60
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
