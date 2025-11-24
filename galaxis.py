@@ -1044,7 +1044,13 @@ if nickname == "#update":
         print("Starte das Spiel neu.")
     else:
         print("Please restart the game.")
+
+    time.sleep(1)
+    sys.stdout.flush()
+    os.system('"' + sys.argv[0] + '"')
     sys.exit()
+    quit()
+
 nickname = edit_nick(nickname)          # Nicht erlaubte Zeichen löschen
 nickname = nickname[:10]                # Nickname auf 10 Zeichen kürzen
 
@@ -1492,7 +1498,11 @@ class GalaxisGame(ConnectionListener):
             print("Starte das Spiel neu.")
         else:
             print("Please restart the game.")
+        time.sleep(2)
+        sys.stdout.flush()
+        os.system('"' + sys.argv[0] + '"')
         sys.exit()
+        quit()
 
     ##### Warn-Timer
     def timer_starten(self):
@@ -1601,7 +1611,12 @@ class GalaxisGame(ConnectionListener):
             if antwort_jn == "j":
                 self.updater()
             pygame.quit()
+            time.sleep(2)
+            sys.stdout.flush()
+            os.system('"' + sys.argv[0] + '"')
             sys.exit()
+            quit()
+
 
         if winexe == 0:
             checksumme = md5("galaxis.py")
@@ -1679,8 +1694,12 @@ class GalaxisGame(ConnectionListener):
 
             if antwort_jn == "j":
                 self.updater()
-            pygame.quit()
+                pygame.quit()
+                time.sleep(1)
+                sys.stdout.flush()
+                os.system('"' + sys.argv[0] + '"')
             sys.exit()
+            quit()
 
     def Network_close(self, data):
         if language == "de":
@@ -1806,6 +1825,9 @@ class GalaxisGame(ConnectionListener):
             cooperative_sleep(self, 8)
             pygame.display.quit()
             pygame.quit()
+            time.sleep(2)
+            sys.stdout.flush()
+            os.system('"' + sys.argv[0] + '"')
             sys.exit()
             quit()
 
