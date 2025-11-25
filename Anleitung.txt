@@ -25,7 +25,12 @@ export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 or
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
+But this is done automatically by starter.sh
+
+
 On the Raspberry use the Python3 variant.
+
+The PodSixNet directory is required for Python 3.12+
 
 Python3.x should already be pre-installed in Linux systems. However, possibly pip3 has to be installed afterwards (sudo apt install python3-pip).
 
@@ -38,7 +43,7 @@ multiplikator = 20 corresponds to a playing field of  720 x  560 pixels
 multiplikator = 30 corresponds to a playing field of 1080 x  840 pixels
 multiplikator = 40 corresponds to a playing field of 1440 x 1120 pixels
 
-The config.ini file and the data directory are always necessary.
+The data directory is always necessary.
 
 The automatic update may not work with older versions. In this case, get the current version directly from one of the links provided.
 
@@ -69,7 +74,7 @@ Select an opponent by entering their nickname in the text field below.
 After the first move you have 60 seconds to think and aim. Otherwise the opponent gets a turn.
 Available opponents in the network are displayed. A chat is running on the right side. Here you can enter messages, which will then be sent to all players present.
 Enter your text with the keyboard and confirm with ENTER.
-When you are successfully connected to an opponent, the "found" sound will be played to alert both players.
+When you are successfully connected to an opponent, a alarm sound will be played to alert both players.
 In rare cases, the message "Your opponent has disappeared from the network. Please restart." appears.
 This happens when your opponent unexpectedly abandoned the game.
 Then you have to restart the game and hide the spaceships again.
@@ -109,7 +114,12 @@ export LD_PRELOAD=/usr/lib64/libstdc++.so.6
 oder
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
 
+Aber das erledigt die starter.sh automatisch
+
+
 Auf dem Raspberry benutze die Python3 Variante.
+
+Das PodSixNet Verzeichnis wird ab Python 3.12 benötigt.
 
 In Linux Systemen sollte Python3.x bereits vorinstalliert sein. Allerdings muss da möglicherweise pip3 nachinstalliert werden ( sudo apt install python3-pip ).
 
@@ -123,7 +133,7 @@ multiplikator = 30 entspricht einem Spielfeld von 1080 x  840 Pixel
 multiplikator = 40 entspricht einem Spielfeld von 1440 x 1120 Pixel
 
 
-Die config.ini Datei und das Verzeichnis data sind immer notwendig.
+Das Verzeichnis data ist immer notwendig.
 
 Bei älteren Versionen funktioniert der automatische Update unter Umständen nicht. In diesem Fall hole die aktuelle Version selbst direkt bei einem der angegebenen Links.
 
@@ -155,7 +165,7 @@ Wähle einen Gegner aus, indem Du dessen Nickname ins Textfeld unten eingibst.
 Nach dem ersten Zug hast Du jeweils 60 Sekunden Zeit zum überlegen und anpeilen. Sonst kommt der Gegner zum Zug.
 Verfügbare Gegner im Netz werden angezeigt. Auf der rechten Seite läuft ein Chat. Hier kannst Du Nachrichten eingeben, welche dann an alle anwesenden Spieler gesendet werden.
 Gib dazu Deinen Text mit der Tastatur ein und bestätige mit ENTER.
-Wenn Du erfolgreich mit einem Gegner verbunden bist, wird der "gefunden" Sound abgespielt, um beide Spieler aufmerksam zu machen.
+Wenn Du erfolgreich mit einem Gegner verbunden bist, wird ein Alarm-Sound abgespielt, um beide Spieler aufmerksam zu machen.
 In seltenen Fällen kann es vorkommen, dass die Meldung "Dein Gegner ist aus dem Netzwerk verschwunden. Bitte neu starten." erscheint.
 Das geschieht, wenn dein Gegner das Spiel unvorhergesehen abgebrochen hat.
 Dann musst Du das Spiel neu starten und die Raumschiffe nochmal verstecken.
@@ -174,5 +184,5 @@ Viel Spass
 Daniel
 
 
-Dieses Spiel ist hier zuhause: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989/#post-2643
+Dieses Spiel ist hier zuhause: https://www.ltspiceusers.ch/threads/galaxis-electronic-1980-von-ravensburger-python3-spiel.989
 

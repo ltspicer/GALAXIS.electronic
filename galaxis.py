@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.6   #
+#   GALAXIS electronic V8.7   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -134,7 +134,40 @@ if sys.argv[0].endswith("galaxis") is True:         # wenn Linux bin
 install = 0
 restarted = False
 
+# 'data' Verzeichnis auf Vollständigkeit prüfen
+
+file_list = [
+    "0beep.mp3", "1beep.mp3", "2beep.mp3", "3beep.mp3", "4beep.mp3",
+    "gefunden.mp3", "gewonnen.mp3", "message.mp3",
+    "space1.jpg", "space2.jpg", "space3.jpg", "space4.jpg", "space5.jpg",
+    "space6.jpg", "space7.jpg", "space8.jpg", "space9.jpg",
+    "suchen.mp3", "verraten.mp3", "ready.mp3"
+]
+
+dateiliste_komplett = True
+
+for file in file_list:
+    if not os.path.isfile("data/" + file):
+        dateiliste_komplett = False
+        print("'data' folder is incomplete. Update will be executed...")
+        break
+
 #### Alles für den Update ####
+
+def start_update():
+    pygame.quit()
+    update_me()
+    print()
+    if language == "de":
+        print("Starte das Spiel neu.")
+    else:
+        print("Please restart the game.")
+
+    time.sleep(1)
+    sys.stdout.flush()
+    os.system('"' + sys.argv[0] + '"')
+    sys.exit()
+    quit()
 
 def move_all_files(src_dir, dest_dir):
     # Quell- und Zielverzeichnis existieren?
@@ -496,9 +529,9 @@ def update_me():
         os.remove(changelog_name)
 
         if language == "de":
-            print("Beende in 5 Sekunden!")
+            print("Neustart in 5 Sekunden!")
         else:
-            print("Finish in 5 seconds!")
+            print("Restart in 5 seconds!")
 
         time.sleep(5)
 
@@ -565,20 +598,11 @@ if winexe == 0:                                                                 
     try:
         import pygame
     except ImportError as e:
-        if os.path.isdir(r"pygame"):
-            shutil.rmtree("pygame")
-        if os.path.isdir(r"pygame.libs"):
-            shutil.rmtree("pygame.libs")
-        if os.path.isdir(r"pygame-2.6.0.data"):
-            shutil.rmtree("pygame-2.6.0.data")
-        try:
-            import pygame
-        except ImportError as e:
-            install+=1
-            if language == "de":
-                print("pygame ist nicht installiert!")
-            else:
-                print("pygame is not installed!")
+        install+=1
+        if language == "de":
+            print("pygame ist nicht installiert!")
+        else:
+            print("pygame is not installed!")
 
     try:
         import AsyncioNet
@@ -622,6 +646,9 @@ from sys import stdin
 from re import sub
 
 print()
+
+if not dateiliste_komplett:
+    start_update()
 
 ## Hintergrundbild zufällig bestimmen
 bg_image = "space" + str(random.randint(1,9)) + ".jpg"
@@ -1037,19 +1064,7 @@ else:
         spielmodus = 1
 
 if nickname == "#update":
-    pygame.quit()
-    update_me()
-    print()
-    if language == "de":
-        print("Starte das Spiel neu.")
-    else:
-        print("Please restart the game.")
-
-    time.sleep(1)
-    sys.stdout.flush()
-    os.system('"' + sys.argv[0] + '"')
-    sys.exit()
-    quit()
+    start_update()
 
 nickname = edit_nick(nickname)          # Nicht erlaubte Zeichen löschen
 nickname = nickname[:10]                # Nickname auf 10 Zeichen kürzen
@@ -1306,6 +1321,10 @@ def sound_message():
     mixer.music.load(pfad + "message.mp3")
     mixer.music.play()
 
+def sound_ready():
+    mixer.music.load(pfad + "ready.mp3")
+    mixer.music.play()
+
 def userinfo(info):
     farbe = BLAU
     string = str(info)
@@ -1382,7 +1401,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.60
+        self.version = 8.70
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -2061,7 +2080,7 @@ class GalaxisGame(ConnectionListener):
                 i = 0
                 self.ping_remote(0, 0, 7, self.num, self.gameid)   # Sag dem Gegner, dass er nichts machen soll. Timeout verhindern
             pygame.display.flip()
-        sound_gefunden()
+        sound_ready()
         pygame.event.clear()
 
         while self.spielaktiv:
