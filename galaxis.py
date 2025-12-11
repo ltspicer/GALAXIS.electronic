@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###############################
-#   GALAXIS electronic V8.7   #
+#   GALAXIS electronic V8.9   #
 #    von Daniel Luginbuehl    #
 #         (C) 2025            #
 #  webmaster@ltspiceusers.ch  #
@@ -19,6 +19,9 @@ import configparser
 import hashlib
 import subprocess
 import shutil
+import base64
+
+from hashlib import blake2b
 from time import sleep
 from ftplib import FTP, error_perm
 
@@ -71,6 +74,22 @@ def write_config():
     with open('config.ini', 'w', encoding='utf-8') as configfile:
         config.write(configfile)
 
+KEY = b"GALAXISelectronic"
+
+def encode_id(n: int) -> bytes:
+    assert 0 <= n <= 63
+    code = blake2b(n.to_bytes(1, 'big'), key=KEY, digest_size=8).digest()
+    return base64.urlsafe_b64encode(code).decode().rstrip('=')
+
+def decode_id(encoded: str) -> int:
+    if len(str(encoded)) < 6:
+        return 63-int(int(encoded)**(1/2))
+    code_bytes = base64.urlsafe_b64decode(encoded + '==')
+    for i in range(64):
+        if blake2b(i.to_bytes(1, 'big'), key=KEY, digest_size=8).digest() == code_bytes:
+            return i
+    return None
+
 # config.ini vorhanden? Wenn nicht, dann erstellen
 config = configparser.ConfigParser(allow_no_value=True)
 config.optionxform = str
@@ -102,7 +121,7 @@ if not os.path.isfile("config.ini"):
         "spielmodus": "2",
         "hostaddr": "galaxis.game-host.org",
         "hostport": "10002",
-        "local_hiscore": "0"
+        "local_hiscore": encode_id(0)
     }
 
     write_config()
@@ -118,10 +137,15 @@ try:
 except configparser.Error:
     config.set("DEFAULT", "multiplikator", "25")
     MULTIPLIKATOR = int(25)
+
 try:
-    LOCAL_HISCORE = 63-int(int(config.get("DEFAULT", "local_hiscore"))**(1/2))
+    LOCAL_HISCORE = decode_id(config.get("DEFAULT", "local_hiscore"))
+    config.set("DEFAULT", "local_hiscore", encode_id(LOCAL_HISCORE))
+    write_config()
 except configparser.Error:
-    config.set("DEFAULT", "local_hiscore", "0")
+    config.set("DEFAULT", "local_hiscore", encode_id(0))
+    write_config()
+    LOCAL_HISCORE = 0
 
 write_config()
 
@@ -384,9 +408,6 @@ def update_me():
     if winexe == 1:
         os.rename("new_release/galaxis.exe", "new_release/galaxis1.exe")
     move_all_files("new_release", ".")
-#    if os.path.exists("config.ini"):
-#        print("Backup config.ini")
-#        shutil.move("config.ini", "new_release/config.ini")
 
     # Build starter.sh for Linux binary
     if unix:
@@ -474,11 +495,6 @@ def update_me():
         os.remove("updater.sh")
     if os.path.exists("updater.py"):
         os.remove("updater.py")
-
-    # Restore config.ini
-#    if os.path.exists("new_release/config.ini"):
-#        print("Restore config.ini")
-#        shutil.move("new_release/config.ini", "config.ini")
 
     # Remove temp directory
     print("Remove temp directory")
@@ -1179,7 +1195,7 @@ if spielmodus == 1:         # Offline Spiel
                 else:
                     info = "      Neue Hiscore! " + str(spielzuege) + " Spielzüge. ESC zum Verlassen."
 
-                config['DEFAULT']['local_hiscore'] = str(int(63-spielzuege)**2)    # update local hiscore
+                config['DEFAULT']['local_hiscore'] = encode_id(spielzuege)    # update local hiscore
                 write_config()
             else:
                 if language == "en":
@@ -1401,7 +1417,7 @@ class GalaxisGame(ConnectionListener):
         self.antwort = 0
         self.spielerbereit = False
         self.gegner = "---"
-        self.version = 8.70
+        self.version = 8.90
         self.spielaktiv = False
         self.old_string = ""
         self.old_string2 = ""
@@ -1629,10 +1645,10 @@ class GalaxisGame(ConnectionListener):
 
             if antwort_jn == "j":
                 self.updater()
-            pygame.quit()
-            time.sleep(2)
-            sys.stdout.flush()
-            os.system('"' + sys.argv[0] + '"')
+                pygame.quit()
+                time.sleep(2)
+                sys.stdout.flush()
+                os.system('"' + sys.argv[0] + '"')
             sys.exit()
             quit()
 
